@@ -44,6 +44,8 @@ class MyMongo:
             book.append(dict(i))
         if len(book)>1:
             raise Exception('Found more than one book with the given asin!')
+        elif len(book)==0:
+            raise Exception('The book with given asin is not found!')
         else:
             return book[0]
     
