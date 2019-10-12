@@ -1,7 +1,7 @@
 from pymongo import MongoClient
 import json
 
-class MyMongo:
+class MyMongoBook:
     def __init__(self):
         self.client = MongoClient()
     def createNewDb(self, dbName, collecName, dbFile):
@@ -16,7 +16,6 @@ class MyMongo:
     def addBook(self, dbName, collecName, asin, title=None, price=None, imUrl=None, also_bought=[], also_viewed=[], buy_after_viewing=[], bought_together=[]):
         # dbName: string
         # collecName: string
-        # jsonList: a list of json records to be inserted in to the collection
         db = self.client[dbName]
         collection = db[collecName]
         cursor = collection.find({'asin':asin})
@@ -31,10 +30,11 @@ class MyMongo:
                     'also_viewed':also_viewed,
                     'buy_after_viewing': buy_also_viewing,
                     'bought_together': bought_together}}
-            jsonString = json.dumps(toInsert)
-            x = collection.insert_one(jsonString)
+            
+            x = collection.insert_one(toInsert)
     def getBook(self, dbName, collecName, asin):
         # asin: string
+        # returns a python dictionary
         db = self.client[dbName]
         collection = db[collecName]
         query = { "asin": asin}
@@ -48,4 +48,8 @@ class MyMongo:
             raise Exception('The book with given asin is not found!')
         else:
             return book[0]
+    def delBook(self, dbName, collecName, asin):
+        col = self.client[dbName][collecName]
+        toDelete = {'asin':asin}
+        col.delete_one(toDelete)
     
