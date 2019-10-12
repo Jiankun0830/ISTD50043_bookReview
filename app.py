@@ -1,6 +1,8 @@
 from flask import url_for,redirect,Flask,render_template
-import Service
+import SQLservice
 import mongoService
+import numpy as np
+import pandas as pd
 
 
 
@@ -22,7 +24,7 @@ def bookdemo():
 
 @app.route("/sql")
 def des_sql():
-    return (str(Service.Sql_db().describe()))
+    return (str(SQLservice.Sql_db().describe()))
 
 @app.route("/bookinfo")
 def book_list():
@@ -42,10 +44,11 @@ def book_list_page(page_num):
     return render_template("search.html", results=temp_book_list)
 
 @app.route("/book/<asin>")
-def show_book(asin):
-    book_info=mongoService.Mg().get_all_info(asin)
-    #return(render_template("info.html",book_info=book_info))
-    return render_template("info.html", book_info=(5, 1002959, "JiankunTest", "Jiankun", 2019), reviews={"acc_id":[],"comment":[],"rating":[]}, rating=5)
+def info(asin):
+    book_info=mongoService.Mg().get_all_info(asin)[0]
+    results = SQLservice.SQL_db().get_review(asin)
+    rating = np.mean([review[2] for review in results])
+    return render_template("info.html", book_info=book_info, reviews=results, rating=rating)
 
 @app.route("/dashboard")
 def dashboard():

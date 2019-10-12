@@ -8,12 +8,12 @@ class Mg:
         a=self.con.find({"asin":param})
         ls=[]
         for i in a:
-            ls.append(str(i))
+            ls.append(i)
         return ls
     
     def get_total(self):
         a=self.con.find().count()
-        print(str(a))
+        print(a)
     
     def get_all_books(self):
         a=self.con.find()
@@ -26,14 +26,14 @@ class Mg:
         a=self.con.distinct("asin")
         ls=[]
         for i in a:
-            ls.append(str(i))
+            ls.append(i)
         return ls
     
     def get_category(self,param):
         a=self.con.find({"category":param})
         ls=[]
         for i in a:
-            ls.append(str(i))
+            ls.append(i)
         return ls
     
     def get_sorted_title(self):
