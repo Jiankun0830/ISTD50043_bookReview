@@ -45,10 +45,10 @@ def book_list_page(page_num):
 
 @app.route("/book/<asin>")
 def info(asin):
-    book_info=mongoService.Mg().get_all_info(asin)
+    book_info=mongoService.Mg().get_all_info(asin)[0]
     results = SQLservice.SQL_db().get_review(asin)
     rating = np.mean([review[2] for review in results])
-    return render_template("info.html", book_info=(5, 1002959, "JiankunTest", "Jiankun", 2019), reviews=results, rating=rating)
+    return render_template("info.html", book_info=book_info, reviews=results, rating=rating)
 
 @app.route("/dashboard")
 def dashboard():
