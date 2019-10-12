@@ -9,18 +9,12 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stars.css') }}">
 
 </head>
-<nav class="navbar navbar-dark bg-dark">
-    <a id="navbarHeader" class="navbar-brand" href="{{ url_for('dashboard') }}">
-        <img src="{{ url_for('static', filename='icon.png') }}" width="30" height="30" class="d-inline-block align-top" alt=""> BookSearch </a>
-    <a class="btn btn-primary" href="{{ url_for('logout') }}"> Logout </a>
-</nav>
 
 <body>
     <div class="container" style="margin: 50px auto 50px auto;">
         <div class="row">
             <div class="col-auto">
                 <div class="card" style="width: 18rem;">
-                    <img class="card-img-top" src="http://covers.openlibrary.org/b/ISBN/{{ book_info[1] }}-M.jpg" alt="Card image cap">
                     <div class="card-body">
                         <h6 class="card-title"> Title </h6>
                         <p class="card-text">{{ book_info[2] }}</p>
@@ -28,7 +22,7 @@
                         <p class="card-text">{{ book_info[3] }}</p>
                         <h6 class="card-title"> Year </h6>
                         <p class="card-text">{{ book_info[4] }}</p>
-                        <h6 class="card-title"> ISBN </h6>
+                        <h6 class="card-title"> ASIN </h6>
                         <p class="card-text">{{ book_info[1] }}</p>
                         <h6 class="card-title"> Goodread Rating </h6>
                         <p class="card-text">{{ rating }} / 5</p>
@@ -40,7 +34,7 @@
                 <div class="card">
                     <div class="card-header text-center">Reviews</div>
                     <div class="card-body">
-                        <form action="{{ url_for('info', isbn=book_info[1]) }}" method="post">
+                        <form action="{{ url_for('info', asin=book_info[1]) }}" method="post">
                             <fieldset>
                                 <input type="radio" id="st1" name="rating" value="1" checked="checked" />
                                 <label for="st1"></label>
@@ -64,15 +58,17 @@
                                     <th> User </th>
                                     <th> Comment </th>
                                     <th> Rating </th>
+                                    <th> Time </th>
                                 </tr>
                             </thead>
                             <tbody>
 
                                 {% for review in reviews %}
                                 <tr>
-                                    <td> {{ review.acc_id }} </td>
-                                    <td> {{ review.comment }} </td>
-                                    <td> {{ review.rating }} </td>
+                                    <td> {{ review[0] }} </td>
+                                    <td> {{ review[1] }} </td>
+                                    <td> {{ review[2] }} </td>
+                                    <td> {{ review[3] }} </td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
