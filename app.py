@@ -1,155 +1,70 @@
-from flask import Flask, render_template, abort, jsonify, request
-import json
-import datetime
-from flask import Flask, session, render_template, request, redirect, url_for, flash, jsonify
-import requests
-
-# setting up
-app = Flask(__name__)
+from flask import url_for,redirect,Flask,render_template
+import Service
+import mongoService
 
 
-@app.route('/hello', methods=['GET'])
-def hello():
-	return render_template("info.html", book_info="book", reviews="reviews", rating="gr_rating")
+
+app=Flask(__name__)
 
 
-@app.route('/hello/<name>', methods=['GET'])
-def greet(name):
-	return {'greeting': "Hello {}. Have a nice day".format(name)}
 
-@app.route('/query', methods=['GET'])
-def query():
-	if not request.json or (not 'query' in request.json):
-		return {'error': 'request not properly formatted'}
-	
-	msg = request.json['query']
-	return {'result': 'query received', 'msg': msg}
-
-@app.route('/insert', methods=['POST'])
-def insert():
-	if not request.json or (not 'data' in request.json):
-		return {'error': 'request not properly formatted'}
-	
-	msg = request.json['data']
-	return {'result': 'insert query received', 'data': msg}
-
-
-# ---------------
 @app.route("/")
-def index():
-    return redirect(url_for('dashboard'))
+def home():
+    return render_template("home.html")
 
-@app.route("/register", methods=["GET", "POST"])
-def register():
-    if 'user' in session:
-        return redirect(url_for('dashboard'))
+@app.route("/about")
+def about():
+    return render_template("about.html")
 
-    message = None
+@app.route("/bookdemo")
+def bookdemo():
+    return url_for('about')
 
-    if request.method == "POST":
-        try: 
-            usern = request.form.get("username")
-            passw = request.form.get("password")
-            passw_hash = bcrypt.generate_password_hash(passw).decode('utf-8')
+@app.route("/sql")
+def des_sql():
+    return (str(Service.Sql_db().describe()))
 
-            result = db.execute("INSERT INTO accounts (username, password) VALUES (:u, :p)", {"u": usern, "p": passw_hash})
-            db.commit()
+@app.route("/bookinfo")
+def book_list():
+    return(str(mongoService.Mg().get_all()))
 
-            if result.rowcount > 0:
-                session['user'] = usern
-                return redirect(url_for('dashboard'))
+@app.route("/bookinfo/<page_num>")
+def book_list_page(page_num):
+    page_num=int(page_num)
+    book_list=mongoService.Mg().get_all_books()
+    total=len(book_list)//20
+    if page_num==total:
+        temp_book_list = book_list[page_num*20:]
+    elif page_num>total:
+        return("no more books!")
+    else:
+        temp_book_list = book_list[page_num*20:(page_num+1)*20]
+    return render_template("search.html", results=temp_book_list)
 
-        except exc.IntegrityError:
-            message = "Username already exists."
-            db.execute("ROLLBACK")
-            db.commit()
-
-    return render_template("registration.html", message=message)
-
-@app.route("/logout")
-def logout():
-    session.pop('user', None)
-    return redirect(url_for('login'))
-
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    if 'user' in session:
-        return redirect(url_for('dashboard'))
-
-    message = None
-
-    if request.method == "POST":
-        usern = request.form.get("username")
-        passw = request.form.get("password").encode('utf-8')
-        result = db.execute("SELECT * FROM accounts WHERE username = :u", {"u": usern}).fetchone()
-
-        if result is not None:
-            print(result['password'])
-            if bcrypt.check_password_hash(result['password'], passw) is True:
-                session['user'] = usern
-                return redirect(url_for('dashboard'))
-
-        message = "Username or password is incorrect."
-    return render_template("login.html", message=message)
-
+@app.route("/book/<asin>")
+def show_book(asin):
+    book_info=mongoService.Mg().get_all_info(asin)
+    #return(render_template("info.html",book_info=book_info))
+    return render_template("info.html", book_info=(5, 1002959, "JiankunTest", "Jiankun", 2019), reviews={"acc_id":[],"comment":[],"rating":[]}, rating=5)
 
 @app.route("/dashboard")
 def dashboard():
-    if 'user' not in session:
-        return redirect(url_for('login'))
+    return(render_template("dashboard.html"))
 
-    return render_template("dashboard.html", logged=session['user'])
+@app.route("/login")
+def login():
+    return(render_template("login.html"))
 
+@app.route("/registration")
+def registration():
+    return(render_template("registration.html"))
 
-@app.route("/dashboard/search", methods=["POST"])
+@app.route("/search")
 def search():
-    if 'user' not in session:
-        return redirect(url_for('login'))
+    return(render_template("search.html"))
 
-    message = None
-    query = request.form.get("searchbox")
-    query = '%' + query.lower() + '%'
-    #results = db.execute("SELECT * FROM books WHERE lower(title) LIKE :q OR isbn LIKE :q OR lower(author) LIKE :q", {"q": query}).fetchall()
-    return render_template("search.html", results="results")
 
-#
-@app.route("/b/<string:isbn>", methods=["GET", "POST"])
-def info(isbn):
-    if 'user' not in session:
-        return redirect(url_for('login'))
 
-    if request.method == "POST":
-        comment = request.form.get("comment")
-        my_rating = request.form.get("rating")
-        book = db.execute("INSERT INTO reviews (acc_id, book_id, comment, rating) VALUES (:a, :b, :c, :r)", {"a": session['user'], "b": isbn, "c": comment, "r": my_rating})
-        db.commit()
-
-    book = db.execute("SELECT * FROM books WHERE isbn = :q", {"q": isbn}).fetchone()
-    reviews = db.execute("SELECT * FROM reviews WHERE book_id = :q1", {"q1": isbn}).fetchall()
-
-    response = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "1O7xiWC9D6p2JmdhgX4LTw", "isbns": isbn})
-    data = response.json()
-    gr_rating = (data['books'][0]['average_rating'])
-
-    return render_template("info.html", book_info=book, reviews=reviews, rating=gr_rating)
-
-@app.route("/api/<string:isbn>")
-def api(isbn):
-    book = db.execute("SELECT * FROM books WHERE isbn = :q", {"q": isbn}).fetchone()
-    
-    if book is None:
-        return jsonify({"error": "Invalid ISBN"}), 404
-
-    reviews = db.execute("SELECT * FROM reviews WHERE book_id = :q1", {"q1": isbn}).fetchall()
-    response = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "1O7xiWC9D6p2JmdhgX4LTw", "isbns": isbn})
-    data = response.json()['books'][0]
-    
-    return jsonify({
-        "title": book.title,
-        "author": book.author,
-        "isbn": book.isbn,
-        "review_count": data['reviews_count'],
-        "average_rating": data['average_rating']
-    })
-app.run(debug=True, host="10.12.218.175", port=5001)
+if __name__=="__main__":
+    app.run(debug=True)
 

@@ -4,11 +4,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     </head>
-    <nav class="navbar navbar-dark bg-dark">
-        <a id="navbarHeader" class="navbar-brand" href="{{ url_for('dashboard') }}"><img src="{{ url_for('static', filename='icon.png') }}" width="30" height="30" class="d-inline-block align-top" alt=""> BookSearch </a>
-        <a class="btn btn-primary" href="{{ url_for('logout') }}"> Logout </a>
-    </nav>
-        
+            
     <body>
         <div class="container">
             <div class="card text-center" style="margin: 50px auto 50px auto;">
@@ -18,15 +14,15 @@
                     <tr>
                         <th>#</th>
                         <th>Title</th>
-                        <th>Author</th>
-                        <th>ISBN</th>
+                        <th>Category</th>
+                        <th>ASIN</th>
                     </tr>
                     {% for result in results %}
                     <tr>
                         <td> {{ loop.index }} </td>
-                        <td> <a href="{{ url_for('info', isbn=result.isbn) }}"> {{ result.title }}</a></td>
-                        <td> {{ result.author }} </td>
-                        <td> {{ result.isbn }} </td>
+                        <td> <a href="{{ url_for('show_book', asin=result.asin) }}"> {{ result.title }}</a></td>
+                        <td> {{ result.category }} </td>
+                        <td> {{ result.asin }} </td>
                     </tr>
                     {% endfor %}
                 </table>
