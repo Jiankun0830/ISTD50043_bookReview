@@ -14,6 +14,7 @@ getbook: mmb.getBook('book_metadata','metadata',asin)
   raises exceptoin "Found more than one book with the given asin!" if more than one such asin exists.
 delbook: mmb.delBook('booke_metadata','metadata',asin)
 
+mongo_log.py
 class: MyMongoLog
 initialize: mml = MyMongoLog()
 addLog: mml.addLog('book_log','log', timeStamp, requestType, response)
