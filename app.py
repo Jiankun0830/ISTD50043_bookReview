@@ -55,7 +55,7 @@ def info(asin):
     if request.method == "POST":
         comment = request.form.get("comment")
         my_rating = request.form.get("rating")
-        SQLservice.SQL_db.add_review(asin=asin, overall=my_rating, summary=comment)
+        SQLservice.SQL_db().add_review(asin=asin, overall=my_rating, summary=comment)
 
     book_info = mongoService.Mg().get_all_info(asin)[0]
     results = SQLservice.SQL_db().get_review(asin)

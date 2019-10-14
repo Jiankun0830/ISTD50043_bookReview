@@ -1,5 +1,6 @@
 import mysql.connector as db
 import copy
+from datetime import datetime
 
 # TODO 1: Add database name as env var
 
@@ -45,9 +46,10 @@ class SQL_db:
     
 
     #TODO 2: There should be constraints on insertion once we decided primary key
-    def add_review(self,asin,overall,reviewText=None,idx=None,helpful=None,reviewTime=None,reviewerID=None,reviewerName=None,summary=None, unixReviewTime=None):
+    def add_review(self,asin,overall,reviewText=None,helpful=None,reviewerID=None,reviewerName="Guest",summary=None, unixReviewTime=None):
         cursor = self.conn.cursor()
         idx = self.count +1
+        reviewTime = datetime.today().strftime('%m %d, %Y')
         inputs = {'idx':idx,'asin':asin,'helpful':helpful, 'overall':overall, 'reviewText':reviewText, 'reviewTime':reviewTime, 'reviewID':reviewerID, 'reviewerName':reviewerName, 'summary':summary, 'unixReviewTime':unixReviewTime}
         new_inputs = inputs.copy()
         for i in inputs:
