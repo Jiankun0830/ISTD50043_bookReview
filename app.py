@@ -75,8 +75,13 @@ def addBook():
             brand = request.form['field3']
             price = float(request.form['field4'])
             url = request.form['field5']
+            alsoBought = request.form['field6'].strip().split(" ")
+            alsoViewed = request.form['field7'].strip().split(" ")
+            buyAfterViewing = request.form['field8'].strip().split(" ")
+            boughtTogether = request.form['field9'].strip().split(" ")
+            category = [request.form['field10'].strip().split(" ")]
             mg = mongoService.Mg()
-            mg.add_book(asin, title, price, url)
+            mg.add_book(asin, title=title, price=price, imUrl=url, category=category, brand=brand, also_bought=alsoBought, also_viewed=alsoViewed, buy_after_viewing=buyAfterViewing, bought_together=boughtTogether)
             return(render_template("addbook.html"))
     else:
         return(render_template("addbook.html"))
