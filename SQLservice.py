@@ -37,7 +37,7 @@ class SQL_db:
     '''
     def get_review(self,asin='B00LE4Q95G'):
         cursor = self.conn.cursor()
-        cursor.execute("""select reviewerName,overall,reviewText from reviews where asin = %(asin)s;""",{"asin":asin})
+        cursor.execute("""select reviewerName,overall,reviewText,reviewTime from reviews where asin = %(asin)s;""",{"asin":asin})
         
         res=cursor.fetchall()
         return res
