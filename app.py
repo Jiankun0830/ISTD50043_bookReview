@@ -1,4 +1,5 @@
 from flask import url_for,redirect,Flask,render_template
+from flask import request
 import SQLservice
 import mongoService
 import numpy as np
@@ -10,6 +11,7 @@ app=Flask(__name__)
 app = Flask(__name__)
 app.config['DEBUG'] = True
 
+mg = mongoService.Mg()
 
 @app.route("/")
 def home():
@@ -29,7 +31,7 @@ def des_sql():
 
 @app.route("/bookinfo")
 def book_list():
-    return(str(mongoService.Mg().get_all()))
+    return(str(mg.get_all()))
 
 @app.route("/bookinfo/<page_num>")
 def book_list_page(page_num):
@@ -44,6 +46,7 @@ def book_list_page(page_num):
     #     return("no more books!")
     # else:
     #     temp_book_list = book_list[page_num*100:(page_num+1)*100]
+    mg.insert_query({'results':book_list, 'page_numbers':page_numbers, 'categories':categories})
     return render_template("search.html", results=book_list, page_numbers=page_numbers, categories=categories)
 
 @app.route("/book/<asin>")
@@ -51,6 +54,7 @@ def info(asin):
     book_info=mongoService.Mg().get_all_info(asin)[0]
     results = SQLservice.SQL_db().get_review(asin)
     rating = np.mean([review[2] for review in results])
+    mg.insert_query({'book_info':book_info, 'reviews': results, 'rating': rating})
     return render_template("info.html", book_info=book_info, reviews=results, rating=rating)
 
 @app.route("/dashboard")
