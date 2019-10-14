@@ -5,8 +5,8 @@
     <title>my homepage</title>
   </head>
   <body>
-	  <p>see a book list<a href={{url_for("book_list")}}>booklist</a></p>
-	  <p>see a book with asin<a href={{url_for("info",asin="B000F83SZQ")}}>B00F83SZQ</a></p>
+	  <p>see a book list<a href={{ url_for( "book_list_page" , page_num="1" ) }}>booklist</a></p>
+	  <p>see a book with asin<a href={{ url_for( "show_book" , asin="B000F83SZQ") }}>B00F83SZQ</a></p>
     {% extends "template.html"%}
     {%block content%}
     <h1>home head1</h1>
