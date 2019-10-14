@@ -8,9 +8,9 @@ class Mg:
         ls=[]
         for i in a:
             ls.append(i)
-        return l
+        return ls
     
-    def add_book(self, asin, title=None, price=None, imUrl=None, category=[], salesRank={}, brand=None, also_bought=[], also_viewed=[], buy_after_viewing=[], bought_together=[])
+    def add_book(self, asin, title=None, price=None, imUrl=None, category=[], salesRank={}, brand=None, also_bought=[], also_viewed=[], buy_after_viewing=[], bought_together=[]):
         # asin, title, brand, imUrl: string
         # salesRank={category: integer}
         # category: list of list
@@ -24,12 +24,12 @@ class Mg:
                     'imUrl': imUrl,
                     'related':{'also_bought':also_bought,
                         'also_viewed':also_viewed,
-                        'buy_after_viewing':buy_also_viewing,
+                        'buy_after_viewing':buy_after_viewing,
                         'bought_together':bought_together},
                     'categories':category,
                     'salesRank':salesRank,
                     'brand':brand}
-            x = collection.insert_one(toInsert)
+            x = self.con.insert_one(toInsert)
     def get_total(self):
         a=self.con.find().count()
         print(a)

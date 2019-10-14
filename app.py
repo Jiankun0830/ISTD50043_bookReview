@@ -1,4 +1,4 @@
-from flask import url_for,redirect,Flask,render_template
+from flask import url_for,redirect,Flask,render_template,request
 import SQLservice
 import mongoService
 import numpy as np
@@ -65,6 +65,21 @@ def registration():
 @app.route("/search")
 def search():
     return(render_template("search.html"))
+
+@app.route("/addbook", methods=['POST', 'GET'])
+def addBook():
+    if request.method == 'POST':
+        if request.form['submit_button'] == 'Apply':
+            asin = request.form['field1']
+            title = request.form['field2']
+            brand = request.form['field3']
+            price = float(request.form['field4'])
+            url = request.form['field5']
+            mg = mongoService.Mg()
+            mg.add_book(asin, title, price, url)
+            return(render_template("addbook.html"))
+    else:
+        return(render_template("addbook.html"))
 
 
 

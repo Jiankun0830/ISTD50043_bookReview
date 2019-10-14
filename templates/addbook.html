@@ -1,0 +1,24 @@
+<html>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='addbook.css') }}">
+<div class="form-style-5">
+<form method="POST">
+<fieldset>
+<legend><span class="number">1</span>Book Info</legend>
+<input type="text" name="field1" placeholder="ASIN *">
+<input type="text" name="field2" placeholder="Book title *">
+<input type="text" name="field3" placeholder="Book brand *">
+<input type="text" name="field4" placeholder="Book price *">
+<input type="text" name="field5" placeholder="Image URL *">
+
+<legend><span class="number">2</span>Related Books</legend>
+<input type="text" name="field6" placeholder="also bought">
+<input type="text" name="field7" placeholder="also viewed">
+<input type="text" name="field8" placeholder="buy after viewing">
+<input type="text" name="field9" placeholder="bought together">
+
+<label for="job">Categories:</label>     
+</fieldset>
+<input type="submit" name="submit_button" value="Apply" />
+</form>
+</div>
+</html>
