@@ -55,7 +55,7 @@
                     {% for result in results %}
                     <tr>
                         <td> {{ loop.index }} </td>
-                        <td> <a href="{{ url_for('info', asin=result.asin) }}"> <img style="width: 160px; height: 160px;" src={{ result.imUrl }}></a></td>
+                        <td> <a href="{{ url_for('bookdemo', asin=result.asin) }}"> <img style="width: 160px; height: 160px;" src={{ result.imUrl }}></a></td>
                         <td> {{ result.categories }} </td>
                         <td> {{ result.asin }} </td>
                     </tr>

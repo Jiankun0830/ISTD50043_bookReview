@@ -1,7 +1,9 @@
 from pymongo import MongoClient
+import time
 class Mg:
     def __init__(self):
         self.con=MongoClient("mongodb://localhost:27017/")["book_metadata"]["metadata"]
+        self.log = MongoClient("mongodb://localhost:27017/")["book_log"]["log"]
   
     def get_all_info(self,param):
         a=self.con.find({"asin":param})
@@ -48,5 +50,11 @@ class Mg:
     def get_sorted_title(self):
         pass
 
-# print(Mg().get_all_books(1, "Solaris"))
-# print(Mg().get_category("Solaris"))
+
+    def insert_query(self, query):
+        toInsert = {
+            'query': query,
+            'timestamp': time.time()
+        }
+        x = self.log.insert_one(toInsert)
+
