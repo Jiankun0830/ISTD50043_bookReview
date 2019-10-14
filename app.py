@@ -5,7 +5,8 @@ import mongoService
 
 
 app=Flask(__name__)
-
+app = Flask(__name__)
+app.config['DEBUG'] = True
 
 
 @app.route("/")
@@ -31,15 +32,17 @@ def book_list():
 @app.route("/bookinfo/<page_num>")
 def book_list_page(page_num):
     page_num=int(page_num)
-    book_list=mongoService.Mg().get_all_books()
-    total=len(book_list)//20
-    if page_num==total:
-        temp_book_list = book_list[page_num*20:]
-    elif page_num>total:
-        return("no more books!")
-    else:
-        temp_book_list = book_list[page_num*20:(page_num+1)*20]
-    return render_template("search.html", results=temp_book_list)
+    book_list=mongoService.Mg().get_all_books(page_num)
+    total=4000
+    page_numbers = range(1, total)
+    categories = ['Books', 'Behavioral Sciences', 'Relationships']
+    # if page_num==total:
+    #     temp_book_list = book_list[page_num*100:]
+    # elif page_num>total:
+    #     return("no more books!")
+    # else:
+    #     temp_book_list = book_list[page_num*100:(page_num+1)*100]
+    return render_template("search.html", results=book_list, page_numbers=page_numbers, categories=categories)
 
 @app.route("/book/<asin>")
 def show_book(asin):
@@ -67,4 +70,6 @@ def search():
 
 if __name__=="__main__":
     app.run(debug=True)
+
+    
 
