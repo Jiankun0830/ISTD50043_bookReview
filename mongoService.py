@@ -14,10 +14,16 @@ class Mg:
     
     def get_total(self):
         a=self.con.find().count()
-        print(a)
+        # print(a)
     
-    def get_all_books(self, skip):
-        a=self.con.find().limit(100).skip(100*skip)
+    def get_all_books(self, skip, category):
+        if(category=="all"):
+            param = {}
+        else:
+            param = {'categories':{'$elemMatch':{'$elemMatch':{'$in':[category]}}}}
+        # print(param)
+        a=self.con.find(param).limit(100).skip(100*(skip-1))
+        # print(a)
         ls=[]
         for i in a:
             ls.append(i)
@@ -32,7 +38,10 @@ class Mg:
         return ls
     
     def get_category(self,param):
-        a=self.con.find({"category":param})
+        p = {'categories':{'$elemMatch':{'$elemMatch':{'$in':[param]}}}}
+        # print(p)
+        a=self.con.find(p)
+        # print(a)
         ls=[]
         for i in a:
             ls.append(i)
@@ -41,9 +50,11 @@ class Mg:
     def get_sorted_title(self):
         pass
 
+
     def insert_query(self, query):
         toInsert = {
             'query': query,
             'timestamp': time.time()
         }
         x = self.log.insert_one(toInsert)
+
