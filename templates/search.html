@@ -11,17 +11,34 @@
                 <div class="card-header">Books Available
                     <div class="indexes" style="overflow: scroll; height: 50; width: 100%">
                         {% for pg_no in page_numbers %}
-                            <a  href="{{ url_for( "book_list_page" , page_num=pg_no, categories=categories) }}"> {{pg_no}}</a>
+                            <a  href='{{ url_for( "book_list_page" , page_num=pg_no, category="all") }}'> {{pg_no}}</a>
                         {% endfor %}
                     </div>  
                     
                     
                         
                 </div>
-                <div>
+
+                
+                <div >
                     
                     {% for category in categories %}
-                        <div class="card" style="width:120px; margin:2px; border-radius: 10px 10px 10px 10px; padding:2px;box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); transition: 0.3s;">{{category}}</div>
+
+                        <div class="navbar" style="display: inline; margin: 1px; padding: 0px;">
+                            <div class="dropdown">
+                            <button class="dropbtn">{{category}} 
+                            </button>
+                            <div class="dropdown-content">
+                                {% for c in categories[category] %}
+                                    <!-- <a href="#">{{c}}</a> -->
+                                    <a href='{{ url_for("book_list_page", page_num=1, category=c) }}'>{{c}}</a>
+                                {% endfor %}
+                            </div>
+                            </div> 
+                        </div>
+                        <!-- <div class="card" style="margin:2px; display: inline;border-radius: 10px 10px 10px 10px; padding:2px;box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); ">
+                            <a href='{{ url_for("book_list_page", page_num=1, category=category) }}'>{{category}}</a>
+                        </div> -->
                     {% endfor %}
                     
                     <div>{{name}}</div>
@@ -38,7 +55,7 @@
                     {% for result in results %}
                     <tr>
                         <td> {{ loop.index }} </td>
-                        <td> <a href="{{ url_for('show_book', asin=result.asin) }}"> <img style="width: 160px; height: 160px;" src={{ result.imUrl }}></a></td>
+                        <td> <a href="{{ url_for('info', asin=result.asin) }}"> <img style="width: 160px; height: 160px;" src={{ result.imUrl }}></a></td>
                         <td> {{ result.categories }} </td>
                         <td> {{ result.asin }} </td>
                     </tr>
