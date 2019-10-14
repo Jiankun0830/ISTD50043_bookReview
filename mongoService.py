@@ -14,11 +14,12 @@ class Mg:
         a=self.con.find().count()
         print(a)
     
-    def get_all_books(self):
-        a=self.con.find()
+    def get_all_books(self, skip):
+        a=self.con.find().limit(100).skip(100*skip)
         ls=[]
         for i in a:
             ls.append(i)
+            
         return ls
 
     def get_all(self):
