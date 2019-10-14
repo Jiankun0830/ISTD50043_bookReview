@@ -47,7 +47,7 @@ def book_list_page(page_num, category):
     book_list=mongoService.Mg().get_all_books(page_num, category)
     total=4000
 
-    page_numbers = range(1, total)
+    page_numbers = list(range(1, 4000))
     categories = ['Books', 'Behavioral Sciences', 'Relationships']
     # categories = data
 
@@ -57,8 +57,8 @@ def book_list_page(page_num, category):
     #     return("no more books!")
     # else:
     #     temp_book_list = book_list[page_num*100:(page_num+1)*100]
-    mg.insert_query({'results':book_list, 'page_numbers':page_numbers, 'categories':categories})
-    return render_template("search.html", results=book_list, page_numbers=page_numbers, categories=categories)
+    mg.insert_query({'results':book_list, 'page_numbers':page_numbers, 'categories':data})
+    return render_template("search.html", results=book_list, page_numbers=page_numbers, categories=data)
 
 
 
