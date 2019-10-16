@@ -116,7 +116,9 @@ def register():
 def search():
     if 'user' not in session:
         return redirect(url_for('login'))
-    return render_template("home.html")
+    keyword = request.form.get("searchbox")
+    results = mg.search_book(keyword)
+    return render_template("search.html", results=results)
 
 
 @app.route("/addbook", methods=['POST', 'GET'])

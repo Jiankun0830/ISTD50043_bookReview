@@ -9,10 +9,15 @@ class Mg:
 
     def get_all_info(self, param):
         a = self.con.find({"asin": param})
-        ls = []
-        for i in a:
-            ls.append(i)
+        ls = [i for i in a]
         return ls
+
+    def search_book(self, keyword):
+        query = {'$or':[{'title':{"$regex":keyword}},{'brand':{"$regex":keyword}},{'asin':{"$regex":keyword}},
+                        {'categories': {'$elemMatch': {'$elemMatch': {"$regex":keyword}}}}]}
+        cursor = self.con.find(query)
+        results = [book for book in cursor]
+        return results
 
     def add_book(self, asin, title=None, price=None, imUrl=None, category=[], salesRank={}, brand=None, also_bought=[],
                  also_viewed=[], buy_after_viewing=[], bought_together=[]):
@@ -36,37 +41,24 @@ class Mg:
                         'brand': brand}
             x = self.con.insert_one(toInsert)
 
-    def get_total(self):
-        a = self.con.find().count()
-        # print(a)
-
     def get_all_books(self, skip, category):
         if (category == "all"):
             param = {}
         else:
             param = {'categories': {'$elemMatch': {'$elemMatch': {'$in': [category]}}}}
         a = self.con.find(param).limit(100).skip(100 * (skip - 1))
-        ls = []
-        for i in a:
-            ls.append(i)
-
+        ls = [i for i in a]
         return ls
 
     def get_all(self):
         a = self.con.distinct("asin")
-        ls = []
-        for i in a:
-            ls.append(i)
+        ls = [i for i in a]
         return ls
 
     def get_category(self, param):
         p = {'categories': {'$elemMatch': {'$elemMatch': {'$in': [param]}}}}
-        # print(p)
         a = self.con.find(p)
-        # print(a)
-        ls = []
-        for i in a:
-            ls.append(i)
+        ls = [i for i in a]
         return ls
 
     def get_sorted_title(self):
@@ -77,4 +69,4 @@ class Mg:
             'query': query,
             'timestamp': time.time()
         }
-        x = self.log.insert_one(toInsert)
+        self.log.insert_one(toInsert)
