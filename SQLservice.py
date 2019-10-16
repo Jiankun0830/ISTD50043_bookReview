@@ -78,9 +78,3 @@ class SQL_db:
                        {'asin': asinID})
         res = cursor.fetchall()
         return res
-
-
-test = SQL_db()
-test.describe()
-
-print(test.get_review('B00LE4Q95G'))
