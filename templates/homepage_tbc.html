@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf-8" />
+        <title>Welcome to Reading By Design!</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+        
+        <style>
+            .right-section{
+                float: right;
+                width: 45%;
+                margin:30px;
+                border: 1px gray solid;
+                border-radius: 10px;
+                background-color: #99c4ef;
+                padding:10px;
+            }
+            #search-form input {
+                float: left;
+                margin-left:30px;
+                width: 80%;
+                padding: 10px;
+                font-size: 14px;
+                border-top-left-radius:5px;
+                border-bottom-left-radius:5px;
+                border: 1px solid grey;
+                  
+            }
+            
+            #search-form button {
+                float: left;
+                width: 10%;
+                padding: 10px;
+                background: #2196F3;
+                color: white;
+                font-size: 14px;
+                border: 1px solid grey;
+                border-top-right-radius:5px;
+                border-bottom-right-radius:5px;
+                border-left: none; /* Prevent double borders */
+                cursor: pointer;
+            }
+
+            #search-form button:hover {
+                background: #0b7dda;
+            }
+        </style>
+    </head>
+    
+    <nav class="navbar navbar-light" style="background-color: #99c4ef;">
+        <a id="navbarHeader" class="navbar-brand" href="{{ url_for('homepage_tbc') }}"><img src="../static/icon.png") }}" width="30" height="30" class="d-inline-block align-top" alt=""> BookSearch </a>
+        
+        <form class="form-inline" action="/action_page.php">
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon-username">👤</span>
+                </div>
+                <input type="text" class="form-login" placeholder=" Username" name="username" aria-describedby="basic-addon1" style ="margin-right: 10px">
+            
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon-pwd">🔒</span>
+                </div>
+                <input type="password" class="form-login" placeholder=" Password" name="password" aria-describedby="basic-addon2" style ="margin-right: 10px">
+
+            </div>
+
+            <div id="btn-group">
+                <a class="btn btn-primary" href="{{ url_for('login') }}" style="margin-left:20px"> Login </a>
+            </div>
+        </form>
+    </nav>
+    
+    <body>
+        <div class="site-banner" >
+            <center>
+                <img src="../static/site-banner.png" style="height:40%; width:40%; margin:30px">
+            </center>
+        </div>
+        
+        <div class="left-section" style="float: left; width: 45%; margin:30px" >
+            <form class="form-inline" id="search-form">
+                <input type="text" class="form-search" placeholder="Search books..." name="search">
+                <button type="submit" class="form-search" name="search-submit"><i class="fa fa-search"></i></button>                
+            </form>
+            
+        </div>
+        <div class="right-section">
+            <center><b>Check out our monthly picks!</b></center>
+        </div>
+    </body>
+</html>
