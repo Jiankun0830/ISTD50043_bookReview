@@ -16,26 +16,9 @@ mg = mongoService.Mg()
 with open('categories.json') as f:
     data = json.load(f)
 
-d = {"A":["a", "aa"], "B": ["b", "bb"]}
-
 @app.route("/")
 def home():
     return render_template("home.html")
-
-
-@app.route("/about")
-def about():
-    return render_template("about.html")
-
-
-@app.route("/bookdemo")
-def bookdemo():
-    return url_for('about')
-
-
-@app.route("/sql")
-def des_sql():
-    return (str(SQLservice.SQL_db().describe()))
 
 
 @app.route("/bookinfo")
@@ -47,18 +30,8 @@ def book_list():
 def book_list_page(page_num, category):
     page_num=int(page_num)
     book_list=mongoService.Mg().get_all_books(page_num, category)
-    total=4000
-
     page_numbers = list(range(1, 4000))
     categories = ['Books', 'Behavioral Sciences', 'Relationships']
-    # categories = data
-
-    # if page_num==total:
-    #     temp_book_list = book_list[page_num*100:]
-    # elif page_num>total:
-    #     return("no more books!")
-    # else:
-    #     temp_book_list = book_list[page_num*100:(page_num+1)*100]
     mg.insert_query({'results':book_list, 'page_numbers':page_numbers, 'categories':data})
     return render_template("booklist.html", results=book_list, page_numbers=page_numbers, categories=data)
 
@@ -96,6 +69,7 @@ def registration():
 def search():
     return (render_template("booklist.html"))
 
+
 @app.route("/addbook", methods=['POST', 'GET'])
 def addBook():
     if request.method == 'POST':
@@ -110,7 +84,6 @@ def addBook():
             buyAfterViewing = request.form['field8'].strip().split(" ")
             boughtTogether = request.form['field9'].strip().split(" ")
             category = [request.form['field10'].strip().split(" ")]
-            mg = mongoService.Mg()
             mg.add_book(asin, title=title, price=price, imUrl=url, category=category, brand=brand, also_bought=alsoBought, also_viewed=alsoViewed, buy_after_viewing=buyAfterViewing, bought_together=boughtTogether)
             return(render_template("addbook.html"))
     else:
