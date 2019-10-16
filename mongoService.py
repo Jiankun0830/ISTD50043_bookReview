@@ -13,8 +13,8 @@ class Mg:
         return ls
 
     def search_book(self, keyword):
-        query = {'$or':[{'title':{"$regex":keyword}},{'brand':{"$regex":keyword}},{'asin':{"$regex":keyword}},
-                        {'categories': {'$elemMatch': {'$elemMatch': {"$regex":keyword}}}}]}
+        query = {'$or':[{'title':{"$regex":keyword,"$options":"i"}},{'brand':{"$regex":keyword, "$options":"i"}},{'asin':{"$regex":keyword, "$options":"i"}},
+                        {'categories': {'$elemMatch': {'$elemMatch': {"$regex":keyword, "$options":"i"}}}}]}
         cursor = self.con.find(query)
         results = [book for book in cursor]
         return results
