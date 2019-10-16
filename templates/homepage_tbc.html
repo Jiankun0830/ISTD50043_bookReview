@@ -8,6 +8,22 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
         
         <style>
+            .monthly-thumbnails-container{
+                display:inline-block;
+            }
+            
+            .monthly-thumbnails{
+                text-align:center;
+
+            }
+        
+            .monthly-picks{
+                width:50px;
+                height:78px;
+                float:left;
+            }
+            
+            
             .right-section{
                 float: right;
                 width: 45%;
@@ -87,7 +103,21 @@
             
         </div>
         <div class="right-section">
-            <center><b>Check out our monthly picks!</b></center>
+            <center style="margin-top:10px; margin-bottom:20px"><b >Check out our monthly picks!</b></center>
+            
+            <div class="monthly-thumbnails">
+                <div class="monthly-thumbnails-container">
+                    <div class="monthly-picks" id="monthly-pick-1" style="margin-right:20px">
+                            <img class="monthly-picks" src="../static/example-thumbnails/example-pick-1.jpg" alt="">
+                        </div>
+                        <div class="monthly-picks" id="monthly-pick-2" style="margin-right:20px">
+                            <img class="monthly-picks" src="../static/example-thumbnails/example-pick-2.jpg" alt="">
+                        </div>
+                        <div class="monthly-picks" id="monthly-pick-3">
+                            <img class="monthly-picks" src="../static/example-thumbnails/example-pick-3.jpg" alt="">
+                        </div>
+                </div>
+            </div>
         </div>
     </body>
 </html>
