@@ -12,6 +12,26 @@ class Mg:
             ls.append(i)
         return ls
     
+    def add_book(self, asin, title=None, price=None, imUrl=None, category=[], salesRank={}, brand=None, also_bought=[], also_viewed=[], buy_after_viewing=[], bought_together=[]):
+        # asin, title, brand, imUrl: string
+        # salesRank={category: integer}
+        # category: list of list
+        cursor = self.con.find({'asin':asin})
+        if cursor.count() > 0:
+            raise Exception('Book with given asin already exists.')
+        else:
+            toInsert = {'asin':asin,
+                    'title': title,
+                    'price': price,
+                    'imUrl': imUrl,
+                    'related':{'also_bought':also_bought,
+                        'also_viewed':also_viewed,
+                        'buy_after_viewing':buy_after_viewing,
+                        'bought_together':bought_together},
+                    'categories':category,
+                    'salesRank':salesRank,
+                    'brand':brand}
+            x = self.con.insert_one(toInsert)
     def get_total(self):
         a=self.con.find().count()
         # print(a)

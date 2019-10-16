@@ -1,6 +1,6 @@
 from flask import url_for,redirect,Flask,render_template
 from flask import request
-
+from flask import url_for,redirect,Flask,render_template,request
 import SQLservice
 import mongoService
 import numpy as np
@@ -33,7 +33,7 @@ def bookdemo():
 
 @app.route("/sql")
 def des_sql():
-    return (str(SQLservice.Sql_db().describe()))
+    return (str(SQLservice.SQL_db().describe()))
 
 
 @app.route("/bookinfo")
@@ -47,7 +47,7 @@ def book_list_page(page_num, category):
     book_list=mongoService.Mg().get_all_books(page_num, category)
     total=4000
 
-    page_numbers = range(1, total)
+    page_numbers = list(range(1, 4000))
     categories = ['Books', 'Behavioral Sciences', 'Relationships']
     # categories = data
 
@@ -57,11 +57,8 @@ def book_list_page(page_num, category):
     #     return("no more books!")
     # else:
     #     temp_book_list = book_list[page_num*100:(page_num+1)*100]
-    mg.insert_query({'results':book_list, 'page_numbers':page_numbers, 'categories':categories})
-    return render_template("search.html", results=book_list, page_numbers=page_numbers, categories=categories)
-
-
-
+    mg.insert_query({'results':book_list, 'page_numbers':page_numbers, 'categories':data})
+    return render_template("booklist.html", results=book_list, page_numbers=page_numbers, categories=data)
 
 
 @app.route("/book/<asin>", methods=["GET", "POST"])
@@ -95,7 +92,28 @@ def registration():
 
 @app.route("/search")
 def search():
-    return (render_template("search.html"))
+    return (render_template("booklist.html"))
+
+@app.route("/addbook", methods=['POST', 'GET'])
+def addBook():
+    if request.method == 'POST':
+        if request.form['submit_button'] == 'Apply':
+            asin = request.form['field1']
+            title = request.form['field2']
+            brand = request.form['field3']
+            price = float(request.form['field4'])
+            url = request.form['field5']
+            alsoBought = request.form['field6'].strip().split(" ")
+            alsoViewed = request.form['field7'].strip().split(" ")
+            buyAfterViewing = request.form['field8'].strip().split(" ")
+            boughtTogether = request.form['field9'].strip().split(" ")
+            category = [request.form['field10'].strip().split(" ")]
+            mg = mongoService.Mg()
+            mg.add_book(asin, title=title, price=price, imUrl=url, category=category, brand=brand, also_bought=alsoBought, also_viewed=alsoViewed, buy_after_viewing=buyAfterViewing, bought_together=boughtTogether)
+            return(render_template("addbook.html"))
+    else:
+        return(render_template("addbook.html"))
+
 
 
 if __name__ == "__main__":
