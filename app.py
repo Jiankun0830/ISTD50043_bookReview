@@ -5,6 +5,7 @@ import SQLservice_User
 import mongoService
 import numpy as np
 import pandas as pd
+import string
 import json
 
 app = Flask(__name__)
@@ -117,6 +118,7 @@ def search():
     if 'user' not in session:
         return redirect(url_for('login'))
     keyword = request.form.get("searchbox")
+    keyword = ''.join([o for o in keyword if o not in string.punctuation])
     results = mg.search_book(keyword)
     return render_template("search.html", results=results)
 
