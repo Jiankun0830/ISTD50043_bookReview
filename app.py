@@ -1,7 +1,7 @@
-from flask import url_for, redirect, Flask, render_template
-from flask import request
-from flask import url_for, redirect, Flask, render_template, request
+from flask import url_for, redirect, Flask, render_template, request, session
+from flask_session import Session
 import SQLservice
+import SQLservice_User
 import mongoService
 import numpy as np
 import pandas as pd
@@ -9,6 +9,11 @@ import json
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
+
+# Configure session to use filesystem
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+Session(app)
 
 mg = mongoService.Mg()
 
@@ -18,7 +23,7 @@ with open('categories.json') as f:
 
 @app.route("/")
 def home():
-    return render_template("home.html")
+    return render_template("dashboard.html")
 
 
 @app.route("/bookinfo")
@@ -28,20 +33,23 @@ def book_list():
 
 @app.route("/bookinfo/<page_num>/<category>")
 def book_list_page(page_num, category):
+    if 'user' not in session:
+        return redirect(url_for('login'))
     page_num = int(page_num)
     book_list = mongoService.Mg().get_all_books(page_num, category)
     page_numbers = list(range(1, 4000))
-    categories = ['Books', 'Behavioral Sciences', 'Relationships']
     mg.insert_query({'results': book_list, 'page_numbers': page_numbers, 'categories': data})
     return render_template("booklist.html", results=book_list, page_numbers=page_numbers, categories=data)
 
 
 @app.route("/book/<asin>", methods=["GET", "POST"])
 def info(asin):
+    if 'user' not in session:
+        return redirect(url_for('login'))
     if request.method == "POST":
         comment = request.form.get("comment")
         my_rating = request.form.get("rating")
-        SQLservice.SQL_db().add_review(asin=asin, overall=my_rating, summary=comment)
+        SQLservice.SQL_db().add_review(asin=asin, overall=my_rating, reviewerName=session['user'], summary=comment)
 
     book_info = mongoService.Mg().get_all_info(asin)[0]
     results = SQLservice.SQL_db().get_review(asin)
@@ -55,19 +63,60 @@ def dashboard():
     return render_template("dashboard.html")
 
 
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    return render_template("login.html")
+    if 'user' in session:
+        return redirect(url_for('dashboard'))
+
+    message = None
+
+    if request.method == "POST":
+        usern = request.form.get("username")
+        passw = request.form.get("password").encode('utf-8')
+        verify_passw = SQLservice_User.SQL_User_db().get_password(usern).encode('utf-8')
+        print(passw, verify_passw, type(verify_passw))
+        if passw == verify_passw:
+            session['user'] = usern
+            return redirect(url_for('dashboard'))
+        else:
+            message = "Username or password is incorrect."
+    return render_template("login.html", message=message)
 
 
-@app.route("/registration")
-def registration():
-    return render_template("registration.html")
+@app.route("/logout")
+def logout():
+    session.pop('user', None)
+    return redirect(url_for('login'))
 
 
-@app.route("/search")
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if 'user' in session:
+        return redirect(url_for('dashboard'))
+
+    message = None
+
+    if request.method == "POST":
+        usern = request.form.get("username")
+        passw = request.form.get("password")
+        result = SQLservice_User.SQL_User_db().add_user(usern, passw)
+        # TODO: save HASH(pwd) instead of pwd in database
+
+        if result:
+            session['user'] = usern
+            return redirect(url_for('dashboard'))
+        # TODO: Save reviewerID in session so that can be added to review DB
+        else:
+            message = "Username already exists."
+
+    return render_template("registration.html", message=message)
+
+
+@app.route("/search", methods=["POST"])
 def search():
-    return render_template("booklist.html")
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    return render_template("home.html")
 
 
 @app.route("/addbook", methods=['POST', 'GET'])
