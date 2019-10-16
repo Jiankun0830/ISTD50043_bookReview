@@ -33,7 +33,7 @@ def bookdemo():
 
 @app.route("/sql")
 def des_sql():
-    return (str(SQLservice.Sql_db().describe()))
+    return (str(SQLservice.SQL_db().describe()))
 
 
 @app.route("/bookinfo")
@@ -58,10 +58,7 @@ def book_list_page(page_num, category):
     # else:
     #     temp_book_list = book_list[page_num*100:(page_num+1)*100]
     mg.insert_query({'results':book_list, 'page_numbers':page_numbers, 'categories':data})
-    return render_template("search.html", results=book_list, page_numbers=page_numbers, categories=data)
-
-
-
+    return render_template("booklist.html", results=book_list, page_numbers=page_numbers, categories=data)
 
 
 @app.route("/book/<asin>", methods=["GET", "POST"])
@@ -95,7 +92,7 @@ def registration():
 
 @app.route("/search")
 def search():
-    return (render_template("search.html"))
+    return (render_template("booklist.html"))
 
 @app.route("/addbook", methods=['POST', 'GET'])
 def addBook():
