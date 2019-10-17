@@ -4,46 +4,15 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     </head>
-            
+    <nav class="navbar navbar-dark bg-dark">
+        <a id="navbarHeader" class="navbar-brand" href="{{ url_for('dashboard') }}"><img src="{{ url_for('static', filename='icon.png') }}" width="30" height="30" class="d-inline-block align-top" alt=""> BookSearch </a>
+        <a class="btn btn-primary" href="{{ url_for('logout') }}"> Logout </a>
+    </nav>
+        
     <body>
         <div class="container">
             <div class="card text-center" style="margin: 50px auto 50px auto;">
-                <div class="card-header">Books Available
-                    <div class="indexes" style="overflow: scroll; height: 50; width: 100%">
-                        {% for pg_no in page_numbers %}
-                            <a  href='{{ url_for( "book_list_page" , page_num=pg_no, category="all") }}'> {{pg_no}}</a>
-                        {% endfor %}
-                    </div>  
-                    
-                    
-                        
-                </div>
-
-                
-                <div >
-                    
-                    {% for category in categories %}
-
-                        <div class="navbar" style="display: inline; margin: 1px; padding: 0px;">
-                            <div class="dropdown">
-                            <button class="dropbtn">{{category}} 
-                            </button>
-                            <div class="dropdown-content">
-                                {% for c in categories[category] %}
-                                    <!-- <a href="#">{{c}}</a> -->
-                                    <a href='{{ url_for("book_list_page", page_num=1, category=c) }}'>{{c}}</a>
-                                {% endfor %}
-                            </div>
-                            </div> 
-                        </div>
-                        <!-- <div class="card" style="margin:2px; display: inline;border-radius: 10px 10px 10px 10px; padding:2px;box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); ">
-                            <a href='{{ url_for("book_list_page", page_num=1, category=category) }}'>{{category}}</a>
-                        </div> -->
-                    {% endfor %}
-                    
-                    <div>{{name}}</div>
-                </div>  
-                
+                <div class="card-header">Results</div>
                 <div class="card-body">
                     <table class="table table-striped">
                     <tr>
@@ -55,7 +24,8 @@
                     {% for result in results %}
                     <tr>
                         <td> {{ loop.index }} </td>
-                        <td> <a href="{{ url_for('info', asin=result.asin) }}"> <img style="width: 160px; height: 160px;" src={{ result.imUrl }}></a></td>
+                        <td><a href="{{ url_for('info', asin=result.asin) }}"> <img style="width: 160px; height: 160px;"
+                            src={{ result.imUrl }}></a></td>
                         <td> {{ result.categories }} </td>
                         <td> {{ result.asin }} </td>
                     </tr>
