@@ -6,6 +6,13 @@ class Mg:
     def __init__(self):
         self.con = MongoClient("mongodb://localhost:27017/")["book_metadata"]["metadata"]
         self.log = MongoClient("mongodb://localhost:27017/")["book_log"]["log"]
+    
+    def get_bestsellers(slef):
+        a=self.con.find({"salesRank":{'$exists': 1}},{"asin":1,"salesRank":1})
+        ls=[]
+        for i in a:
+            ls.append(i)
+        return ls
 
     def get_all_info(self, param):
         a = self.con.find({"asin": param})
