@@ -7,8 +7,9 @@ class Mg:
         self.con = MongoClient("mongodb://localhost:27017/")["book_metadata"]["metadata"]
         self.log = MongoClient("mongodb://localhost:27017/")["book_log"]["log"]
     
-    def get_bestsellers(slef):
-        a=self.con.find({"salesRank":{'$exists': 1}},{"asin":1,"salesRank":1})
+    def get_bestsellers(self):
+        a=self.con.find({"salesRank":{'$exists': 1}})
+        #,{"asin":1,"salesRank":1}
         ls=[]
         for i in a:
             ls.append(i)
