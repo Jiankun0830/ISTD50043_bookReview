@@ -3,12 +3,11 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style_booklist.css') }}">
 </head>
 <nav class="navbar navbar-dark bg-dark">
-    <a id="navbarHeader" class="navbar-brand" href="{{ url_for('dashboard') }}"><img
-            src="{{ url_for('static', filename='icon.png') }}" width="30" height="30" class="d-inline-block align-top"
-            alt=""> BookSearch </a>
+    <a id="navbarHeader" class="navbar-brand" href="{{ url_for('dashboard') }}">
+        <img src="{{ url_for('static', filename='icon.png') }}" width="30" height="30" class="d-inline-block align-top" alt=""> BookSearch </a>
     <a class="btn btn-primary" href="{{ url_for('logout') }}"> Logout </a>
 </nav>
 <body>
@@ -29,7 +28,7 @@
 
             {% for category in categories %}
 
-                <div class="navbar" style="display: inline; margin: 1px; padding: 0px;">
+                <div class="navbarx" style="display: inline; margin: 1px; padding: 0px;">
                     <div class="dropdown">
                         <button class="dropbtn">{{ category }}
                         </button>
