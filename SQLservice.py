@@ -41,7 +41,7 @@ class SQL_db:
         idx = self.count + 1
         reviewTime = datetime.today().strftime('%m %d, %Y')
         inputs = {'idx': idx, 'asin': asin, 'helpful': helpful, 'overall': overall, 'reviewText': reviewText,
-                  'reviewTime': reviewTime, 'reviewID': reviewerID, 'reviewerName': reviewerName, 'summary': summary,
+                  'reviewTime': reviewTime, 'reviewerID': reviewerID, 'reviewerName': reviewerName, 'summary': summary,
                   'unixReviewTime': unixReviewTime}
         new_inputs = inputs.copy()
         for i in inputs:

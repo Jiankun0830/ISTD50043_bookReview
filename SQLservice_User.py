@@ -2,7 +2,6 @@ import mysql.connector as db
 
 DATABASE = "accounts_info"
 
-
 class SQL_User_db:
     def __init__(self):
         self.conn = db.connect(host="localhost", user="root", db=DATABASE)
@@ -13,11 +12,11 @@ class SQL_User_db:
         res = cursor.fetchall()
         return res
 
-    def add_user(self, username, password):
+    def add_user(self, username, password, isadmin=0):
         cursor = self.conn.cursor()
         try:
-            cursor.execute("""INSERT INTO accounts(username,password) VALUES(%(username)s,%(password)s);""",
-                           {"username": username, "password": password})
+            cursor.execute("""INSERT INTO accounts(username,password,isadmin) VALUES(%(username)s,%(password)s,%(isadmin)s);""",
+                           {"username": username, "password": password, "isadmin":isadmin})
             self.conn.commit()
         except:
             print('duplicate username')
@@ -33,8 +32,16 @@ class SQL_User_db:
             return False
         return res[0][0]
 
-# print(SQL_User_db().describe())
+    def get_usr_id(self, username):
+        cursor = self.conn.cursor()
+        cursor.execute("select id from accounts where username = (%(username)s)", {"username": username})
+        res = cursor.fetchall()
+        if res == []:
+            return False
+        return res[0][0]
 
-# print(SQL_User_db().add_user('test5','lalalala'))
-
+if __name__ == "__main__":
+    import hashlib
+    print(SQL_User_db().add_user('Jiankun',hashlib.md5('123456'.encode('utf-8')).hexdigest()))
+    # print(SQL_User_db().describe())
 # print(SQL_User_db().get_password('test4'))

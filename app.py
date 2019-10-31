@@ -6,6 +6,7 @@ import mongoService
 import numpy as np
 import pandas as pd
 import string
+import hashlib
 import json
 
 app = Flask(__name__)
@@ -50,7 +51,7 @@ def info(asin):
     if request.method == "POST":
         comment = request.form.get("comment")
         my_rating = request.form.get("rating")
-        SQLservice.SQL_db().add_review(asin=asin, overall=my_rating, reviewerName=session['user'], summary=comment)
+        SQLservice.SQL_db().add_review(asin=asin, overall=my_rating, reviewerName=session['user'], reviewerID=session['userid'], summary=comment)
 
     book_info = mongoService.Mg().get_all_info(asin)[0]
     results = SQLservice.SQL_db().get_review(asin)
@@ -73,11 +74,15 @@ def login():
 
     if request.method == "POST":
         usern = request.form.get("username")
-        passw = request.form.get("password").encode('utf-8')
-        verify_passw = SQLservice_User.SQL_User_db().get_password(usern).encode('utf-8')
-        print(passw, verify_passw, type(verify_passw))
-        if passw == verify_passw:
+        passw = request.form.get("password")
+        passw_hash = hashlib.md5(passw.encode('utf-8')).hexdigest()
+        verify_passw_hash = SQLservice_User.SQL_User_db().get_password(usern)
+        print(type(verify_passw_hash),type(passw_hash))
+        print(verify_passw_hash,passw_hash)
+        user_id = SQLservice_User.SQL_User_db().get_usr_id(usern)
+        if passw_hash == verify_passw_hash:
             session['user'] = usern
+            session['userid'] = user_id
             return redirect(url_for('dashboard'))
         else:
             message = "Username or password is incorrect."
@@ -87,6 +92,7 @@ def login():
 @app.route("/logout")
 def logout():
     session.pop('user', None)
+    session.pop('userid', None)
     return redirect(url_for('login'))
 
 
@@ -100,11 +106,12 @@ def register():
     if request.method == "POST":
         usern = request.form.get("username")
         passw = request.form.get("password")
-        result = SQLservice_User.SQL_User_db().add_user(usern, passw)
-        # TODO: save HASH(pwd) instead of pwd in database
-
+        passw_hash = hashlib.md5(passw.encode('utf-8')).hexdigest()
+        result = SQLservice_User.SQL_User_db().add_user(usern, passw_hash)
+        user_id = SQLservice_User.SQL_User_db().get_usr_id(usern)
         if result:
             session['user'] = usern
+            session['userid'] = user_id
             return redirect(url_for('dashboard'))
         # TODO: Save reviewerID in session so that can be added to review DB
         else:
