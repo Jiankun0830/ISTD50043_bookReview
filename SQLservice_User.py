@@ -18,8 +18,9 @@ class SQL_User_db:
             cursor.execute("""INSERT INTO accounts(username,password,isadmin) VALUES(%(username)s,%(password)s,%(isadmin)s);""",
                            {"username": username, "password": password, "isadmin":isadmin})
             self.conn.commit()
-        except:
+        except Exception as e:
             print('duplicate username')
+            print(e)
             return False
         return True
 
