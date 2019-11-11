@@ -1,10 +1,11 @@
-from flask import url_for, redirect, Flask, render_template, request, session
+from flask import send_from_directory,url_for, redirect, Flask, render_template, request, session
 from flask_session import Session
 import SQLservice
 import SQLservice_User
 import mongoService
 import numpy as np
 import pandas as pd
+import string
 import json
 
 app = Flask(__name__)
@@ -19,7 +20,30 @@ mg = mongoService.Mg()
 
 with open('categories.json') as f:
     data = json.load(f)
+#############yy edits#################################
+@app.route('/css/<path:path>')
+def send_css(path):
+    return send_from_directory('css', path)
+@app.route('/js/<path:path>')
+def send_js(path):
+    return send_from_directory('js', path)
+@app.route('/font-awesome-4.7.0/<path:path>')
+def send_node(path):
+    return send_from_directory('font-awesome-4.7.0', path)
+@app.route('/img/<path:path>')
+def send_img(path):
+    return send_from_directory('img', path)
+###################################################
+@app.route("/home_page")
+def home_page():
+    book_list = mongoService.Mg().get_bestsellers()
+    #mg.insert_query
+    print("\n\n\n\n")
+    print(book_list[0])
+    return render_template("home_page.html",results=book_list[:-3])
 
+
+#############################################
 
 @app.route("/")
 def home():
@@ -117,6 +141,7 @@ def search():
     if 'user' not in session:
         return redirect(url_for('login'))
     keyword = request.form.get("searchbox")
+    keyword = ''.join([o for o in keyword if o not in string.punctuation])
     results = mg.search_book(keyword)
     return render_template("search.html", results=results)
 
