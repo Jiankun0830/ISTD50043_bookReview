@@ -23,22 +23,13 @@ class SQL_User_db:
             return False
         return True
 
-    # Added an encrypted function to protect the password
-    def get_password(self, username):
+    def get_usr_info(self, username):
         cursor = self.conn.cursor()
-        cursor.execute("select password from accounts where username = (%(username)s)", {"username": username})
+        cursor.execute("select id,password,isadmin from accounts where username = (%(username)s)", {"username": username})
         res = cursor.fetchall()
         if res == []:
             return False
-        return res[0][0]
-
-    def get_usr_id(self, username):
-        cursor = self.conn.cursor()
-        cursor.execute("select id from accounts where username = (%(username)s)", {"username": username})
-        res = cursor.fetchall()
-        if res == []:
-            return False
-        return res[0][0]
+        return res[0]
 
 if __name__ == "__main__":
     import hashlib
