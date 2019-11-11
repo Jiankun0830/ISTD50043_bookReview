@@ -41,11 +41,11 @@ http://www.tooplate.com/view/2092-shelf
 
                     <div class="collapse navbar-collapse tm-main-nav" id="tmMainNav">
                         <ul class="nav nav-fill tm-main-nav-ul">
-                            <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#">Catalogs</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#">Awards</a></li>
-                            <li class="nav-item"><a class="nav-link" href="team.html">Our Team</a></li>
-                            <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
+                            <li class="nav-item"><a class="nav-link active" href="{{ url_for('home_page') }}">Home</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">Search</a></li>
+                            <li class="nav-item"><a class="nav-link" href='{{ url_for("book_list_page", page_num=1, category="all") }}'>Booklist</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">Our Team</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">Contact Us</a></li>
                         </ul>
                     </div>
                 </nav>
@@ -58,75 +58,23 @@ http://www.tooplate.com/view/2092-shelf
                         <h2 class="tm-main-title">Welcome to our bookstore</h2>    
                     </header>
                     
-                    <p>Shelf HTML template is provided by Tooplate. Please tell your friends about it. Thank you. Images are from Unsplash website. In tincidunt metus sed justo tincidunt sollicitudin. Curabitur magna tellus, condimentum vitae consectetur id, elementum sit amet erat.</p>
+                    <p>We suggest these books:</p>
                     
                     <div class="tm-gallery">
                         <div class="row">
+				{% for result in results %}
                             <figure class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
-                                <a href="preview.html">
+                                <a href="{{ url_for('info', asin=result.asin) }}">
                                     <div class="tm-gallery-item-overlay">
-                                        <img src="img/image-01.jpg" alt="Image" class="img-fluid tm-img-center">
-                                    </div>
+					   
+                                   <img src={{ result.imUrl }} alt="Image" style="width: 160px; height: 160px;" class="img-fluid tm-img-center">
+
+				    </div>
                                     
-                                    <p class="tm-figcaption">Nam vitae odio</p>
+				    <p class="tm-figcaption">{{result.asin}}</p>
                                 </a>
                             </figure>
-                            <figure class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
-                                <a href="preview.html">
-                                    <div class="tm-gallery-item-overlay">
-                                        <img src="img/image-02.jpg" alt="Image" class="img-fluid tm-img-center">
-                                    </div>
-                                    <p class="tm-figcaption">Integer ornare</p>
-                                </a>
-                            </figure>
-                            <figure class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
-                                <a href="preview.html">
-                                    <div class="tm-gallery-item-overlay">
-                                        <img src="img/image-03.jpg" alt="Image" class="img-fluid tm-img-center">
-                                    </div>
-                                    <p class="tm-figcaption">Cras non augue</p>
-                                </a>
-                            </figure>
-                            <figure class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
-                                <a href="preview.html">
-                                    <div class="tm-gallery-item-overlay">
-                                        <img src="img/image-04.jpg" alt="Image" class="img-fluid tm-img-center">
-                                    </div>
-                                    <p class="tm-figcaption">Dolor lacus</p>
-                                </a>
-                            </figure>
-                            <figure class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
-                                <a href="preview.html">
-                                    <div class="tm-gallery-item-overlay">
-                                        <img src="img/image-05.jpg" alt="Image" class="img-fluid tm-img-center">
-                                    </div>
-                                    <p class="tm-figcaption">Quisque velit</p>
-                                </a>
-                            </figure>
-                            <figure class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
-                                <a href="preview.html">
-                                    <div class="tm-gallery-item-overlay">
-                                        <img src="img/image-06.jpg" alt="Image" class="img-fluid tm-img-center">
-                                    </div>
-                                    <p class="tm-figcaption">Suspendisse suscipit</p>
-                                </a>
-                            </figure>
-                            <figure class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
-                                <a href="preview.html">
-                                    <div class="tm-gallery-item-overlay">
-                                        <img src="img/image-07.jpg" alt="Image" class="img-fluid tm-img-center">
-                                    </div>
-                                    <p class="tm-figcaption">Facilisis justo</p>
-                                </a>
-                            </figure>
-                            <figure class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
-                                <a href="preview.html">
-                                    <div class="tm-gallery-item-overlay">
-                                        <img src="img/image-08.jpg" alt="Image" class="img-fluid tm-img-center">
-                                    </div>
-                                    <p class="tm-figcaption">Vivamus facilisis</p>
-                                </a>
-                            </figure> 
+			   {% endfor %} 
                         </div>   
                     </div>
                     
@@ -150,16 +98,13 @@ http://www.tooplate.com/view/2092-shelf
                         <header>
                             <h2>Need Help?</h2>
                         </header>
-                        <p class="tm-margin-b">Curabitur magna tellus, condimentum vitae consectetur id, elementum sit amet erat. Phasellus arcu leo, sagittis fringilla nisi et, pulvinar vestibulum mi. Maecenas mollis ullamcorper est at dignissim.</p>
                         <a href="" class="tm-white-bordered-btn">Live Chat</a>
                     </div>                    
                 </section>
             </div>
 
             <footer>
-                Copyright &copy; <span class="tm-current-year">2018</span> Shelf Company 
-                
-                - Designed by Tooplate
+                SUTD ISTD <span class="tm-current-year">2019</span>DB TEAM 
             </footer>    
         </div>
         
