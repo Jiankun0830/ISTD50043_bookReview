@@ -52,15 +52,17 @@ def info(asin):
         add_log(request.method, request.url, None, None, None, mg) 
         return redirect(url_for('login'))
     if request.method == "POST":
+        title = request.form.get("title")
         comment = request.form.get("comment")
         my_rating = request.form.get("rating")
         add_log(request.method, request.url, {"user_comment": comment, "rating": my_rating}, session['userid'], session['isadmin'], mg)
-        SQLservice.SQL_db().add_review(asin=asin, overall=my_rating, reviewerName=session['user'], reviewerID=session['userid'], summary=comment)
+        SQLservice.SQL_db().add_review(asin=asin, overall=my_rating, reviewerName=session['user'], reviewerID=session['userid'], summary=title, reviewText= comment)
 
     book_info = mongoService.Mg().get_all_info(asin)[0]
     results = SQLservice.SQL_db().get_review(asin)
-    rating = np.mean([review[2] for review in results])
+    rating = round(np.mean([review[2] for review in results]),2)
     add_log(request.method, request.url, {"bookNumber": asin, "number_of_reviews": len(results), "rating": rating}, session['userid'], session['isadmin'], mg)
+
     return render_template("info.html", book_info=book_info, reviews=results, rating=rating)
 
 
@@ -81,13 +83,13 @@ def login():
         usern = request.form.get("username")
         passw = request.form.get("password")
         passw_hash = hashlib.md5(passw.encode('utf-8')).hexdigest()
-        verify_passw_hash = SQLservice_User.SQL_User_db().get_password(usern)
+        user_id, verify_passw_hash, isadmin = SQLservice_User.SQL_User_db().get_usr_info(usern)
         print(type(verify_passw_hash),type(passw_hash))
         print(verify_passw_hash,passw_hash)
-        user_id = SQLservice_User.SQL_User_db().get_usr_id(usern)
         if passw_hash == verify_passw_hash:
             session['user'] = usern
             session['userid'] = user_id
+            session['isadmin'] = True if isadmin else False
             add_log(request.method, request.url, {"usern": usern, "passw_hash": passw_hash, "login_sucessful": True}, None, None, mg)
             return redirect(url_for('dashboard'))
         else:
@@ -100,6 +102,7 @@ def login():
 def logout():
     session.pop('user', None)
     session.pop('userid', None)
+    session.pop('isadmin', None)
     add_log(request.method, request.url, {"logout_sucessful": True}, None, None, mg)
     return redirect(url_for('login'))
 
@@ -118,11 +121,11 @@ def register():
         passw_hash = hashlib.md5(passw.encode('utf-8')).hexdigest()
         print(usern, passw_hash)
         result = SQLservice_User.SQL_User_db().add_user(usern, passw_hash)
-        user_id = SQLservice_User.SQL_User_db().get_usr_id(usern)
-
+        user_id = SQLservice_User.SQL_User_db().get_usr_info(usern)[0]
         if result:
             session['user'] = usern
             session['userid'] = user_id
+            session['isadmin'] = False
             add_log(request.method, request.url, {"usern": usern, "passw_hash": passw_hash, "register_sucessful": True}, None, None, mg)
             return redirect(url_for('dashboard'))
         # TODO: Save reviewerID in session so that can be added to review DB

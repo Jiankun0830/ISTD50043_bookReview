@@ -1,6 +1,7 @@
 import mysql.connector as db
 import copy
 from datetime import datetime
+import os
 
 # TODO 1: Add database name as env var
 
@@ -74,7 +75,35 @@ class SQL_db:
 
     def get_review(self, asinID):
         cursor = self.conn.cursor()
-        cursor.execute("select reviewerName,summary,overall,reviewTime from reviews where asin = %(asin)s;",
+        cursor.execute("select reviewerName,summary,overall,reviewTime,reviewText from reviews where asin = %(asin)s;",
                        {'asin': asinID})
         res = cursor.fetchall()
         return res
+
+    def get_most_rated_books(self):
+        cursor = self.conn.cursor()
+        cursor.execute("""select * from mostRated;""")
+        res = cursor.fetchall()
+        return res
+    
+    def get_highest_rated_books(self):
+        cursor = self.conn.cursor()
+        cursor.execute("""select * from highestAvgScore;""")
+        res = cursor.fetchall()
+        return res
+    
+    def generate_additional_tables(self):
+        # cursor = self.conn.cursor()
+        # cursor.execute('source database/sql/create_additional_tables.sql;')
+        # self.conn.commit()
+        # # res = cursor.fetchall()
+        # # return res
+
+        os.system("mysql -u root < database/sql/create_additional_tables.sql")
+
+if __name__ == "__main__":
+    pass
+    # print(SQL_db().describe())
+    # print(SQL_db().generate_additional_tables())
+    # print(SQL_db().get_most_rated_books())
+    # print(SQL_db().get_highest_rated_books())
