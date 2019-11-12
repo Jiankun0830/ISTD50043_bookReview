@@ -79,3 +79,22 @@ class Mg:
             'timestamp': time.time()
         }
         self.log.insert_one(toInsert)
+
+    def get_highest_rank_books(self, category):
+        categories = ["Mystery, Thriller & Suspense"
+,"Science Fiction & Fantasy"
+,"Action & Adventure"
+,"Love & Romance"
+,"Business & Money"
+,"Health, Fitness & Dieting"
+,"Professional & Technical"
+,"Administration & Policy"
+,"Dictionaries & Thesauruses"
+,"Biographies & Memoirs"
+]
+        if category not in categories:
+            raise Exception("No such category")
+        else:
+            temp = 'salesRank.'+category
+            return self.con.find{ temp:{'$exists': True }} ).limit(10)
+
