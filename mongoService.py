@@ -74,11 +74,7 @@ class Mg:
         pass
 
     def insert_query(self, query):
-        toInsert = {
-            'query': query,
-            'timestamp': time.time()
-        }
-        self.log.insert_one(toInsert)
+        self.log.insert_one(query)
 
     def get_highest_rank_books(self, category):
         categories = ["Mystery, Thriller & Suspense"
