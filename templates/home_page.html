@@ -80,7 +80,24 @@ http://www.tooplate.com/view/2092-shelf
                             <h2 class="tm-main-title">Welcome to our bookstore</h2>    
                         </header>
                     
-                    <p>We suggest these books:</p>
+                    <p>Top 10 Books!</p>
+                    <div>
+                        {% for cat_books in catbook_list %}
+                            
+                            <p>{{cat_books[0]}}</p>
+                            <div style="overflow-x: scroll; height: 220px; padding: 10px; padding-top: 25px; padding-left: 20px; margin: 10px; white-space:nowrap; box-shadow: inset 2px -1px 18px -3px rgba(36,35,36,0.57); ">
+                                {% for book in cat_books[1:] %}
+                                    <!-- <p>{{book.asin}}</p>   -->
+                                    {{ loop.index }}
+                                    <a href="{{ url_for('info', asin=book.asin) }}"> <img src={{ book.imUrl }} alt="Image" style="width: 160px; height: 160px; display: inline;" class="img-fluid tm-img-center"></a>
+
+                                {% endfor %} 
+                            </div>
+                            
+
+                        {% endfor %} 
+                    </div>
+                    
                     
                     <div class="tm-gallery">
                         <div class="row">

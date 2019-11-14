@@ -96,5 +96,11 @@ class Mg:
             raise Exception("No such category")
         else:
             temp = 'salesRank.'+category
-            return self.con.find{ temp:{'$exists': True }} ).limit(10)
+            a = self.con.find( {temp:{'$exists': True }} ).limit(10)
+            ls = [i for i in a]
+            ls.insert(0, category)
+            return ls
+    
+
+# print(Mg().get_highest_rank_books("Dictionaries & Thesauruses"))
 
