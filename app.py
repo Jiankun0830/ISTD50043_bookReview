@@ -3,9 +3,11 @@ from flask_session import Session
 import SQLservice
 import SQLservice_User
 import mongoService
+from utils import *
 import numpy as np
 import pandas as pd
 import string
+import hashlib
 import json
 
 app = Flask(__name__)
@@ -69,24 +71,29 @@ def book_list_page(page_num, category):
         return redirect(url_for('login'))
     page_num = int(page_num)
     book_list = mongoService.Mg().get_all_books(page_num, category)
+    # TODO: what is this for?
     page_numbers = list(range(1, 4000))
-    mg.insert_query({'results': book_list, 'page_numbers': page_numbers, 'categories': data})
+    add_log(request.method, request.url, "all_book_returned", session['userid'], session['isadmin'], mg)
     return render_template("booklist.html", results=book_list, page_numbers=page_numbers, categories=data)
 
 
 @app.route("/book/<asin>", methods=["GET", "POST"])
 def info(asin):
     if 'user' not in session:
+        add_log(request.method, request.url, None, None, None, mg) 
         return redirect(url_for('login'))
     if request.method == "POST":
+        title = request.form.get("title")
         comment = request.form.get("comment")
         my_rating = request.form.get("rating")
-        SQLservice.SQL_db().add_review(asin=asin, overall=my_rating, reviewerName=session['user'], summary=comment)
+        add_log(request.method, request.url, {"user_comment": comment, "rating": my_rating}, session['userid'], session['isadmin'], mg)
+        SQLservice.SQL_db().add_review(asin=asin, overall=my_rating, reviewerName=session['user'], reviewerID=session['userid'], summary=title, reviewText= comment)
 
     book_info = mongoService.Mg().get_all_info(asin)[0]
     results = SQLservice.SQL_db().get_review(asin)
-    rating = np.mean([review[2] for review in results])
-    mg.insert_query({'book_info': book_info, 'reviews': results, 'rating': rating})
+    rating = round(np.mean([review[2] for review in results]),2)
+    add_log(request.method, request.url, {"bookNumber": asin, "number_of_reviews": len(results), "rating": rating}, session['userid'], session['isadmin'], mg)
+
     return render_template("info.html", book_info=book_info, reviews=results, rating=rating)
 
 
@@ -98,32 +105,7 @@ def dashboard():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if 'user' in session:
-        return redirect(url_for('dashboard'))
-
-    message = None
-
-    if request.method == "POST":
-        usern = request.form.get("username")
-        passw = request.form.get("password").encode('utf-8')
-        verify_passw = SQLservice_User.SQL_User_db().get_password(usern).encode('utf-8')
-        print(passw, verify_passw, type(verify_passw))
-        if passw == verify_passw:
-            session['user'] = usern
-            return redirect(url_for('dashboard'))
-        else:
-            message = "Username or password is incorrect."
-    return render_template("login.html", message=message)
-
-
-@app.route("/logout")
-def logout():
-    session.pop('user', None)
-    return redirect(url_for('login'))
-
-
-@app.route("/register", methods=["GET", "POST"])
-def register():
-    if 'user' in session:
+        add_log(request.method, request.url, None , session['userid'], session['isadmin'], mg)
         return redirect(url_for('dashboard'))
 
     message = None
@@ -131,15 +113,56 @@ def register():
     if request.method == "POST":
         usern = request.form.get("username")
         passw = request.form.get("password")
-        result = SQLservice_User.SQL_User_db().add_user(usern, passw)
-        # TODO: save HASH(pwd) instead of pwd in database
+        passw_hash = hashlib.md5(passw.encode('utf-8')).hexdigest()
+        user_id, verify_passw_hash, isadmin = SQLservice_User.SQL_User_db().get_usr_info(usern)
+        print(type(verify_passw_hash),type(passw_hash))
+        print(verify_passw_hash,passw_hash)
+        if passw_hash == verify_passw_hash:
+            session['user'] = usern
+            session['userid'] = user_id
+            session['isadmin'] = True if isadmin else False
+            add_log(request.method, request.url, {"usern": usern, "passw_hash": passw_hash, "login_sucessful": True}, None, None, mg)
+            return redirect(url_for('dashboard'))
+        else:
+            message = "Username or password is incorrect."
+            add_log(request.method, request.url, {"usern": usern, "passw_hash": passw_hash, "login_sucessful": False}, None, None, mg)
+    return render_template("login.html", message=message)
 
+
+@app.route("/logout")
+def logout():
+    session.pop('user', None)
+    session.pop('userid', None)
+    session.pop('isadmin', None)
+    add_log(request.method, request.url, {"logout_sucessful": True}, None, None, mg)
+    return redirect(url_for('login'))
+
+
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    if 'user' in session:
+        add_log(request.method, request.url, None , session['userid'], session['isadmin'], mg)
+        return redirect(url_for('dashboard'))
+
+    message = None
+
+    if request.method == "POST":
+        usern = request.form.get("username")
+        passw = request.form.get("password")
+        passw_hash = hashlib.md5(passw.encode('utf-8')).hexdigest()
+        print(usern, passw_hash)
+        result = SQLservice_User.SQL_User_db().add_user(usern, passw_hash)
+        user_id = SQLservice_User.SQL_User_db().get_usr_info(usern)[0]
         if result:
             session['user'] = usern
+            session['userid'] = user_id
+            session['isadmin'] = False
+            add_log(request.method, request.url, {"usern": usern, "passw_hash": passw_hash, "register_sucessful": True}, None, None, mg)
             return redirect(url_for('dashboard'))
         # TODO: Save reviewerID in session so that can be added to review DB
         else:
             message = "Username already exists."
+            add_log(request.method, request.url, {"usern": usern, "passw_hash": passw_hash, "register_sucessful": False}, None, None, mg)
 
     return render_template("registration.html", message=message)
 
@@ -151,6 +174,8 @@ def search():
     keyword = request.form.get("searchbox")
     keyword = ''.join([o for o in keyword if o not in string.punctuation])
     results = mg.search_book(keyword)
+    session['isadmin'] = 1 # delete this
+    add_log(request.method, request.url, {"search_keyword": keyword, "results_length": len(results)}, session['userid'], session['isadmin'], mg)
     return render_template("search.html", results=results)
 
 
@@ -171,10 +196,12 @@ def addBook():
             mg.add_book(asin, title=title, price=price, imUrl=url, category=category, brand=brand,
                         also_bought=alsoBought, also_viewed=alsoViewed, buy_after_viewing=buyAfterViewing,
                         bought_together=boughtTogether)
+            add_log(request.method, request.url, {"book_information": {"title": titile, "price": price, "category": category}}, session['userid'], session['isadmin'], mg)
             return render_template("addbook.html")
     else:
         return render_template("addbook.html")
 
 
+    
 if __name__ == "__main__":
     app.run()
