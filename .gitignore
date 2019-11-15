@@ -2,3 +2,4 @@ database/sql/kindle_reviews.csv
 __pycache__/
 .vscode/
 flasktest
+flask_session

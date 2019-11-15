@@ -7,8 +7,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stars.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='review.css') }}">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
-<nav class="navbar navbar-dark bg-dark">
+<nav class="navbar navbar-default navbar-fixed-top">
     <a id="navbarHeader" class="navbar-brand" href="{{ url_for('dashboard') }}">
         <img src="{{ url_for('static', filename='icon.png') }}" width="30" height="30" class="d-inline-block align-top" alt=""> BookSearch </a>
     <a class="btn btn-primary" href="{{ url_for('logout') }}"> Logout </a>
@@ -27,7 +36,7 @@
                         <h6 class="card-title"> ASIN </h6>
                         <p class="card-text">{{ book_info.asin }}</p>
                         <h6 class="card-title"> Overall Rating </h6>
-                        <p class="card-text">{{ rating }} / 5</p>
+                        <p class="card-text">{{ rating }} <small>/ 5</small></p>
                     </div>
                 </div>
             </div>
@@ -49,31 +58,57 @@
                                 <input type="radio" id="st5" name="rating" value="1" />
                                 <label for="st5"></label>
                             </fieldset>
+                            <textarea class="form-control" name="title" rows="1" placeholder="Title" required maxlength="20"></textarea>
                             <textarea class="form-control" name="comment" rows="3" placeholder="Comment here ..." required maxlength="150"></textarea>
                             <br>
-                            <button class="btn btn-primary" type="submit">Submit</button>
+                            <button class="btn btn-primary" type="submit" style="float: right; background-color: rgba(92, 62, 38, 0.959); border-color: rgba(92, 62, 38, 0.959)">Submit</button>
+                            <br>
+                            <br>
                         </form>
                         <table class="table table-striped">
                             <thead>
-
-                                <tr>
+                                <!-- <tr>
                                     <th> User </th>
                                     <th> Comment </th>
                                     <th> Rating </th>
                                     <th> Time </th>
-                                </tr>
+                                </tr> -->
                             </thead>
                             <tbody>
-
                                 {% for review in reviews %}
-                                <tr>
+                                <div class="review-block">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <img src="https://sophosnews.files.wordpress.com/2014/04/anonymous-250.jpg" width="50" height="50" class="img-rounded">
+                                            <div class="review-block-name"><a href="#">{{ review[0] }}</a></div>
+                                            <div class="review-block-date">{{ review[3] }}</div>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <div class="review-block-rate">
+                                                {% for i in range(review[2])%}
+                                                    <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+                                                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                                    </button>
+                                                {% endfor %}
+                                                {% for i in range(5 - review[2])%}
+                                                    <button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+                                                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                                    </button>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="review-block-title">{{ review[1] }}</div>
+                                            <div class="review-block-description">{{ review[4] }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <tr>
                                     <td> {{ review[0] }} </td>
                                     <td> {{ review[1] }} </td>
                                     <td> {{ review[2] }} </td>
                                     <td> {{ review[3] }} </td>
-                                </tr>
+                                </tr> -->
                                 {% endfor %}
-                            </tbody>
+                        </tbody>
 
                         </table>
                     </div>
