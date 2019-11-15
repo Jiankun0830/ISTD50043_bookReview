@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!--
+
+Template 2092 Shelf
+
+http://www.tooplate.com/view/2092-shelf
+
+-->
+    <title>SHELF - Your Online Bookstore</title>
+
+    <!-- load stylesheets -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">  <!-- Google web font "Open Sans" -->
+    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">                <!-- Font Awesome -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">                                      <!-- Bootstrap style -->
+    <link rel="stylesheet" href="css/tooplate-style.css">                                   <!-- Templatemo style -->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+          <![endif]-->
+
+</head>
+    <body>
+        
+        <div class="container">
+            <header class="tm-site-header">
+                <div id="btn-group" >
+                    <a class="btn btn-primary" style="float: right; background-color:rgba(153, 115, 84, 0.959); border-color: rgba(153, 115, 84, 0.959) " href="{{ url_for('logout') }}"> Logout </a>
+                </div>
+                <h1 class="tm-site-name">Shelf</h1>
+                <p class="tm-site-description">Your Online Bookstore</p>
+                <br/>
+
+                <div class="container" style="width:75%; background-color: rgba(255, 255, 255, 0.384); border-radius: 10px;">
+                    <div class="card text-center" id="wrapper" style=" background-color: rgba(255, 255, 255, 0.384); border-radius: 10px;">
+                        <div class="card-body" >
+                            <form action="{{ url_for('search') }}" method="post">
+                                <input class="form-control" name="searchbox" type="text" placeholder="Title, ASIN, Catogories, Author, Brand">
+                                <br>
+                                <button type="submit" class="btn btn-primary" style="width:75%; background-color:rgba(92, 62, 38, 0.959); border-color: rgba(92, 62, 38, 0.959)"> Search</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <nav class="navbar navbar-expand-md tm-main-nav-container">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#tmMainNav" aria-controls="tmMainNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <i class="fa fa-bars"></i>
+                    </button>
+
+                    <div class="collapse navbar-collapse tm-main-nav" id="tmMainNav">
+                        <ul class="nav nav-fill tm-main-nav-ul">
+                            <li class="nav-item"><a class="nav-link active" href="{{ url_for('home_page') }}">Home</a></li>
+                            <!-- <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">Search</a></li> -->
+                            <li class="nav-item"><a class="nav-link" href='{{ url_for("book_list_page", page_num=1, category="all") }}'>Booklist</a></li>
+                            <li class="nav-item"><a class="nav-link" href='{{ url_for( "addBook") }}'>Add Book</a></li>
+                            <!-- <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">Contact Us</a></li> -->
+                        </ul>
+                    </div>
+                </nav>
+                
+            </header>
+
+            
+{% extends "addbook.html" %}
+{% block content %}
+{% endblock %}            
+            
+            
+            <footer>
+                SUTD ISTD <span class="tm-current-year">2019</span>DB TEAM 
+            </footer>    
+        </div>
+        
+        <!-- load JS files -->
+        <script src="js/jquery-1.11.3.min.js"></script>         <!-- jQuery (https://jquery.com/download/) -->
+        <script src="js/popper.min.js"></script>                <!-- Popper (https://popper.js.org/) -->
+        <script src="js/bootstrap.min.js"></script>             <!-- Bootstrap (https://getbootstrap.com/) -->
+        <script>     
+       
+            $(document).ready(function(){
+                
+                // Update the current year in copyright
+                $('.tm-current-year').text(new Date().getFullYear());
+
+            });
+
+        </script>             
+
+</body>
+</html>

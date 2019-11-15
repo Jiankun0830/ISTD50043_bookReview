@@ -14,10 +14,11 @@ http://www.tooplate.com/view/2092-shelf
     <title>SHELF - Your Online Bookstore</title>
 
     <!-- load stylesheets -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">  <!-- Google web font "Open Sans" -->
-    <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">                <!-- Font Awesome -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">                                      <!-- Bootstrap style -->
-    <link rel="stylesheet" href="css/tooplate-style.css">                                   <!-- Templatemo style -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">  <!-- Google web font "Open Sans" --> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='tooplate-style.css') }}">		
+
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -32,8 +33,21 @@ http://www.tooplate.com/view/2092-shelf
         <div class="container">
             <header class="tm-site-header">
                 <div id="btn-group" >
-                    <a class="btn btn-primary" style="float: right; background-color:rgba(153, 115, 84, 0.959); border-color: rgba(153, 115, 84, 0.959) " href="{{ url_for('logout') }}"> Logout </a>
-                </div>
+			    
+			<a class="btn btn-primary" style="float: right; background-color:rgba(153, 115, 84, 0.959); border-color: rgba(153, 115, 84, 0.959) " href="{{ url_for('logout') }}"> Logout </a>
+               
+<button onclick="myFunction()">Copy Text</button>
+
+<script>
+function myFunction() {
+  document.getElementById("field2").value = document.getElementById("field1").value;
+}
+</script>
+
+
+
+
+		</div>
                 <h1 class="tm-site-name">Shelf</h1>
                 <p class="tm-site-description">Your Online Bookstore</p>
                 <br/>
