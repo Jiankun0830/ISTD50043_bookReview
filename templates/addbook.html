@@ -10,27 +10,25 @@
         <a id="navbarHeader" class="navbar-brand" href="{{ url_for('dashboard') }}"><img src="{{ url_for('static', filename='icon.png') }}" width="30" height="30" class="d-inline-block align-top" alt=""> BookSearch </a>
         <a class="btn btn-primary" href="{{ url_for('logout') }}"> Logout </a>
     </nav>
-    <body>
+    <body class="body-style-1">
         <div class="form-style-5">
             <form method="POST">
                 <fieldset>
                     <legend><span class="number">1</span>Book Info</legend>
                     <input type="text" name="field1" placeholder="ASIN *" required maxlength="10">
                     <input type="text" name="field2" placeholder="Book title *">
-                    <input type="text" name="field3" placeholder="Book brand *">
+                    <input type="text" name="field3" placeholder="Book brand">
                     <input type="text" name="field4" placeholder="Book price *">
-                    <input type="text" name="field5" placeholder="Image URL *">
-                    <input type="text" name="field10" placeholder="Categories *">
+                    <input type="text" name="field5" placeholder="Image URL">
+                    <input type="text" name="field10" placeholder="Categories">
 
                     <legend><span class="number">2</span>Related Books</legend>
-                    <input type="text" name="field6" placeholder="also bought">
-                    <input type="text" name="field7" placeholder="also viewed">
-                    <input type="text" name="field8" placeholder="buy after viewing">
-                    <input type="text" name="field9" placeholder="bought together">
-
-                    <label for="job">Categories:</label>     
+                    <input type="text" name="field6" placeholder="also bought, separate asin with space please">
+                    <input type="text" name="field7" placeholder="also viewed, separate asin with space please">
+                    <input type="text" name="field8" placeholder="buy after viewing, separate asin with space please">
+                    <input type="text" name="field9" placeholder="bought together, separate asin with space please">
                 </fieldset>
-                <input type="submit" name="submit_button" value="Apply" />
+                <input type="submit" name="submit_button" value="Submit" />
             </form>
         </div>
     </body>
