@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.button1 {
+  /* background-color: rgb(105, 79, 38); */
+  border: none;
+  color: rgb(46, 38, 24);
+  /* padding: 15px 32px; */
+  text-align: center;
+  text-decoration: none;
+  /* display: inline-block; */
+  font-size: 25px;
+  /* margin: 4px 2px; */
+  cursor: pointer;
+  position: absolute;
+    text-decoration: underline;
+    top: 47%;
+    left: 35%;
+}
+.button2 {
+  /* background-color: rgb(105, 79, 38); */
+  border: none;
+  color: rgb(46, 38, 24);
+  /* padding: 15px 32px; */
+  text-align: center;
+  text-decoration: none;
+  /* display: inline-block; */
+  font-size: 25px;
+  /* margin: 4px 2px; */
+  cursor: pointer;
+  position: absolute;
+    text-decoration: underline;
+    top: 50%;
+    left: 35%;
+}
+.h-style-1{
+    text-align: center;
+    color:rgb(46, 38, 24);
+    font-size: 68px;
+    position: absolute;
+    top: 25%;
+    left: 35%;
+}
+.body-style-2{
+  background-image: url(../img/header-new.jpg);
+}
+.box-style{
+  background-color: rgb(245, 228, 198, 0.6);
+  width: 300px;
+  font-size: 45px;
+  color:rgb(46, 38, 24);
+  /* border: 15px solid rgb(80, 52, 28); */
+  padding: 50px;
+  margin: 20px;
+  position: absolute;
+  top: 25%;
+  left: 30%;
+}
+</style>
+</head>
+<body class="body-style-2">
+        
+        <div class="box-style">
+            <p >Book added :)</p>
+        </div>
+        <a href="{{ url_for('addBook') }}" class="button1">add more</a>
+        <a href="{{ url_for('home_page') }}" class="button2">homepage</a>
+</body>
+</html>
+
+  
+
+</body>
+
+</html>
