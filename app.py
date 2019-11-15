@@ -50,14 +50,17 @@ def home_page():
     #mg.insert_query
     print("\n\n\n\n")
     print(book_list[0])
-    return render_template("home_page.html",results=book_list[:-3], catbook_list = cat_book_list)
+    is_admin = False
+    if 'user' in session: is_admin = session['isadmin'] 
+    return render_template("home_page.html",results=book_list[:-3], catbook_list = cat_book_list, isadmin=is_admin, in_session=('user' in session))
 
 
 #############################################
 
 @app.route("/")
 def home():
-    return render_template("dashboard.html")
+    # return render_template("dashboard.html")
+    return redirect(url_for('home_page'))
 
 
 @app.route("/bookinfo")
@@ -96,10 +99,10 @@ def searchpage():
 
 @app.route("/book/<asin>", methods=["GET", "POST"])
 def info(asin):
-    if 'user' not in session:
-        add_log(request.method, request.url, None, None, None, mg) 
-        return redirect(url_for('login'))
     if request.method == "POST":
+        if 'user' not in session:
+            add_log(request.method, request.url, None, None, None, mg) 
+            return redirect(url_for('login'))
         title = request.form.get("title")
         comment = request.form.get("comment")
         my_rating = request.form.get("rating")
@@ -199,6 +202,10 @@ def search():
 
 @app.route("/addbook", methods=['POST', 'GET'])
 def addBook():
+    if 'user' not in session:
+        add_log(request.method, request.url, None, None, None, mg) 
+        return redirect(url_for('login'))
+
     if request.method == 'POST':
         if request.form['submit_button'] == 'Submit':
             asin = request.form['field1']

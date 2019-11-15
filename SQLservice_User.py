@@ -29,7 +29,7 @@ class SQL_User_db:
         cursor.execute("select id,password,isadmin from accounts where username = (%(username)s)", {"username": username})
         res = cursor.fetchall()
         if res == []:
-            return False
+            return "fake_username", "fake_user_hash_password", None
         return res[0]
 
 if __name__ == "__main__":
