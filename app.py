@@ -77,6 +77,23 @@ def book_list_page(page_num, category):
     return render_template("booklist.html", results=book_list, page_numbers=page_numbers, categories=data)
 
 
+@app.route("/searchpage", methods=["POST"])
+def searchpage():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    keyword = request.form.get("searchpage")
+    keyword = ''.join([o for o in keyword if o not in string.punctuation])
+    print(keyword)
+    
+    return redirect(url_for( "book_list_page" , page_num=int(keyword), category="all"))
+
+    # book_list = mongoService.Mg().get_all_books(int(keyword), "all")
+    # page_numbers = list(range(1, 4000))
+    # add_log(request.method, request.url, "all_book_returned", session['userid'], session['isadmin'], mg)
+    # return render_template("booklist.html", results=book_list, page_numbers=page_numbers, categories=data)
+
+
+
 @app.route("/book/<asin>", methods=["GET", "POST"])
 def info(asin):
     if 'user' not in session:
@@ -177,6 +194,7 @@ def search():
     session['isadmin'] = 1 # delete this
     add_log(request.method, request.url, {"search_keyword": keyword, "results_length": len(results)}, session['userid'], session['isadmin'], mg)
     return render_template("search.html", results=results)
+
 
 
 @app.route("/addbook", methods=['POST', 'GET'])
