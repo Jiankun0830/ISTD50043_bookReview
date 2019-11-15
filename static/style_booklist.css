@@ -20,7 +20,7 @@
 
 /* On mouse-over, add a deeper shadow */
 .small_card:hover {
-  box-shadow: 0 8px 16px 0 rgba(71, 11, 11, 0.589);
+  box-shadow: 0 8px 16px 0 #343a40;
 }
 
 /* Add some padding inside the card container */
@@ -37,7 +37,7 @@
 } 
 
  .dropbtn { 
-    background-color: rgba(92, 62, 38);
+    background-color: #343a40;
     color: white; 
     padding: 16px; 
     font-size: 16px; 
@@ -80,5 +80,5 @@
    } 
 
    .dropdown:hover .dropbtn { 
-    background-color: rgba(65, 39, 18, 0.959);
+    background-color: #343a40;
   }
