@@ -2,7 +2,23 @@
 <html>
 <head>
 <style>
-.button {
+.button1 {
+  /* background-color: rgb(105, 79, 38); */
+  border: none;
+  color: rgb(46, 38, 24);
+  /* padding: 15px 32px; */
+  text-align: center;
+  text-decoration: none;
+  /* display: inline-block; */
+  font-size: 25px;
+  /* margin: 4px 2px; */
+  cursor: pointer;
+  position: absolute;
+    text-decoration: underline;
+    top: 47%;
+    left: 35%;
+}
+.button2 {
   /* background-color: rgb(105, 79, 38); */
   border: none;
   color: rgb(46, 38, 24);
@@ -48,7 +64,8 @@
         <div class="box-style">
             <p >Book added :)</p>
         </div>
-        <a href="{{ url_for('addBook') }}" class="button">add more</a>
+        <a href="{{ url_for('addBook') }}" class="button1">add more</a>
+        <a href="{{ url_for('home_page') }}" class="button2">homepage</a>
 </body>
 </html>
 
