@@ -50,14 +50,17 @@ def home_page():
     #mg.insert_query
     print("\n\n\n\n")
     print(book_list[0])
-    return render_template("home_page.html",results=book_list[:-3], catbook_list = cat_book_list, isadmin=session['isadmin'])
+    is_admin = False
+    if 'user' in session: is_admin = session['isadmin'] 
+    return render_template("home_page.html",results=book_list[:-3], catbook_list = cat_book_list, isadmin=is_admin, in_session=('user' in session))
 
 
 #############################################
 
 @app.route("/")
 def home():
-    return render_template("dashboard.html")
+    # return render_template("dashboard.html")
+    return redirect(url_for('home_page'))
 
 
 @app.route("/bookinfo")
