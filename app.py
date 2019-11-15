@@ -126,7 +126,7 @@ def dashboard():
 def login():
     if 'user' in session:
         add_log(request.method, request.url, None , session['userid'], session['isadmin'], mg)
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('home_page'))
 
     message = None
 
@@ -142,7 +142,7 @@ def login():
             session['userid'] = user_id
             session['isadmin'] = True if isadmin else False
             add_log(request.method, request.url, {"usern": usern, "passw_hash": passw_hash, "login_sucessful": True}, None, None, mg)
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('home_page'))
         else:
             message = "Username or password is incorrect."
             add_log(request.method, request.url, {"usern": usern, "passw_hash": passw_hash, "login_sucessful": False}, None, None, mg)
@@ -155,7 +155,7 @@ def logout():
     session.pop('userid', None)
     session.pop('isadmin', None)
     add_log(request.method, request.url, {"logout_sucessful": True}, None, None, mg)
-    return redirect(url_for('login'))
+    return redirect(url_for('home_page'))
 
 
 @app.route("/register", methods=["GET", "POST"])
