@@ -82,10 +82,10 @@ def book_list_page(page_num, category):
 
 @app.route("/book/<asin>", methods=["GET", "POST"])
 def info(asin):
-    if 'user' not in session:
-        add_log(request.method, request.url, None, None, None, mg) 
-        return redirect(url_for('login'))
     if request.method == "POST":
+        if 'user' not in session:
+            add_log(request.method, request.url, None, None, None, mg) 
+            return redirect(url_for('login'))
         title = request.form.get("title")
         comment = request.form.get("comment")
         my_rating = request.form.get("rating")
@@ -184,6 +184,10 @@ def search():
 
 @app.route("/addbook", methods=['POST', 'GET'])
 def addBook():
+    if 'user' not in session:
+        add_log(request.method, request.url, None, None, None, mg) 
+        return redirect(url_for('login'))
+
     if request.method == 'POST':
         if request.form['submit_button'] == 'Submit':
             asin = request.form['field1']
