@@ -1,4 +1,4 @@
-from flask import url_for, redirect, Flask, render_template, request, session
+from flask import send_from_directory,url_for, redirect, Flask, render_template, request, session
 from flask_session import Session
 import SQLservice
 import SQLservice_User
@@ -22,7 +22,38 @@ mg = mongoService.Mg()
 
 with open('categories.json') as f:
     data = json.load(f)
+#############yy edits#################################
+@app.route('/css/<path:path>')
+def send_css(path):
+    return send_from_directory('css', path)
+@app.route('/js/<path:path>')
+def send_js(path):
+    return send_from_directory('js', path)
+@app.route('/font-awesome-4.7.0/<path:path>')
+def send_node(path):
+    return send_from_directory('font-awesome-4.7.0', path)
+@app.route('/img/<path:path>')
+def send_img(path):
+    return send_from_directory('img', path)
+###################################################
+@app.route("/home_page")
+def home_page():
+    cats = ["Mystery, Thriller & Suspense","Science Fiction & Fantasy","Action & Adventure","Love & Romance","Business & Money"
+,"Health, Fitness & Dieting","Professional & Technical","Administration & Policy","Dictionaries & Thesauruses","Biographies & Memoirs"]
 
+    book_list = mongoService.Mg().get_bestsellers()
+
+    cat_book_list = []
+    for cat in cats:
+        top_in_cat = mongoService.Mg().get_highest_rank_books(cat)
+        cat_book_list.append(top_in_cat)
+    #mg.insert_query
+    print("\n\n\n\n")
+    print(book_list[0])
+    return render_template("home_page.html",results=book_list[:-3], catbook_list = cat_book_list)
+
+
+#############################################
 
 @app.route("/")
 def home():
@@ -151,7 +182,7 @@ def search():
 @app.route("/addbook", methods=['POST', 'GET'])
 def addBook():
     if request.method == 'POST':
-        if request.form['submit_button'] == 'Apply':
+        if request.form['submit_button'] == 'Submit':
             asin = request.form['field1']
             title = request.form['field2']
             brand = request.form['field3']
@@ -166,9 +197,13 @@ def addBook():
                         also_bought=alsoBought, also_viewed=alsoViewed, buy_after_viewing=buyAfterViewing,
                         bought_together=boughtTogether)
             add_log(request.method, request.url, {"book_information": {"title": titile, "price": price, "category": category}}, session['userid'], session['isadmin'], mg)
-            return render_template("addbook.html")
+            return render_template("addsuccess.html")
     else:
         return render_template("addbook.html")
+
+@app.route("/addsuccess", methods=['POST', 'GET'])
+def addsuccess():
+    return render_template("addsuccess.html")
 
 
     

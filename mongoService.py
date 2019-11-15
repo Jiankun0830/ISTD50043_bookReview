@@ -6,6 +6,14 @@ class Mg:
     def __init__(self):
         self.con = MongoClient("mongodb://localhost:27017/")["book_metadata"]["metadata"]
         self.log = MongoClient("mongodb://localhost:27017/")["book_log"]["log"]
+    
+    def get_bestsellers(self):
+        a=self.con.find({"salesRank":{'$exists': 1}})
+        #,{"asin":1,"salesRank":1}
+        ls=[]
+        for i in a:
+            ls.append(i)
+        return ls
 
     def get_all_info(self, param):
         a = self.con.find({"asin": param})
@@ -67,3 +75,29 @@ class Mg:
 
     def insert_query(self, query):
         self.log.insert_one(query)
+
+    def get_highest_rank_books(self, category):
+        categories = ["Mystery, Thriller & Suspense",
+                      "Science Fiction & Fantasy",
+                      "Action & Adventure",
+                      "Love & Romance",
+                      "Business & Money",
+                      "Health, Fitness & Dieting",
+                      "Professional & Technical",
+                      "Administration & Policy",
+                      "Dictionaries & Thesauruses",
+                      "Biographies & Memoirs"
+                      ]
+        if category not in categories:
+            raise Exception("No such category")
+        else:
+            temp = 'salesRank.'+category
+            a = self.con.find( {temp:{'$exists': True }} ).limit(10)
+            ls = [i for i in a]
+            ls.insert(0, category)
+            return ls
+    
+
+if __name__ == "__main__":
+    print(Mg().get_highest_rank_books("Dictionaries & Thesauruses"))
+

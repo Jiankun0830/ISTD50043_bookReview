@@ -1,23 +1,49 @@
-#wrapper {
-    margin: 50px auto 50px auto;
-    width: 500px;
-}
+/* #wrapper {
+    margin: 25px 25px 25px 25px;
+    /* width: 1000px; */
+    
+/* }
 
 #wrapper2 {
-    margin: 50px auto 50px auto;
+    margin: 25px 25px 25px 25px;
+} */ 
+
+.small_card {
+  /* Add shadows to create the "card" effect */
+  
+  transition: 0.3s;
+  width: 300px;
+  height: 400px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 4px 8px 0 rgba(97, 95, 95, 0.2);
 }
 
+/* On mouse-over, add a deeper shadow */
+.small_card:hover {
+  box-shadow: 0 8px 16px 0 rgba(71, 11, 11, 0.589);
+}
+
+/* Add some padding inside the card container */
+.small_container {
+  padding: 2px 16px;
+  width: 160px;
+  height: 20px;
+}
+
+
 .navbarx{ 
-    display: inline; 
+    display: inline;
+    padding: 1px; 
 } 
 
  .dropbtn { 
-    background-color: rgb(76, 127, 175); 
+    background-color: rgba(92, 62, 38);
     color: white; 
     padding: 16px; 
     font-size: 16px; 
     border: none; 
     cursor: pointer; 
+    border-radius: 5px;
   } 
 
    .dropdown { 
@@ -54,5 +80,5 @@
    } 
 
    .dropdown:hover .dropbtn { 
-    background-color: #3e4a8e; 
+    background-color: rgba(65, 39, 18, 0.959);
   }
