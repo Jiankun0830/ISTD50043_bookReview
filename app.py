@@ -157,7 +157,7 @@ def search():
 @app.route("/addbook", methods=['POST', 'GET'])
 def addBook():
     if request.method == 'POST':
-        if request.form['submit_button'] == 'Apply':
+        if request.form['submit_button'] == 'Submit':
             asin = request.form['field1']
             title = request.form['field2']
             brand = request.form['field3']
@@ -171,9 +171,13 @@ def addBook():
             mg.add_book(asin, title=title, price=price, imUrl=url, category=category, brand=brand,
                         also_bought=alsoBought, also_viewed=alsoViewed, buy_after_viewing=buyAfterViewing,
                         bought_together=boughtTogether)
-            return render_template("addbook.html")
+            return render_template("addsuccess.html")
     else:
         return render_template("addbook.html")
+
+@app.route("/addsuccess", methods=['POST', 'GET'])
+def addsuccess():
+    return render_template("addsuccess.html")
 
 
 if __name__ == "__main__":
