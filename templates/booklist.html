@@ -83,7 +83,6 @@
                         </div> -->
             {% endfor %}
 
-            <div>{{ name }}</div>
         </div>
 
     </div>
@@ -98,27 +97,18 @@
                     <a href="{{ url_for('info', asin=result.asin) }}"><img style="margin: auto; width:100%; height:300px; box-shadow: 0 4px 8px 0 rgba(136, 134, 134, 0.116);" src={{ result.imUrl }} >
                       <!-- <h4><b>John Doe</b></h4>  -->
                     </a>
-                      <p style="margin: auto; padding:10px; height: 40px; width:250px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{result.description}}</p> 
+                      <!-- <p style="margin: auto; padding:10px; height: 40px; width:250px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{result.description}}</p>  -->
                     
-                      <div style="height:50px; overflow-y: scroll;">
+                      <div style="height:75px; overflow-y: scroll; margin: 5px;">
                       {% for category_list in result.categories %}
                         {% for category in category_list[1:] %}
                       
-                            <span class="badge badge-light" >{{category}}</span>
+                            <a href='{{ url_for("book_list_page", page_num=1, category=category) }}'><span  class="badge badge-light" >{{category}}</span></a>
                         {% endfor %}
                       {% endfor %}
                     </div>
                   </div>
                 </div>
-                
-                    
-                        <!-- <div style="display: inline-flex; height: 250px;">
-                            <a style="display: inline;" > <img href="{{ url_for('info', asin=result.asin) }}" style="display: flex; width: 160px; height: 160px;"
-                                                                                    src={{ result.imUrl }}>
-                                <p style="display: inline-block; height: 40px; width:160px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{result.description}}</p>
-                                                                                
-                            </a>
-                        </div> -->
 
                 {% endfor %}
             </table>
