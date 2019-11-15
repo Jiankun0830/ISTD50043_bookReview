@@ -74,8 +74,29 @@ class Mg:
         pass
 
     def insert_query(self, query):
-        toInsert = {
-            'query': query,
-            'timestamp': time.time()
-        }
-        self.log.insert_one(toInsert)
+        self.log.insert_one(query)
+
+    def get_highest_rank_books(self, category):
+        categories = ["Mystery, Thriller & Suspense"
+,"Science Fiction & Fantasy"
+,"Action & Adventure"
+,"Love & Romance"
+,"Business & Money"
+,"Health, Fitness & Dieting"
+,"Professional & Technical"
+,"Administration & Policy"
+,"Dictionaries & Thesauruses"
+,"Biographies & Memoirs"
+]
+        if category not in categories:
+            raise Exception("No such category")
+        else:
+            temp = 'salesRank.'+category
+            a = self.con.find( {temp:{'$exists': True }} ).limit(10)
+            ls = [i for i in a]
+            ls.insert(0, category)
+            return ls
+    
+
+# print(Mg().get_highest_rank_books("Dictionaries & Thesauruses"))
+
