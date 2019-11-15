@@ -50,7 +50,7 @@ def home_page():
     #mg.insert_query
     print("\n\n\n\n")
     print(book_list[0])
-    return render_template("home_page.html",results=book_list[:-3], catbook_list = cat_book_list)
+    return render_template("home_page.html",results=book_list[:-3], catbook_list = cat_book_list, isadmin=session['isadmin'])
 
 
 #############################################
