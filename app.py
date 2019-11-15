@@ -36,11 +36,19 @@ def send_img(path):
 ###################################################
 @app.route("/home_page")
 def home_page():
+    cats = ["Mystery, Thriller & Suspense","Science Fiction & Fantasy","Action & Adventure","Love & Romance","Business & Money"
+,"Health, Fitness & Dieting","Professional & Technical","Administration & Policy","Dictionaries & Thesauruses","Biographies & Memoirs"]
+
     book_list = mongoService.Mg().get_bestsellers()
+
+    cat_book_list = []
+    for cat in cats:
+        top_in_cat = mongoService.Mg().get_highest_rank_books(cat)
+        cat_book_list.append(top_in_cat)
     #mg.insert_query
     print("\n\n\n\n")
     print(book_list[0])
-    return render_template("home_page.html",results=book_list[:-3])
+    return render_template("home_page.html",results=book_list[:-3], catbook_list = cat_book_list)
 
 
 #############################################

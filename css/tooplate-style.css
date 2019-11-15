@@ -81,7 +81,7 @@ button:focus { outline: none; }
 
 .container {
 	background-color: white;
-    max-width: 1120px;
+    max-width: 1500px;
     padding: 0;
     margin: 0 auto;  
 }
@@ -100,9 +100,9 @@ button:focus { outline: none; }
 .tm-site-description { font-size: 1.4rem; }
 
 .tm-site-header {
-	background: url('../img/header-01.jpg') no-repeat;
+	height: 500px;
+	background: url('../img/header-new.jpg') no-repeat;
 	background-size: cover;
-	height: 300px;
 	padding: 60px 80px;
 	position: relative;
 	border-bottom: 10px solid #076599;
@@ -111,6 +111,7 @@ button:focus { outline: none; }
 .tm-main-nav-ul { flex-flow: column; }
 
 .tm-main-nav-container {
+	padding: 10px;
 	position: fixed;
     width: 100%;
 	top: 5px;
@@ -317,13 +318,17 @@ footer a:hover {
 }
 
 @media (min-width: 992px) {
-	.tm-site-header { height: 400px; }
+	.tm-site-header { height: 500px; }
 	.tm-main-nav .nav-link { padding: 15px 20px; }
 	.tm-gallery { max-width: none; }
 }
-
+@media (min-width: 992px){
+	.container {
+	max-width: 1500px;
+	}
+}
 @media (min-width: 1200px) {
-	.container { max-width: 1120px; }
+	/* .container { max-width: 1500px; } */
 	.tm-site-header { height: 500px; }
 	.tm-main-nav .nav-link { padding: 25px; }	
 }
