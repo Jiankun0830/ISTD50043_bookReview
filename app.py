@@ -1,4 +1,4 @@
-from flask import send_from_directory, url_for, redirect, Flask, render_template, request, session
+from flask import send_from_directory,url_for, redirect, Flask, render_template, request, session
 from flask_session import Session
 import SQLservice
 import SQLservice_User
@@ -36,6 +36,7 @@ def home_page():
     for cat in cats:
         top_in_cat = mongoService.Mg().get_highest_rank_books(cat)
         cat_book_list.append(top_in_cat)
+    #mg.insert_query
     print("\n\n\n\n")
     print(book_list[0])
     is_admin = False
@@ -84,6 +85,7 @@ def searchpage():
     # page_numbers = list(range(1, 4000))
     # add_log(request.method, request.url, "all_book_returned", session['userid'], session['isadmin'], mg)
     # return render_template("booklist.html", results=book_list, page_numbers=page_numbers, categories=data)
+
 
 
 @app.route("/book/<asin>", methods=["GET", "POST"])
@@ -200,6 +202,7 @@ def search():
     return render_template("search.html", results=results)
 
 
+
 @app.route("/addbook", methods=['POST', 'GET'])
 def addBook():
     if 'user' not in session:
@@ -234,5 +237,6 @@ def addsuccess():
     return render_template("addsuccess.html")
 
 
+    
 if __name__ == "__main__":
     app.run()
