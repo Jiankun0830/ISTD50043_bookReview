@@ -169,7 +169,7 @@ def register():
             session['userid'] = user_id
             session['isadmin'] = False
             add_log(request.method, request.url, {"usern": usern, "passw_hash": passw_hash, "register_sucessful": True}, None, None, mg)
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('home_page'))
         # TODO: Save reviewerID in session so that can be added to review DB
         else:
             message = "Username already exists."
