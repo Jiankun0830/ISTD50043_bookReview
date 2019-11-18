@@ -56,13 +56,14 @@ def book_list():
 
 @app.route("/bookinfo/<page_num>/<category>")
 def book_list_page(page_num, category):
-    if 'user' not in session:
-        return redirect(url_for('login'))
+    #if 'user' not in session:
+    #    return redirect(url_for('login'))
     page_num = int(page_num)
     book_list = mongoService.Mg().get_all_books(page_num, category)
     # TODO: what is this for?
     page_numbers = list(range(1, 4000))
-    add_log(request.method, request.url, "all_book_returned", session['userid'], session['isadmin'], mg)
+    if 'user' in session:
+        add_log(request.method, request.url, "all_book_returned", session['userid'], session['isadmin'], mg)
     return render_template("booklist.html", results=book_list, page_numbers=page_numbers, categories=data)
 
 
