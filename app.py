@@ -1,4 +1,4 @@
-from flask import send_from_directory,url_for, redirect, Flask, render_template, request, session
+from flask import send_from_directory, url_for, redirect, Flask, render_template, request, session
 from flask_session import Session
 import SQLservice
 import SQLservice_User
@@ -36,9 +36,6 @@ def home_page():
     for cat in cats:
         top_in_cat = mongoService.Mg().get_highest_rank_books(cat)
         cat_book_list.append(top_in_cat)
-    #mg.insert_query
-    print("\n\n\n\n")
-    print(book_list[0])
     is_admin = False
     if 'user' in session: is_admin = session['isadmin']
     return render_template("home_page.html", results=book_list[:-3], catbook_list=cat_book_list, isadmin=is_admin,
@@ -85,7 +82,6 @@ def searchpage():
     # page_numbers = list(range(1, 4000))
     # add_log(request.method, request.url, "all_book_returned", session['userid'], session['isadmin'], mg)
     # return render_template("booklist.html", results=book_list, page_numbers=page_numbers, categories=data)
-
 
 
 @app.route("/book/<asin>", methods=["GET", "POST"])
@@ -197,15 +193,17 @@ def search():
     keyword = ''.join([o for o in keyword if o not in string.punctuation])
     results = mg.search_book(keyword)
     session['isadmin'] = 1  # delete this
-    add_log(request.method, request.url, {"search_keyword": keyword, "results_length": len(results)}, session['userid'],
-            session['isadmin'], mg)
+    if 'user' in session:
+        add_log(request.method, request.url, {"search_keyword": keyword, "results_length": len(results)},
+                session['userid'], session['isadmin'], mg)
     return render_template("search.html", results=results)
-
 
 
 @app.route("/addbook", methods=['POST', 'GET'])
 def addBook():
-    if 'user' not in session:
+    is_admin = False
+    if 'user' in session: is_admin = session['isadmin']
+    if not is_admin:
         add_log(request.method, request.url, None, None, None, mg)
         return redirect(url_for('login'))
 
@@ -225,7 +223,7 @@ def addBook():
                         also_bought=alsoBought, also_viewed=alsoViewed, buy_after_viewing=buyAfterViewing,
                         bought_together=boughtTogether)
             add_log(request.method, request.url,
-                    {"book_information": {"title": titile, "price": price, "category": category}}, session['userid'],
+                    {"book_information": {"title": title, "price": price, "category": category}}, session['userid'],
                     session['isadmin'], mg)
             return render_template("addsuccess.html")
     else:
@@ -237,6 +235,5 @@ def addsuccess():
     return render_template("addsuccess.html")
 
 
-    
 if __name__ == "__main__":
     app.run()
