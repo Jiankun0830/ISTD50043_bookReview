@@ -2,6 +2,10 @@
 
 <head>
     <title>Info </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style_booklist.css') }}">
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
         crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -17,11 +21,20 @@
     <!-- Latest compiled JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
-<nav class="navbar navbar-default navbar-fixed-top">
-    <a id="navbarHeader" class="navbar-brand" href="{{ url_for('dashboard') }}">
-        <img src="{{ url_for('static', filename='icon.png') }}" width="30" height="30" class="d-inline-block align-top" alt=""> BookSearch </a>
-    <a class="btn btn-primary" href="{{ url_for('logout') }}"> Logout </a>
+<nav class="navbar fixed-top navbar-dark bg-dark">
+    <a id="navbarHeader" class="navbar-brand" href="{{ url_for('home_page') }}">
+        <img src="{{ url_for('static', filename='books.png') }}" width="30" height="30" class="d-inline-block align-top" alt=""> GoodShelf </a>
+        <div style="margin-right: auto; height: 40px;">
+            <form action="{{ url_for('search') }}" method="post" style="display: inline-flex;">
+                <input class="form-control" style="width:350px;" name="searchbox" type="text" placeholder="Search Title, ASIN, Catogories, Author, Brand">
+                <!-- <button type="submit" style="margin-left: 3px;" class="btn btn-light" > Search</button> -->
+            </form>
+        </div>
+
+
+        <a class="btn btn-light" href="{{ url_for('logout') }}"> Logout </a>
 </nav>
+
 <body>
     <div class="container" style="margin: 50px auto 50px auto;">
         <div class="row">
