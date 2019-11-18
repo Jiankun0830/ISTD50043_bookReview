@@ -22,20 +22,7 @@ mg = mongoService.Mg()
 
 with open('categories.json') as f:
     data = json.load(f)
-#############yy edits#################################
-@app.route('/css/<path:path>')
-def send_css(path):
-    return send_from_directory('css', path)
-@app.route('/js/<path:path>')
-def send_js(path):
-    return send_from_directory('js', path)
-@app.route('/font-awesome-4.7.0/<path:path>')
-def send_node(path):
-    return send_from_directory('font-awesome-4.7.0', path)
-@app.route('/img/<path:path>')
-def send_img(path):
-    return send_from_directory('img', path)
-###################################################
+
 @app.route("/home_page")
 def home_page():
     cats = ["Mystery, Thriller & Suspense","Science Fiction & Fantasy","Action & Adventure","Love & Romance","Business & Money"
@@ -54,9 +41,6 @@ def home_page():
     if 'user' in session: is_admin = session['isadmin'] 
     return render_template("home_page.html",results=book_list[:-3], catbook_list = cat_book_list, isadmin=is_admin, in_session=('user' in session))
 
-
-#############################################
-
 @app.route("/")
 def home():
     # return render_template("dashboard.html")
@@ -65,6 +49,8 @@ def home():
 
 @app.route("/bookinfo")
 def book_list():
+    if 'user' not in session:
+        return redirect(url_for('login'))
     return str(mg.get_all())
 
 
@@ -99,6 +85,10 @@ def searchpage():
 
 @app.route("/book/<asin>", methods=["GET", "POST"])
 def info(asin):
+    if request.method == "GET":
+        if 'user' not in session:
+            return redirect(url_for('login'))
+
     if request.method == "POST":
         if 'user' not in session:
             add_log(request.method, request.url, None, None, None, mg) 
