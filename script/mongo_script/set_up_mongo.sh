@@ -18,3 +18,4 @@ sudo sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
 sudo service mongod restart
 rm mongo_util.js
 rm assign_best_seller.py
+echo "Finished setting up mongoDB"
