@@ -1,15 +1,18 @@
 # SUTD 50.043 Database group project for online book-self web application
 
+## Live Demo
+http://34.203.234.152/home_page
+
 ## Setup
 ### MongoDB AWS EC2 server
 1. configure the security group, allowing other devices to access mongo db on this instance.
-        1. Go to your aws console to see running ec2 instances, find your ec2 instance there. Under the Security Groups, click launch-wizard. You will be brought to the page to configure security groups.
-        2. At the bottom of your page, go to Inbound->Edit->Add Rule
-        3. Set the following
-                Type: Custom TCP Rule
-                Port Range: 27017
-                Source: Anywhere
-        4. Click Save.
+- - Go to your aws console to see running ec2 instances, find your ec2 instance there. Under the Security Groups, click launch-wizard. You will be brought to the page to configure security groups.
+- - At the bottom of your page, go to `Inbound->Edit->Add Rule`
+- - Set the following \
+                Type: Custom TCP Rule \
+                Port Range: 27017 \
+                Source: Anywhere \
+- - Click Save.
 
 2. set up your mongodb.
 ```
@@ -21,7 +24,6 @@ wget --output-document=set_up_mongo.sh https://raw.githubusercontent.com/Jiankun
 ## run the setup script
 bash ./set_up_mongo.sh
 rm set_up_mongo.sh
-echo "Finished setting up mongoDB"
 ```
 
 ### Setting up mysql on a new EC2 instance
@@ -33,11 +35,9 @@ Instruction for using our automated script for mysql's installation, data downlo
 sudo apt-get update
 sudo apt-get install wget
 
-echo "setting up mysql"
 wget --output-document=new_instance_setup_sql.sh https://raw.githubusercontent.com/Jiankun0830/ISTD50043_bookReview/release/0.1.0/script/mysql_script/new_instance_setup_sql.sh?token=AKWIWQVCR3OQUX6WTMR2WUK53VE7K
 bash ./new_instance_setup_sql.sh
 rm new_instance_setup_sql.sh
-echo "Finished setting up mysql"
 ```
 
 ### Setting up webserver
