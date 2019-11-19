@@ -10,7 +10,7 @@
             crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stars.css') }}">
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stars.css') }}"> -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='review.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
@@ -55,15 +55,15 @@
                         <form action="{{ url_for('info', asin=book_info.asin) }}" method="post">
                             <fieldset>
                                 <input type="radio" id="st1" name="rating" value="5" checked="checked" />
-                                <label for="st1"></label>
+                                <label for="st1">1  </label>
                                 <input type="radio" id="st2" name="rating" value="4" />
-                                <label for="st2"></label>
+                                <label for="st2">2  </label>
                                 <input type="radio" id="st3" name="rating" value="3" />
-                                <label for="st3"></label>
+                                <label for="st3">3  </label>
                                 <input type="radio" id="st4" name="rating" value="2" />
-                                <label for="st4"></label>
+                                <label for="st4">4  </label>
                                 <input type="radio" id="st5" name="rating" value="1" />
-                                <label for="st5"></label>
+                                <label for="st5">5  </label>
                             </fieldset>
                             <textarea class="form-control" name="title" rows="1" placeholder="Title" required maxlength="20"></textarea>
                             <textarea class="form-control" name="comment" rows="3" placeholder="Comment here ..." required maxlength="150"></textarea>

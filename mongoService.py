@@ -4,8 +4,10 @@ import time
 
 class Mg:
     def __init__(self):
-        self.con = MongoClient("mongodb://localhost:27017/")["book_metadata"]["metadata"]
-        self.log = MongoClient("mongodb://localhost:27017/")["book_log"]["log"]
+        self.con = MongoClient("mongodb://db_grp7_test:1234567@3.234.153.108/book_log")["book_metadata"]["metadata"]
+        self.log = MongoClient("mongodb://db_grp7_test:1234567@3.234.153.108/book_log")["book_log"]["log"]
+        # self.con = MongoClient("mongodb://localhost:27017/")["book_metadata"]["metadata"]
+        # self.log = MongoClient("mongodb://localhost:27017/")["book_log"]["log"]
     
     def get_bestsellers(self):
         a=self.con.find({"salesRank":{'$exists': 1}})
