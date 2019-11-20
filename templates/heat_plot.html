@@ -16,12 +16,15 @@
         </div>
         <a class="btn btn-light" href="{{ url_for('logout') }}"> Logout </a>
 </nav>
-<h1>\n\n</h1>
-<h3>log frequency over the last month</h3>
-    <body class="body-style-1">
-<!--<img src='img/my_plot.png'>-->
-	    <img src='img/plot_trend.png'> 
-    </body>
+<h1>\n\n\n<h1>
+<h2>Log Distribution in a Week</h2>
+    
+<body class="body-style-1">
+	    {% extends 'log_plot1.html' %}	
+	    <h4>week.tsv: most recent week record distribution</h4>
+	    <h4>all.tsv: all log record distribution</h4>
+	    <h4>demo.tsv: what I hope to show </h4>
+</body>
 </html>
 
 

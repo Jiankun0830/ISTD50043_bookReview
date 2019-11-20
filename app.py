@@ -31,14 +31,15 @@ def send_data(path):
 @app.route("/plot")
 def plot():
     # return render_template("dashboard.html")
-    mg.plot_test()
+    #mg.plot_test()
+    mg.plot_trend()
     return render_template("plot.html")
 
 @app.route("/plot1")
 def plot1():
     # return render_template("dashboard.html")
     #mg.plot_test()
-    return render_template("log_plot1.html")
+    return render_template("heat_plot.html")
 
 ####################
 @app.route("/home_page")
