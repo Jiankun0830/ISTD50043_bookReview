@@ -23,7 +23,24 @@ mg = mongoService.Mg()
 with open('categories.json') as f:
     data = json.load(f)
 
+######yy edits plot##############
+@app.route('/data/<path:path>')
+def send_data(path):
+    return send_from_directory('data', path)
 
+@app.route("/plot")
+def plot():
+    # return render_template("dashboard.html")
+    mg.plot_test()
+    return render_template("plot.html")
+
+@app.route("/plot1")
+def plot1():
+    # return render_template("dashboard.html")
+    #mg.plot_test()
+    return render_template("log_plot1.html")
+
+####################
 @app.route("/home_page")
 def home_page():
     cats = ["Mystery, Thriller & Suspense", "Science Fiction & Fantasy", "Action & Adventure", "Love & Romance",
