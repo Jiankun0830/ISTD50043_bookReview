@@ -33,7 +33,14 @@ def plot():
     # return render_template("dashboard.html")
     #mg.plot_test()
     mg.plot_trend()
-    return render_template("plot.html")
+    mg.get_highest_viewed_books()
+    cat_book_list = mongoService.Mg().get_highest_viewed_books()
+    print(cat_book_list)
+    is_admin = False
+
+    if 'user' in session: is_admin = session['isadmin']
+    return render_template("heat_plot.html", catbook_list=cat_book_list, isadmin=is_admin,
+                           in_session=('user' in session))
 
 @app.route("/plot1")
 def plot1():

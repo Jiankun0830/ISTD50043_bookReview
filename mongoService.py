@@ -9,7 +9,7 @@ import os
 #for date plot
 import matplotlib.dates as mdates
 import numpy as np
-
+from collections import Counter
 class Mg:
     def __init__(self):
         self.con = MongoClient("mongodb://db_grp7_test:1234567@3.234.153.108/book_log")["book_metadata"]["metadata"]
@@ -113,6 +113,18 @@ class Mg:
                     t1=time.strftime('%A %H', time.localtime(t)).split(" ")
                     tsv_writer.writerow([week_dic[t1[0]],t1[1],1])
 
+    def get_highest_viewed_books(self, k=5):
+        all_query = list(self.log.find({}, {'query':1}))
+        asins = [d['query'].split('/')[-1] for d in all_query if d['query'].split('/')[-1].startswith('B')]
+        print([item for item, c in Counter(asins).most_common(k)])
+        print('a')
+        return  [item for item, c in Counter(asins).most_common(k)]
+   
+    def get_highest_view_books_by_user(self, userid, k=5):
+        all_query = list(self.log.find({'userid':userid}, {'query':1}))
+        asins = [d['query'].split('/')[-1] for d in all_query if d['query'].split('/')[-1].startswith('B')]
+        return [item for item, c in Counter(asins).most_common(k)]
+
     #################################
 
     def get_bestsellers(self):
@@ -184,6 +196,11 @@ class Mg:
     def insert_query(self, query):
         self.log.insert_one(query)
 
+    def get_book_log(self):
+        self.log.find({})
+
+
+        
     def get_highest_rank_books(self, category):
         categories = ["Mystery, Thriller & Suspense",
                       "Science Fiction & Fantasy",
