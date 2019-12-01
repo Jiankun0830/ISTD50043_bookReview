@@ -20,7 +20,8 @@ http://34.203.234.152/home_page
 sudo apt-get update
 sudo apt-get install wget
 ## download the setup script
-wget --output-document=set_up_mongo.sh https://raw.githubusercontent.com/Jiankun0830/ISTD50043_bookReview/release/0.1.0/script/mongo_script/set_up_mongo.sh?token=AJBKBGV7UH5LDQ5JDPFJ43C53VDLM
+wget --output-document=set_up_mongo.sh 
+https://raw.githubusercontent.com/Jiankun0830/ISTD50043_bookReview/release/0.1.0/script/mongo_script/set_up_mongo.sh?token=AKWIWQU2CUY3D37H24FJT5K55UBA4
 ## run the setup script
 bash ./set_up_mongo.sh
 rm set_up_mongo.sh
