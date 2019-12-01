@@ -1,10 +1,12 @@
 import mysql.connector as db
+import os
 
 DATABASE = "accounts_info"
+MYSQL_IP = os.environ['LC_MYSQL_IP']
 
 class SQL_User_db:
     def __init__(self):
-        self.conn = db.connect(host="44.225.151.94", user="root", db=DATABASE)
+        self.conn = db.connect(host=MYSQL_IP, user="root", db=DATABASE)
 
     def describe(self):
         cursor = self.conn.cursor()
