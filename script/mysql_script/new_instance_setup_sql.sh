@@ -21,6 +21,6 @@ sudo systemctl restart mysql
 # nohup sudo mysqld_safe --skip-grant-tables &
 
 # download bash cript for SQL set up
-wget --output-document=load_sql_db.sh https://raw.githubusercontent.com/Jiankun0830/ISTD50043_bookReview/release/0.1.0/script/mysql_script/load_sql_db.sh?token=AKWIWQS5QWACYWKI26ZFTPS53VBHI
+wget --output-document=load_sql_db.sh https://raw.githubusercontent.com/Jiankun0830/ISTD50043_bookReview/release/0.1.0/script/mysql_script/load_sql_db.sh?token=AKWIWQWYYV4TZZMGBINRZKS55T7E2
 chmod +x load_sql_db.sh
 ./load_sql_db.sh
