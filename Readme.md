@@ -36,7 +36,8 @@ Instruction for using our automated script for mysql's installation, data downlo
 sudo apt-get update
 sudo apt-get install wget
 
-wget --output-document=new_instance_setup_sql.sh https://raw.githubusercontent.com/Jiankun0830/ISTD50043_bookReview/release/0.1.0/script/mysql_script/new_instance_setup_sql.sh?token=AKWIWQVCR3OQUX6WTMR2WUK53VE7K
+wget --output-document=new_instance_setup_sql.sh 
+https://raw.githubusercontent.com/Jiankun0830/ISTD50043_bookReview/release/0.1.0/script/mysql_script/new_instance_setup_sql.sh?token=AKWIWQUVMM4H3HYLMCUQXK255UBJ2
 bash ./new_instance_setup_sql.sh
 rm new_instance_setup_sql.sh
 ```
