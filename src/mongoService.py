@@ -10,13 +10,18 @@ import os
 import matplotlib.dates as mdates
 import numpy as np
 from collections import Counter
+MONGO_IP = os.environ['LC_MONGO_IP']
+
 class Mg:
     def __init__(self):
-        self.con = MongoClient("mongodb://db_grp7_test:1234567@3.234.153.108/book_log")["book_metadata"]["metadata"]
-        self.log = MongoClient("mongodb://db_grp7_test:1234567@3.234.153.108/book_log")["book_log"]["log"]
-        # self.con = MongoClient("mongodb://localhost:27017/")["book_metadata"]["metadata"]
-        # self.log = MongoClient("mongodb://localhost:27017/")["book_log"]["log"]
-    
+        #self.con = MongoClient("mongodb://db_grp7_test:1234567@3.234.153.108/book_log")["book_metadata"]["metadata"]
+        #self.log = MongoClient("mongodb://db_grp7_test:1234567@3.234.153.108/book_log")["book_log"]["log"]
+	mongo_addr = "mongodb://db_grp7_test:1234567@"+MONGO_IP+"/book_log"
+        self.con = MongoClient(mongo_addr)["book_metadata"]["metadata"]
+        self.log = MongoClient(mongo_addr)["book_log"]["log"]
+
+
+     
     ########yy untils####################
     def mongo_to_df(self,query={}):
         a=self.log.find(query)
