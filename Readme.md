@@ -1,7 +1,7 @@
 # SUTD 50.043 Database group project for online book-self web application
 
 ## Live Demo
-http://34.203.234.152/home_page
+http://34.203.234.152/home_page \
 http://44.229.150.14/home_page
 
 ## Setup
