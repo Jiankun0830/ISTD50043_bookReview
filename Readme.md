@@ -2,6 +2,7 @@
 
 ## Live Demo
 http://34.203.234.152/home_page
+http://44.229.150.14/home_page
 
 ## Setup
 ### MongoDB AWS EC2 server
