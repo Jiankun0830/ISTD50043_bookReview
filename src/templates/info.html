@@ -1,0 +1,128 @@
+<html>
+
+<head>
+
+ <title>Info </title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style_booklist.css') }}">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+            crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <!-- <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='stars.css') }}"> -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='review.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<nav class="navbar fixed-top navbar-dark bg-dark">
+    <a id="navbarHeader" class="navbar-brand" href="{{ url_for('home_page') }}">
+        <img src="{{ url_for('static', filename='books.png') }}" width="30" height="30" class="d-inline-block align-top" alt=""> GoodShelf </a>
+        <div style="margin-right: auto; height: 40px;">
+            <form action="{{ url_for('search') }}" method="post" style="display: inline-flex;">
+                <input class="form-control" style="width:350px;" name="searchbox" type="text" placeholder="Search Title, ASIN, Catogories, Author, Brand">
+{#                <button type="submit" style="margin-left: 3px;" class="btn btn-light" > Search</button>#}
+            </form>
+        </div>
+
+
+        <a class="btn btn-light" href="{{ url_for('logout') }}"> Logout </a>
+</nav>
+
+<body>
+    <div class="container" style="margin: 50px auto 50px auto;">
+        <div class="row">
+            <div class="col-auto">
+                <div class="card" style="width: 18rem;">
+                  <img class="card-img-top" src={{book_info.imUrl}} alt="Card image cap">
+                    <div class="card-body">
+                        <h6 class="card-title"> <b> Title </b> </h6>
+                        <p class="card-text">{{ book_info.title }}</p>
+                        <h6 class="card-title"> <b> Price </b> </h6>
+                        <p class="card-text">{{ book_info.price }}</p>
+                        <h6 class="card-title"> <b> ASIN </b> </h6>
+                        <p class="card-text">{{ book_info.asin }}</p>
+                        <h6 class="card-title"> <b> Overall Rating </b> </h6>
+                        <p class="card-text">{{ rating }} <small>/ 5</small></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="card">
+                    <div class="card-header text-center">Reviews</div>
+                    <div class="card-body">
+                        <form action="{{ url_for('info', asin=book_info.asin) }}" method="post">
+                            <fieldset>
+                                <input type="radio" id="st1" name="rating" value="5" checked="checked" />
+                                <label for="st1">5</label>
+                                <input type="radio" id="st2" name="rating" value="4" />
+                                <label for="st2">4</label>
+                                <input type="radio" id="st3" name="rating" value="3" />
+                                <label for="st3">3</label>
+                                <input type="radio" id="st4" name="rating" value="2" />
+                                <label for="st4">2</label>
+                                <input type="radio" id="st5" name="rating" value="1" />
+                                <label for="st5">1</label>
+                            </fieldset>
+                            <textarea class="form-control" name="title" rows="1" placeholder="Title" required maxlength="20"></textarea>
+                            <textarea class="form-control" name="comment" rows="3" placeholder="Comment here ..." required maxlength="150"></textarea>
+                            <br>
+                            <button class="btn btn-primary" type="submit" style="float: right; background-color: rgba(92, 62, 38, 0.959); border-color: rgba(92, 62, 38, 0.959)">Submit</button>
+                            <br>
+                            <br>
+                        </form>
+                        <table class="table table-striped">
+                            <thead>
+                                <!-- <tr>
+                                    <th> User </th>
+                                    <th> Comment </th>
+                                    <th> Rating </th>
+                                    <th> Time </th>
+                                </tr> -->
+                            </thead>
+                            <tbody>
+                                {% for review in reviews %}
+                                <div class="review-block">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <img src="https://sophosnews.files.wordpress.com/2014/04/anonymous-250.jpg" width="50" height="50" class="img-rounded">
+                                            <div class="review-block-name"><a href="#">{{ review[0] }}</a></div>
+                                            <div class="review-block-date">{{ review[3] }}</div>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <div class="review-block-rate">
+                                                {% for i in range(review[2])%}
+                                                    <button type="button" class="btn btn-warning btn-xs" aria-label="Left Align">
+                                                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                                    </button>
+                                                {% endfor %}
+                                                {% for i in range(5 - review[2])%}
+                                                    <button type="button" class="btn btn-default btn-grey btn-xs" aria-label="Left Align">
+                                                        <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                                                    </button>
+                                                {% endfor %}
+                                            </div>
+                                            <div class="review-block-title">{{ review[1] }}</div>
+                                            <div class="review-block-description">{{ review[4] }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <tr>
+                                    <td> {{ review[0] }} </td>
+                                    <td> {{ review[1] }} </td>
+                                    <td> {{ review[2] }} </td>
+                                    <td> {{ review[3] }} </td>
+                                </tr> -->
+                                {% endfor %}
+                        </tbody>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

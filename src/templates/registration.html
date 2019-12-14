@@ -1,0 +1,52 @@
+<html>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">  <!-- Google web font "Open Sans" -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='tooplate-style.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head> 
+    
+        <nav class="navbar fixed-top navbar-dark bg-dark">
+    <a id="navbarHeader" class="navbar-brand" href="{{ url_for('home_page') }}">
+        <img src="{{ url_for('static', filename='books.png') }}" width="30" height="30" class="d-inline-block align-top" alt=""> GoodShelf </a>
+        <div style="margin-right: auto; height: 40px;">
+            <form action="{{ url_for('search') }}" method="post" style="display: inline-flex;">
+                <input class="form-control" style="width:350px;" name="searchbox" type="text" placeholder="Search Title, ASIN, Catogories, Author, Brand">
+                <!-- <button type="submit" style="margin-left: 3px;" class="btn btn-light" > Search</button> -->
+            </form>
+        </div>
+
+
+        <a class="btn btn-light" href="{{ url_for('login') }}"> Login </a>
+</nav>
+
+    <body>
+      \n\n
+	    <div class="container">
+
+            <div id="wrapper">
+            {% if message is not none %}
+            <div class="alert alert-primary text-center" role="alert">
+                 {{ message }}
+            </div>
+            {% endif %}
+            <div class="card text-center">
+                <div class="card-header">Register</div>
+                <div class="card-body">
+                    <form action="{{ url_for('register') }}" method="post">
+                        <input class="form-control" name="username" type="text" placeholder="username" required maxlength="30">
+                        <br>
+                        <input class="form-control" name="password" type="password" placeholder="password" required maxlength="30"> 
+                        <br>
+                        <button class="btn btn-primary" type="submit" style="width:100%;">Enter</button>
+                    </form>
+                    
+                </div>
+            </div>
+            </div>
+        </div>
+    </body>
+</html>

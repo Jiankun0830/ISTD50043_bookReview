@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>GoodShelf - Your Online Bookstore</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">  <!-- Google web font "Open Sans" --> 
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='tooplate-style.css') }}">		
+</head>
+
+<body>    
+    <div class="container">
+        <header class="tm-site-header">
+            <div id="btn-group" >
+                {% if in_session %}
+                <a class="btn btn-primary" style="float: right; background-color:rgba(153, 115, 84, 0.959); border-color: rgba(153, 115, 84, 0.959) " href="{{ url_for('logout') }}"> Logout </a>
+                {%else%}
+                <a class="btn btn-primary" style="float: right; background-color:rgba(153, 115, 84, 0.959); border-color: rgba(153, 115, 84, 0.959) " href="{{ url_for('login') }}"> Login </a>
+                {% endif %}
+            </div>
+            <h1 class="tm-site-name">Shelf</h1>
+            <p class="tm-site-description">Your Online Bookstore</p>
+            <br/>
+
+            <div class="container" style="width:75%; background-color: rgba(255, 255, 255, 0.384); border-radius: 10px;">
+                <div class="card text-center" id="wrapper" style=" background-color: rgba(255, 255, 255, 0.384); border-radius: 10px;">
+                    <div class="card-body" >
+                        <form action="{{ url_for('search') }}" method="post">
+                            <input class="form-control" name="searchbox" type="text" placeholder="Title, ASIN, Catogories, Author, Brand">
+                            <br>
+                            <button type="submit" class="btn btn-primary" style="width:75%; background-color:rgba(92, 62, 38, 0.959); border-color: rgba(92, 62, 38, 0.959)"> Search</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="navbar navbar-expand-md tm-main-nav-container">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#tmMainNav" aria-controls="tmMainNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fa fa-bars"></i>
+                </button>
+
+                <div class="collapse navbar-collapse tm-main-nav" id="tmMainNav">
+                    <ul class="nav nav-fill tm-main-nav-ul">
+                        <li class="nav-item"><a class="nav-link active" href="{{ url_for('home_page') }}">Home</a></li>
+                        <!-- <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">Search</a></li> -->
+                        <li class="nav-item"><a class="nav-link" href='{{ url_for("book_list_page", page_num=1, category="all") }}'>Booklist</a></li>
+                        {% if isadmin == True %}
+                        <li class="nav-item"><a class="nav-link" href='{{ url_for( "addBook") }}'>Add Book</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </nav>      
+        </header>
+
+        <div class="tm-main-content">
+            <section class="tm-margin-b-l">                
+                    <header>
+                        <h2 class="tm-main-title">Welcome to our bookstore</h2>    
+                    </header>
+                <p>Top 10 Books!</p>
+                <div>
+                    {% for cat_books in catbook_list %}
+                        <p>{{cat_books[0]}}</p>
+                        <div style="overflow-x: scroll; height: 220px; padding: 10px; padding-top: 25px; padding-left: 20px; margin: 10px; white-space:nowrap; box-shadow: inset 2px -1px 18px -3px rgba(36,35,36,0.57); ">
+                            {% for book in cat_books[1:] %}
+                                <!-- <p>{{book.asin}}</p>   -->
+                                {{ loop.index }}
+                                <a href="{{ url_for('info', asin=book.asin) }}"> <img src={{ book.imUrl }} alt="Image" style="width: 160px; height: 160px; display: inline;" class="img-fluid tm-img-center"></a>
+                            {% endfor %} 
+                        </div>
+                    {% endfor %} 
+                </div>
+                
+                <!--
+                <div class="tm-gallery">
+                    <div class="row">
+                        {% for result in results %}
+                        <figure class="col-lg-3 col-md-4 col-sm-6 col-12 tm-gallery-item">
+                            <a href="{{ url_for('info', asin=result.asin) }}">
+                                <div class="tm-gallery-item-overlay">
+                               <img src={{ result.imUrl }} alt="Image" style="width: 160px; height: 160px;" class="img-fluid tm-img-center">
+                </div>
+                <p class="tm-figcaption">{{result.asin}}</p>
+                            </a>
+                        </figure>
+                        {% endfor %} 
+                    </div>   
+                </div>
+		-->
+                
+            </section>
+
+        </div>
+
+        <footer>
+            SUTD ISTD <span class="tm-current-year">2019</span>DB TEAM 
+        </footer>    
+    </div>
+    
+    <!-- load JS files
+    <script src="js/jquery-1.11.3.min.js"></script>       
+    <script src="js/popper.min.js"></script>               
+    <script src="js/bootstrap.min.js"></script>             
+    <script>     
+   
+        $(document).ready(function(){
+            
+            // Update the current year in copyright
+            $('.tm-current-year').text(new Date().getFullYear());
+
+        });
+
+    </script>              -->
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <title>Add Book</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='addbook.css') }}">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <nav class="navbar fixed-top navbar-dark bg-dark">
+    <a id="navbarHeader" class="navbar-brand" href="{{ url_for('home_page') }}">
+        <img src="{{ url_for('static', filename='books.png') }}" width="30" height="30" class="d-inline-block align-top" alt=""> GoodShelf </a>
+        <div style="margin-right: auto; height: 40px;">
+            <form action="{{ url_for('search') }}" method="post" style="display: inline-flex;">
+                <input class="form-control" style="width:350px;" name="searchbox" type="text" placeholder="Search Title, ASIN, Catogories, Author, Brand">
+                <!-- <button type="submit" style="margin-left: 3px;" class="btn btn-light" > Search</button> -->
+            </form>
+        </div>
+
+
+        <a class="btn btn-light" href="{{ url_for('logout') }}"> Logout </a>
+</nav>
+    \n\n
+    <body class="body-style-1">
+        <div class="form-style-5">
+            <form method="POST">
+                <fieldset>
+                    <legend><span class="number">1</span>Book Info</legend>
+                    <input type="text" name="field1" placeholder="ASIN *" required maxlength="10">
+                    <input type="text" name="field2" placeholder="Book title *" required>
+                    <input type="text" name="field3" placeholder="Book brand">
+                    <input type="text" name="field4" placeholder="Book price *" required>
+                    <input type="text" name="field5" placeholder="Image URL">
+                    <input type="text" name="field10" placeholder="Categories">
+
+                    <legend><span class="number">2</span>Related Books</legend>
+                    <input type="text" name="field6" placeholder="also bought, separate asin with space please">
+                    <input type="text" name="field7" placeholder="also viewed, separate asin with space please">
+                    <input type="text" name="field8" placeholder="buy after viewing, separate asin with space please">
+                    <input type="text" name="field9" placeholder="bought together, separate asin with space please">
+                </fieldset>
+                <input type="submit" name="submit_button" value="Submit" />
+            </form>
+        </div>
+    </body>
+</html>

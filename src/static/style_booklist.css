@@ -1,0 +1,84 @@
+/* #wrapper {
+    margin: 25px 25px 25px 25px;
+    /* width: 1000px; */
+    
+/* }
+
+#wrapper2 {
+    margin: 25px 25px 25px 25px;
+} */ 
+
+.small_card {
+  /* Add shadows to create the "card" effect */
+  
+  transition: 0.3s;
+  width: 300px;
+  height: 400px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 4px 8px 0 rgba(97, 95, 95, 0.2);
+}
+
+/* On mouse-over, add a deeper shadow */
+.small_card:hover {
+  box-shadow: 0 8px 16px 0 #343a40;
+}
+
+/* Add some padding inside the card container */
+.small_container {
+  padding: 2px 16px;
+  width: 160px;
+  height: 20px;
+}
+
+
+.navbarx{ 
+    display: inline;
+    padding: 1px; 
+} 
+
+ .dropbtn { 
+    background-color: #343a40;
+    color: white; 
+    padding: 16px; 
+    font-size: 16px; 
+    border: none; 
+    cursor: pointer; 
+    border-radius: 5px;
+  } 
+
+   .dropdown { 
+    position: relative; 
+    display: inline-block; 
+  } 
+
+   .dropdown-content { 
+    display: none; 
+    position: absolute; 
+    background-color: #f9f9f9; 
+    min-width: 160px; 
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); 
+    z-index: 1; 
+    height: 300px; 
+    overflow-y: scroll; 
+  } 
+
+   .dropdown-content a { 
+    color: black; 
+    padding: 12px 16px; 
+    text-decoration: none; 
+    display: block; 
+  } 
+
+   .dropdown-content a:hover { 
+      background-color: #f1f1f1; 
+
+     } 
+
+   .dropdown:hover .dropdown-content { 
+    display: block; 
+
+   } 
+
+   .dropdown:hover .dropbtn { 
+    background-color: #343a40;
+  }
