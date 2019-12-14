@@ -1,0 +1,28 @@
+<html>
+    <head>
+        <title>Add Book</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    </head>
+    <nav class="navbar fixed-top navbar-dark bg-dark">
+    <a id="navbarHeader" class="navbar-brand" href="{{ url_for('home_page') }}">
+        <img src="{{ url_for('static', filename='books.png') }}" width="30" height="30" class="d-inline-block align-top" alt=""> GoodShelf </a>
+        <div style="margin-right: auto; height: 40px;">
+            <form action="{{ url_for('search') }}" method="post" style="display: inline-flex;">
+                <input class="form-control" style="width:350px;" name="searchbox" type="text" placeholder="Search Title, ASIN, Catogories, Author, Brand">
+                <!-- <button type="submit" style="margin-left: 3px;" class="btn btn-light" > Search</button> -->
+            </form>
+        </div>
+        <a class="btn btn-light" href="{{ url_for('logout') }}"> Logout </a>
+</nav>
+<h1>\n\n</h1>
+<h3>log frequency over the last month</h3>
+    <body class="body-style-1">
+<!--<img src='img/my_plot.png'>-->
+	    <img src='img/plot_trend.png'> 
+    </body>
+</html>
+
+
+

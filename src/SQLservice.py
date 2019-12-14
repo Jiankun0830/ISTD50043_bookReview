@@ -7,11 +7,12 @@ import os
 
 
 DATABASE = "kindle_reviews"
-MYSQL_IP = os.environ['LC_MYSQL_IP']
+
 
 class SQL_db:
     def __init__(self):
-        self.conn = db.connect(host=MYSQL_IP, user="root", password="", db=DATABASE)
+        # self.conn = db.connect(host="54.244.217.119", user="root", password="", db=DATABASE)
+        self.conn = db.connect(host="localhost", user="root", password="", db=DATABASE)
         self.get_num_entires()
 
     def describe(self):

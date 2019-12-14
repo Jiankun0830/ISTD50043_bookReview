@@ -36,13 +36,13 @@
                 <div class="card" style="width: 18rem;">
                   <img class="card-img-top" src={{book_info.imUrl}} alt="Card image cap">
                     <div class="card-body">
-                        <h6 class="card-title"> <b> Title </b> </h6>
-                        <p class="card-text">{{ book_info.title }}</p>
-                        <h6 class="card-title"> <b> Price </b> </h6>
+                        <h6 class="card-title"> Title </h6>
+                        <p class="card-text"> Fake title </p>
+                        <h6 class="card-title"> Price </h6>
                         <p class="card-text">{{ book_info.price }}</p>
-                        <h6 class="card-title"> <b> ASIN </b> </h6>
+                        <h6 class="card-title"> ASIN </h6>
                         <p class="card-text">{{ book_info.asin }}</p>
-                        <h6 class="card-title"> <b> Overall Rating </b> </h6>
+                        <h6 class="card-title"> Overall Rating </h6>
                         <p class="card-text">{{ rating }} <small>/ 5</small></p>
                     </div>
                 </div>
@@ -55,15 +55,15 @@
                         <form action="{{ url_for('info', asin=book_info.asin) }}" method="post">
                             <fieldset>
                                 <input type="radio" id="st1" name="rating" value="5" checked="checked" />
-                                <label for="st1">5</label>
+                                <label for="st1">1  </label>
                                 <input type="radio" id="st2" name="rating" value="4" />
-                                <label for="st2">4</label>
+                                <label for="st2">2  </label>
                                 <input type="radio" id="st3" name="rating" value="3" />
-                                <label for="st3">3</label>
+                                <label for="st3">3  </label>
                                 <input type="radio" id="st4" name="rating" value="2" />
-                                <label for="st4">2</label>
+                                <label for="st4">4  </label>
                                 <input type="radio" id="st5" name="rating" value="1" />
-                                <label for="st5">1</label>
+                                <label for="st5">5  </label>
                             </fieldset>
                             <textarea class="form-control" name="title" rows="1" placeholder="Title" required maxlength="20"></textarea>
                             <textarea class="form-control" name="comment" rows="3" placeholder="Comment here ..." required maxlength="150"></textarea>
