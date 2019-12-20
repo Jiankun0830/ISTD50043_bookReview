@@ -12,6 +12,7 @@ sudo service mongod start
 mongoimport --db book_metadata --collection metadata --file kindle-metadata-after-correction.json
 pip3 install pymongo
 python3 assign_best_sellers.py
+echo "Finished running best sellers"
 mongo <mongo_util.js
 sudo sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
 #sudo sed -i "s/#security:/security:\n  authorization: 'enabled'/g" /etc/mongod.conf
