@@ -12,6 +12,8 @@ group by asin
 order by rate_count desc 
 limit 20;
 
+SELECT * FROM mostRated
+LIMIT 10;
 
 
 -- 2. highest rating score (top20)
@@ -25,3 +27,6 @@ group by asin
 HAVING cnt > 4
 order by avg_rating desc
 limit 20;
+
+SELECT * FROM highestAvgScore
+LIMIT 10;

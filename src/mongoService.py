@@ -1,23 +1,27 @@
 from pymongo import MongoClient
 import time
 import pandas as pd
-import matplotlib.pyplot as plt
-#to plot analytics
+import matplotlib.pyplot as plt # to plot analytics
 import datetime as DT
 import csv
 import os
-#for date plot
-import matplotlib.dates as mdates
+import matplotlib.dates as mdates # for date plot
 import numpy as np
 from collections import Counter
+
+MONGO_IP = os.environ['LC_MONGO_IP']
+
 class Mg:
     def __init__(self):
-        self.con = MongoClient("mongodb://db_grp7_test:1234567@3.234.153.108/book_log")["book_metadata"]["metadata"]
-        self.log = MongoClient("mongodb://db_grp7_test:1234567@3.234.153.108/book_log")["book_log"]["log"]
+        mongo_addr = "mongodb://db_grp7_test:1234567@"+MONGO_IP+"/book_log"
+        self.con = MongoClient(mongo_addr)["book_metadata"]["metadata"]
+        self.log = MongoClient(mongo_addr)["book_log"]["log"]
+
+        # self.con = MongoClient("mongodb://db_grp7_test:1234567@3.234.153.108/book_log")["book_metadata"]["metadata"]
+        # self.log = MongoClient("mongodb://db_grp7_test:1234567@3.234.153.108/book_log")["book_log"]["log"]
         # self.con = MongoClient("mongodb://localhost:27017/")["book_metadata"]["metadata"]
         # self.log = MongoClient("mongodb://localhost:27017/")["book_log"]["log"]
     
-    ########yy untils####################
     def mongo_to_df(self,query={}):
         a=self.log.find(query)
         df=pd.DataFrame(list(a))
@@ -27,7 +31,7 @@ class Mg:
             time.localtime(row.time_stamp)),axis=1)
         re=pd.DataFrame({"cnt":df.groupby(['date']).size()}).reset_index().to_numpy()
         return re[:,0],re[:,1]    
-    ########data visualization######## 
+    
     def plot_test(self):
         s = pd.Series([1, 2, 3])
         fig, ax = plt.subplots()
@@ -60,7 +64,7 @@ class Mg:
             result=np.where(all_dates==o)
             y_0[result]=y[i]
         
-        #plot
+        # Plot
         ax.plot(all_dates, y_0)
         ax.set_xlim(lims)
         # rotate_labels...
@@ -125,7 +129,6 @@ class Mg:
         asins = [d['query'].split('/')[-1] for d in all_query if d['query'].split('/')[-1].startswith('B')]
         return [item for item, c in Counter(asins).most_common(k)]
 
-    #################################
 
     def get_bestsellers(self):
         a=self.con.find({"salesRank":{'$exists': 1}})
@@ -190,17 +193,12 @@ class Mg:
         ls = [i for i in a]
         return ls
 
-    def get_sorted_title(self):
-        pass
-
     def insert_query(self, query):
         self.log.insert_one(query)
 
     def get_book_log(self):
         self.log.find({})
 
-
-        
     def get_highest_rank_books(self, category):
         categories = ["Mystery, Thriller & Suspense",
                       "Science Fiction & Fantasy",
@@ -224,7 +222,7 @@ class Mg:
     
 
 if __name__ == "__main__":
-    #print(Mg().get_highest_rank_books("Dictionaries & Thesauruses"))
+    print(Mg().get_highest_rank_books("Dictionaries & Thesauruses"))
     print("hi")
     #get two tsv file pre-loaded
     #Mg().plot_heat(1)
