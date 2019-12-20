@@ -3,6 +3,7 @@ from flask_session import Session
 import SQLservice
 import SQLservice_User
 import mongoService
+import mongoService_visualize
 from utils import *
 import numpy as np
 import pandas as pd
@@ -19,23 +20,21 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 mg = mongoService.Mg()
+mg_visualize = mongoService_visualize.Mg()
 
 with open('categories.json') as f:
     data = json.load(f)
 
-######yy edits plot##############
 @app.route('/data/<path:path>')
 def send_data(path):
     return send_from_directory('data', path)
 
 @app.route("/plot")
 def plot():
-    # return render_template("dashboard.html")
     #mg.plot_test()
-    mg.plot_trend()
+    mg_visualize.plot_trend()
     mg.get_highest_viewed_books()
-    cat_book_list = mongoService.Mg().get_highest_viewed_books()
-    print(cat_book_list)
+    cat_book_list = mg.get_highest_viewed_books()
     is_admin = False
 
     if 'user' in session: is_admin = session['isadmin']
@@ -48,7 +47,6 @@ def plot1():
     #mg.plot_test()
     return render_template("heat_plot.html")
 
-####################
 @app.route("/home_page")
 def home_page():
     cats = ["Mystery, Thriller & Suspense", "Science Fiction & Fantasy", "Action & Adventure", "Love & Romance",
@@ -99,7 +97,6 @@ def searchpage():
     #     return redirect(url_for('login'))
     keyword = request.form.get("searchpage")
     keyword = ''.join([o for o in keyword if o not in string.punctuation])
-    print(keyword)
 
     return redirect(url_for("book_list_page", page_num=int(keyword), category="all"))
 
@@ -155,8 +152,6 @@ def login():
         passw = request.form.get("password")
         passw_hash = hashlib.md5(passw.encode('utf-8')).hexdigest()
         user_id, verify_passw_hash, isadmin = SQLservice_User.SQL_User_db().get_usr_info(usern)
-        print(type(verify_passw_hash), type(passw_hash))
-        print(verify_passw_hash, passw_hash)
         if passw_hash == verify_passw_hash:
             session['user'] = usern
             session['userid'] = user_id
@@ -192,7 +187,6 @@ def register():
         usern = request.form.get("username")
         passw = request.form.get("password")
         passw_hash = hashlib.md5(passw.encode('utf-8')).hexdigest()
-        print(usern, passw_hash)
         result = SQLservice_User.SQL_User_db().add_user(usern, passw_hash)
         user_id = SQLservice_User.SQL_User_db().get_usr_info(usern)[0]
         if result:
