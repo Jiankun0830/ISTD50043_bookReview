@@ -1,5 +1,5 @@
 wget https://kindle-metadata.s3.amazonaws.com/kindle-metadata-after-correction.json
-wget --output-document=assign_best_seller.py https://raw.githubusercontent.com/Jiankun0830/ISTD50043_bookReview/release/0.1.0/script/mongo_script/assign_best_seller.py?token=AJBKBGUV4PHPWUGCWNQYVLC55TQGK
+wget --output-document=assign_best_sellers.py https://raw.githubusercontent.com/Jiankun0830/ISTD50043_bookReview/release/0.1.0/script/mongo_script/assign_best_seller.py?token=AJBKBGUV4PHPWUGCWNQYVLC55TQGK
 wget --output-document=mongo_util.js https://raw.githubusercontent.com/Jiankun0830/ISTD50043_bookReview/release/0.1.0/script/mongo_script/mongo_util.js?token=AJBKBGVMUQR6JFDZACZ3MMC55TQOS
 sudo apt-get update
 wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | sudo apt-key add -
@@ -12,6 +12,7 @@ sudo service mongod start
 mongoimport --db book_metadata --collection metadata --file kindle-metadata-after-correction.json
 pip3 install pymongo
 python3 assign_best_sellers.py
+echo "Finished running best sellers"
 mongo <mongo_util.js
 sudo sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
 #sudo sed -i "s/#security:/security:\n  authorization: 'enabled'/g" /etc/mongod.conf
