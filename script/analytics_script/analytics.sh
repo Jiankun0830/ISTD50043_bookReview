@@ -5,12 +5,13 @@ hdfs dfs -put kindle_reviews.csv /databasegrp7/kindle_reviews.csv
 hdfs dfs -put kindle-metadata-after-correction.json /databasegrp7/kindle-metadata.json
 wget https://raw.githubusercontent.com/Jiankun0830/ISTD50043_bookReview/master/script/analytics_script/pearson_cal.py
 wget https://raw.githubusercontent.com/Jiankun0830/ISTD50043_bookReview/master/script/analytics_script/tfidf_cal.py
-sudo apt update
-sudo apt -y install python-pip
+sudo yum update
+sudo yum install python-pip
 sudo pip install numpy
-sudo pip --no-cache-dir install pyspark --use
+sudo pip --no-cache-dir install pyspark --user
 python tfidf_cal.py
 hdfs dfs -get tfidf_output.csv ./tfidf
 cd tfidf
 cat * >> tfidf_output.csv
+# path: ./tfidf/tfidf_output.csv
 spark/bin/spark-submit pearson_cal.py 
