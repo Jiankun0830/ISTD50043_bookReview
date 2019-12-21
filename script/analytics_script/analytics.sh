@@ -6,7 +6,7 @@ hdfs dfs -put kindle-metadata-after-correction.json /databasegrp7/kindle-metadat
 wget https://raw.githubusercontent.com/Jiankun0830/ISTD50043_bookReview/master/script/analytics_script/pearson_cal.py
 wget https://raw.githubusercontent.com/Jiankun0830/ISTD50043_bookReview/master/script/analytics_script/tfidf_cal.py
 sudo apt update
-sudo apt install python-pip
+sudo apt -y install python-pip
 sudo pip install numpy
 sudo pip --no-cache-dir install pyspark --use
 python tfidf_cal.py
