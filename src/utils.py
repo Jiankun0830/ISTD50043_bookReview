@@ -8,7 +8,7 @@ def add_log(query_type, query, response, user_id, user_type, mg):
         "query_type": query_type,
         "query": query,
         "response": response,
-        "user_id": user_id,
+        "user_id": str(user_id),
         "user_type": user_type
     }
     mg.insert_query(to_insert)

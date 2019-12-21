@@ -26,7 +26,7 @@ class Mg:
         a=self.log.find(query)
         df=pd.DataFrame(list(a))
         #print(df.columns)
-        df=df.drop(['_id', 'query_type', 'query', 'response','user_type'],axis=1)
+        df=df.drop(['userid', 'query_type', 'query', 'response','user_type'],axis=1)
         df["date"]=df.apply(lambda row:time.strftime('%Y-%m-%d',
             time.localtime(row.time_stamp)),axis=1)
         re=pd.DataFrame({"cnt":df.groupby(['date']).size()}).reset_index().to_numpy()
@@ -40,9 +40,9 @@ class Mg:
         books = [next(self.con.find({"asin": o})) for o in most_common_asins]
         return books
    
-    def get_highest_view_books_by_user(self, userid, k=5):
+    def get_highest_viewed_books_by_user(self, userid, k=5):
         # For user
-        all_query = list(self.log.find({'userid':userid}, {'query':1}))
+        all_query = list(self.log.find({'user_id':userid}, {'query':1}))
         asins = [d['query'].split('/')[-1] for d in all_query if d['query'].split('/')[-1].startswith('B')]
         most_common_asins = [item for item, c in Counter(asins).most_common(k)]
         books = [next(self.con.find({"asin": o})) for o in most_common_asins]

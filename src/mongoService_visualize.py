@@ -24,7 +24,7 @@ class Mg:
     def mongo_to_df(self,query={}):
         a=self.log.find(query)
         df=pd.DataFrame(list(a))
-        df=df.drop(['_id', 'query_type', 'query', 'response','user_type'],axis=1)
+        df=df.drop(['user_id', 'query_type', 'query', 'response','user_type'],axis=1)
         df["date"]=df.apply(lambda row:time.strftime('%Y-%m-%d',
             time.localtime(row.time_stamp)),axis=1)
         re=pd.DataFrame({"cnt":df.groupby(['date']).size()}).reset_index().to_numpy()
@@ -40,7 +40,7 @@ class Mg:
         #get df from mongoDB
         a=self.log.find({})
         df=pd.DataFrame(list(a))
-        df=df.drop(['_id', 'query_type', 'query', 'response','user_type'],axis=1)
+        df=df.drop(['user_id', 'query_type', 'query', 'response','user_type'],axis=1)
         df["date"]=df.apply(lambda row:time.strftime('%Y-%m-%d',
             time.localtime(row.time_stamp)),axis=1)
 

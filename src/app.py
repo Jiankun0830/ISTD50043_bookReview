@@ -35,8 +35,13 @@ def plot():
     mg_visualize.plot_trend()
     mg_visualize.plot_heat(choice=0)
     mg_visualize.plot_heat(choice=1)
-    cat_book_list = mg.get_highest_viewed_books()
-    is_admin = False
+
+    if 'user' in session: 
+        is_admin = session['isadmin']
+        if is_admin: 
+            cat_book_list = mg.get_highest_viewed_books()
+        else:
+            cat_book_list = mg.get_highest_viewed_books_by_user(userid=session['userid'])
 
     if 'user' in session: is_admin = session['isadmin']
     return render_template("heat_plot.html", cat_book_list=cat_book_list, isadmin=is_admin,
@@ -55,8 +60,11 @@ def home_page():
         top_in_cat = mongoService.Mg().get_highest_rank_books(cat)
         cat_book_list.append(top_in_cat)
     is_admin = False
-    if 'user' in session: is_admin = session['isadmin']
-    return render_template("home_page.html", results=book_list[:-3], catbook_list=cat_book_list, isadmin=is_admin,
+    login = False
+    if 'user' in session: 
+        is_admin = session['isadmin']
+        login = True 
+    return render_template("home_page.html", results=book_list[:-3], catbook_list=cat_book_list, isadmin=is_admin, login=login,
                            in_session=('user' in session))
 
 
