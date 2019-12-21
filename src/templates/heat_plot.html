@@ -22,17 +22,18 @@
                 <div>
                         <p>Most Viewed books</p>
                         <div style="overflow-x: scroll; height: 220px; padding: 10px; padding-top: 25px; padding-left: 20px; margin: 10px; white-space:nowrap; box-shadow: inset 2px -1px 18px -3px rgba(36,35,36,0.57); ">
-                            {% for book in cat_books %}
+                            {% for book in cat_book_list %}
                                 {{ loop.index }}
                                 <a href="{{ url_for('info', asin=book.asin) }}"> <img src={{ book.imUrl }} alt="Image" style="width: 160px; height: 160px; display: inline;" class="img-fluid tm-img-center"></a>
                             {% endfor %} 
                         </div>
                 </div>
 
-<h2>log frequency over the last month</h2>
+<h2>Web Traffic</h2>    
+<h3>log frequency over the last month</h3>
    <img src='img/plot_trend.png'> 
 
-<h2>Log Distribution in a Week</h2>    
+<h3>Log Distribution in a Week</h3>    
 <body class="body-style-1">
 {% extends 'log_plot1.html' %} 
    <h4>week.tsv: most recent week record distribution</h4>

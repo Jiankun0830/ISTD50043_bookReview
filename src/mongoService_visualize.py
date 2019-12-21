@@ -30,11 +30,11 @@ class Mg:
         re=pd.DataFrame({"cnt":df.groupby(['date']).size()}).reset_index().to_numpy()
         return re[:,0],re[:,1]    
     
-    def plot_test(self):
-        s = pd.Series([1, 2, 3])
-        fig, ax = plt.subplots()
-        s.plot.bar()
-        fig.savefig('img/my_plot.png')
+    # def plot_test(self):
+    #     s = pd.Series([1, 2, 3])
+    #     fig, ax = plt.subplots()
+    #     s.plot.bar()
+    #     fig.savefig('img/my_plot.png')
 
     def plot_trend(self):
         #get df from mongoDB
@@ -50,8 +50,8 @@ class Mg:
         y=re[:,1]
         #plot fig
         fig, ax = plt.subplots(1, 1, constrained_layout=True, figsize=(6, 4))
-        start=np.datetime64('2019-11-01')
-        end=np.datetime64('2019-11-30')
+        start=np.datetime64('2019-12-01')
+        end=np.datetime64('2019-12-30')
         lims=(start,end)
         #add zero
         
@@ -77,11 +77,11 @@ class Mg:
         if choice==0:
             week_ago=(DT.date.today() - DT.timedelta(8)).strftime("%s")
             a=self.log.find({"time_stamp" : {"$gte": float(week_ago)}})
-            file_name='data/week.tsv'            
+            file_name='data/last_week_history.tsv'            
         #for all previous history
         else:
             a=self.log.find({})
-            file_name='data/all.tsv'
+            file_name='data/all_history.tsv'
         #append result to ls
         ls=[]
         for i in a:

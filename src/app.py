@@ -33,19 +33,14 @@ def send_data(path):
 def plot():
     #mg.plot_test()
     mg_visualize.plot_trend()
-    mg.get_highest_viewed_books()
+    mg_visualize.plot_heat(choice=0)
+    mg_visualize.plot_heat(choice=1)
     cat_book_list = mg.get_highest_viewed_books()
     is_admin = False
 
     if 'user' in session: is_admin = session['isadmin']
-    return render_template("heat_plot.html", catbook_list=cat_book_list, isadmin=is_admin,
+    return render_template("heat_plot.html", cat_book_list=cat_book_list, isadmin=is_admin,
                            in_session=('user' in session))
-
-@app.route("/plot1")
-def plot1():
-    # return render_template("dashboard.html")
-    #mg.plot_test()
-    return render_template("heat_plot.html")
 
 @app.route("/home_page")
 def home_page():
