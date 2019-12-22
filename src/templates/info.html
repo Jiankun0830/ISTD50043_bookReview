@@ -58,7 +58,6 @@
                             {% endfor %} 
                         </div>
                     </div>
-                     
                 </div>
             </div>
 
@@ -73,7 +72,7 @@
                     <div class="card-header text-center">Customers who viewed this item also viewed</div>
                     <div class="card-body">
 
-                        <div style="overflow-x: scroll; height: 180px; margin: 10px; white-space:nowrap;">
+                        <div style="overflow-x: scroll; margin: 10px; white-space:nowrap;">
                             {% for book in also_viewed %}
                                 <!-- <p>{{book.asin}}</p>   -->
                                 <a href="{{ url_for('info', asin=book.asin) }}"> <img src={{ book.imUrl }} alt="Image" style="width: 160px; height: 160px; display: inline;" class="img-fluid tm-img-center"></a>
@@ -85,7 +84,7 @@
                     <div class="card-header text-center">Customers who bought this item also bought</div>
                     <div class="card-body">
 
-                        <div style="overflow-x: scroll; height: 180px; margin: 10px; white-space:nowrap;">
+                        <div style="overflow-x: scroll;  margin: 10px; white-space:nowrap;">
                             {% for book in also_bought %}
                                 <a href="{{ url_for('info', asin=book.asin) }}"> <img src={{ book.imUrl }} alt="Image" style="width: 160px; height: 160px; display: inline;" class="img-fluid tm-img-center"></a>
                             {% endfor %} 
