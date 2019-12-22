@@ -3,9 +3,8 @@ import boto3
 from botocore.exceptions import ClientError
 import botocore
 import paramiko
+import os
 
-#TODO 1: good_shelf_grp7
-#TODO 2: change iam instance id
 
 cluster_name = sys.argv[1]
 print('cluster name: ',cluster_name)
@@ -15,6 +14,7 @@ def print_bold(string):
 
 def get_mastermode_ip(ec2_client,tagname):
     master_tagname = tagname + '-master'
+    masternodes = []
     
     response = ec2_client.describe_instances(
         Filters=[
@@ -27,7 +27,11 @@ def get_mastermode_ip(ec2_client,tagname):
         ]
     )
 
-    masternodes = response['Reservations'][0]['Instances']
+    for instance in response['Reservations']:
+        for i in instance['Instances']:
+            if i['State']['Name'] == 'running':
+                masternodes.append(i)
+
     if len(masternodes) == 1:
         public_ip = masternodes[0]['PublicIpAddress']
         key_name = masternodes[0]['KeyName']
@@ -63,11 +67,9 @@ try:
     p_client.connect(hostname=masternode_ip, username="ec2-user", pkey=key) 
     print_bold("Set up masternode on: "+str(masternode_ip))
 
-    print_bold("\nStep1 install wget")
-    execute_commands('sudo apt-get update;sudo apt-get install wget')
-    print_bold("Step2 download analytics setup script")
+    print_bold("Step1 download analytics setup script")
     execute_commands("wget https://raw.githubusercontent.com/Jiankun0830/ISTD50043_bookReview/master/script/analytics_script/analytics.sh")
-    print_bold("Step3 execute analytics script")    
+    print_bold("Step2 execute analytics script")    
     execute_commands('chmod +x analytics.sh')
     execute_commands("yes | ./analytics.sh")
     execute_commands('rm analytics.sh;ls')
@@ -75,6 +77,11 @@ try:
 
     # close the client connection once the job is done
     p_client.close()
+    copy_command_1 = 'scp -i group7-bigdata-ec2-key.pem ec2-user@'+masternode_ip+':~/Pearson_output.txt .'
+    copy_command_2 = 'scp -i group7-bigdata-ec2-key.pem ec2-user@'+masternode_ip+':~/tfidf/tfidf_output.csv .'
+    os.system(copy_command_1)
+    os.system(copy_command_2)
 
 except Exception as e:
     print(e)
+
