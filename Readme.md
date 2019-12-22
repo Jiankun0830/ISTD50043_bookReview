@@ -9,7 +9,10 @@ http://44.229.150.14/home_page
 
 
 ## Setup
-
+Run this command in your terminal
+```
+curl https://raw.githubusercontent.com/Jiankun0830/ISTD50043_bookReview/master/setup.sh | sudo bash
+```
 ### Setup Reminder
 1. Please make sure there are more >= 3 elastic ip address quota on this region for use, this is very important :)
 Please input the aws credentials and number of datanode you want to choose, you will have the option of number of datanodes NUM= 1,3,7
