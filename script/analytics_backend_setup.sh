@@ -13,7 +13,7 @@ flintrock launch good_shelf_grp7 \
     --ec2-identity-file group7-bigdata-ec2-key.pem \
     --ec2-ami ami-000b133338f7f4255 \
     --ec2-user ec2-user \
-    --ec2-instance-type t2.small \
+    --ec2-instance-type t2.medium \
     --ec2-region us-west-2 \
     --install-hdfs \
     --install-spark
