@@ -9,7 +9,7 @@ sudo yum update
 sudo yum install python-pip
 sudo pip install numpy
 python -m pip --no-cache-dir install pyspark --user
-spark/bin/spark-submit pearson_cal.py
+python pearson_cal.py
 python tfidf_cal.py
 hdfs dfs -get tfidf_output.csv ./tfidf
 cd tfidf
