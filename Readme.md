@@ -7,48 +7,19 @@ https://github.com/Jiankun0830/ISTD50043_bookReview/blob/master/documentation.pd
 http://34.203.234.152/home_page \
 http://44.229.150.14/home_page
 
+
 ## Setup
-### MongoDB AWS EC2 server
-1. configure the security group, allowing other devices to access mongo db on this instance.
-- - Go to your aws console to see running ec2 instances, find your ec2 instance there. Under the Security Groups, click launch-wizard. You will be brought to the page to configure security groups.
-- - At the bottom of your page, go to `Inbound->Edit->Add Rule`
-- - Set the following \
-                Type: Custom TCP Rule \
-                Port Range: 27017 \
-                Source: Anywhere \
-- - Click Save.
 
-2. set up your mongodb.
-```
-## install wget
-sudo apt-get update
-sudo apt-get install wget
-## download the setup script
-wget --output-document=set_up_mongo.sh https://raw.githubusercontent.com/Jiankun0830/ISTD50043_bookReview/release/0.1.0/script/mongo_script/set_up_mongo.sh?token=AKWIWQU2CUY3D37H24FJT5K55UBA4
-## run the setup script
-bash ./set_up_mongo.sh
-rm set_up_mongo.sh
-```
-
-### Setting up mysql on a new EC2 instance
-
-Instruction for using our automated script for mysql's installation, data downloading, data sql-loading
+### Setup Reminder
+1.Please make sure there are more >= 3 elastic ip address quota on this region for use, this is very important :)
+Please input the aws credentials and number of datanode you want to choose, you will have the option of number of datanodes NUM= 1,3,7
+2.We will set up all the ec2 instances in region ap-southeast-1 (Singapore) , and all the AMI images for instances are within Singapore region. 
+3.To access to the front end, as we screenshotted in the report, there are 3 ways to find the IP address of the web server. Once we find the IP address for the web app, just paste it on the browser, you will automatically be directed to the homepage. e.g. http://35.161.123.244
+4.To access the output file of analytics, we already scp to the local machine. Therefore, it will be automatically stored in current directory (your local machine) where you execute setup.sh after the analytics part finish execution
+5.Reminder: In later part of the execution script for production backend setup, i.e. setting up mongoDB, mySQL may take 3~5 minutes to setup due to the installation, therefore it may looks that it ‘hangs’ at that stage :)
+When the script finished executing, please wait for 4-5 minus for the server to finish setting up.
 
 
-```
-sudo apt-get update
-sudo apt-get install wget
-
-wget --output-document=new_instance_setup_sql.sh https://raw.githubusercontent.com/Jiankun0830/ISTD50043_bookReview/release/0.1.0/script/mysql_script/new_instance_setup_sql.sh?token=AKWIWQUVMM4H3HYLMCUQXK255UBJ2
-bash ./new_instance_setup_sql.sh
-rm new_instance_setup_sql.sh
-```
-
-### Setting up webserver
-```
-git clone https://github.com/Jiankun0830/ISTD50043_bookReview -b release/0.1.0 && cd ISTD50043_bookReview/script/
-bash ./application_setup.sh
-```
 
 ## requirements 
 https://github.com/dinhtta/istd50043_project
