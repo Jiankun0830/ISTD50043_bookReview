@@ -1,4 +1,4 @@
-python3 -m pip3 install flintrock
+# python3 -m pip3 install flintrock
 
 read -p "Enter number of slaves: " NUM
 # read -p "Enter instance type: " TYPE
