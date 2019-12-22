@@ -122,8 +122,6 @@ class Mg:
             ls = []
             return ls
         
-        # print(len(ls[0]))
-
         z = self.con.find({ 'asin' : {'$in' : ls[0] } })
         l = [i for i in z]
         
