@@ -196,7 +196,7 @@ def execute_commands(cmds):
 
 # 2.1 Set up Mongo on the 1st EC2 instance
 print_bold("\nStep 2.1 Set up Mongo on the 1st EC2 instance")
-print('\033[36m'+'\033[1m'+'This will take around '+'\033[91m'+'4/FOUR minutes'+'\033[0m')
+print('\033[36m'+'\033[1m'+'This will take around '+'\033[91m'+'10 minutes'+'\033[0m')
 try:
     # Here 'ubuntu' is user name and 'instance_ip' is public IP of EC2
     p_client.connect(hostname=ip_addr.get(instance_ids[0]), username="ubuntu", pkey=key) ## TodoL change to 0
@@ -205,7 +205,7 @@ try:
     # Execute commands
     # Step1 install wget
     print_bold("\nStep1 install wget")
-    execute_commands('sudo apt-get update;sudo apt-get install wget')
+    p_client.exec_command('sudo apt-get update;sudo apt-get install wget')
         
     # Step2  download mongo setup script
     print_bold("Step2 download mongo setup script")

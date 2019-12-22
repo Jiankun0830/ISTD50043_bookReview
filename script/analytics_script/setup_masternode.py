@@ -77,8 +77,8 @@ try:
 
     # close the client connection once the job is done
     p_client.close()
-    copy_command_1 = 'scp -i group7-bigdata-ec2-key.pem ec2-user@'+masternode_ip+':~/Pearson_output.txt .'
-    copy_command_2 = 'scp -i group7-bigdata-ec2-key.pem ec2-user@'+masternode_ip+':~/tfidf/tfidf_output.csv .'
+    copy_command_1 = 'scp -i {}.pem -o StrictHostKeyChecking=no ec2-user@'+masternode_ip+':~/Pearson_output.txt .'.format(key_name)
+    copy_command_2 = 'scp -i {}.pem -o StrictHostKeyChecking=no ec2-user@'+masternode_ip+':~/tfidf/tfidf_output.csv .'.format(key_name)
     os.system(copy_command_1)
     os.system(copy_command_2)
 

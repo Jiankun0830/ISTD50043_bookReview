@@ -13,8 +13,7 @@ response = ec2_client.describe_instances(
         {
             'Name':'key-name',
             'Values': [
-                'Lutong'
-                # 'group7-bigdata-ec2-key'
+                'group7-bigdata-ec2-key*'
             ]
         }
     ]
