@@ -1,4 +1,7 @@
 # SUTD 50.043 Database group project for online book-self web application
+## Documentation
+Please see the full documentation avialble at
+https://github.com/Jiankun0830/ISTD50043_bookReview/blob/master/documentation.pdf
 
 ## Live Demo
 http://34.203.234.152/home_page \
