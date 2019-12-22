@@ -46,10 +46,54 @@
                         <p class="card-text">{{ rating }} <small>/ 5</small></p>
                     </div>
                 </div>
+                <div class="card" style="width: 18rem;">
+                    <div class="card-header text-center">Frequently bought together:</div>
+                    <div class="card-body">
+                        <p>Buy together in a bundle today!</p>
+                        
+                        <div style="overflow-x: scroll; height: 180px; margin: 10px; white-space:nowrap;">
+                            {% for book in buy_after_viewing %}
+                                <!-- <p>{{book.asin}}</p>   -->
+                                <a href="{{ url_for('info', asin=book.asin) }}"> <img src={{ book.imUrl }} alt="Image" style="width: 160px; height: 160px; display: inline;" class="img-fluid tm-img-center"></a>
+                            {% endfor %} 
+                        </div>
+                    </div>
+                     
+                </div>
             </div>
 
             <div class="col">
-                <div class="card">
+                <div class="card" style="margin: 5px">
+                    <div class="card-header text-center">Description of this book</div>
+                    <div class="card-body">
+                        <p class="card-text" style="text-size-adjust: 1px;">{{ book_info.description }}</p>
+                    </div>
+                </div>
+                <div class="card" style="margin: 5px">
+                    <div class="card-header text-center">Customers who viewed this item also viewed</div>
+                    <div class="card-body">
+
+                        <div style="overflow-x: scroll; height: 180px; margin: 10px; white-space:nowrap;">
+                            {% for book in also_viewed %}
+                                <!-- <p>{{book.asin}}</p>   -->
+                                <a href="{{ url_for('info', asin=book.asin) }}"> <img src={{ book.imUrl }} alt="Image" style="width: 160px; height: 160px; display: inline;" class="img-fluid tm-img-center"></a>
+                            {% endfor %} 
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin: 5px">
+                    <div class="card-header text-center">Customers who bought this item also bought</div>
+                    <div class="card-body">
+
+                        <div style="overflow-x: scroll; height: 180px; margin: 10px; white-space:nowrap;">
+                            {% for book in also_bought %}
+                                <a href="{{ url_for('info', asin=book.asin) }}"> <img src={{ book.imUrl }} alt="Image" style="width: 160px; height: 160px; display: inline;" class="img-fluid tm-img-center"></a>
+                            {% endfor %} 
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin: 5px">
                     <div class="card-header text-center">Reviews</div>
                     <div class="card-body">
                         <form action="{{ url_for('info', asin=book_info.asin) }}" method="post">
@@ -120,6 +164,7 @@
                         </table>
                     </div>
                 </div>
+                
             </div>
         </div>
     </div>

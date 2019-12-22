@@ -83,6 +83,21 @@ class Mg:
 
     def insert_query(self, query):
         self.log.insert_one(query)
+    
+    def get_related_books(self, asin, feature):
+        a = self.con.find({"asin": asin})
+        try:
+            ls = [i["related"][feature] for i in a]
+        except KeyError:
+            ls = []
+            return ls
+        
+        # print(len(ls[0]))
+
+        z = self.con.find({ 'asin' : {'$in' : ls[0] } })
+        l = [i for i in z]
+        
+        return l
 
     def get_highest_rank_books(self, category):
         categories = ["Mystery, Thriller & Suspense",
@@ -107,5 +122,5 @@ class Mg:
     
 
 if __name__ == "__main__":
-    print(Mg().get_highest_rank_books("Dictionaries & Thesauruses"))
-
+    # print(Mg().get_highest_rank_books("Dictionaries & Thesauruses"))
+    print(Mg().get_related_books("B000FA5S98", 'also_bought'))

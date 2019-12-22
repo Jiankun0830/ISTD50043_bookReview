@@ -102,6 +102,9 @@ def info(asin):
         SQLservice.SQL_db().add_review(asin=asin, overall=my_rating, reviewerName=session['user'],
                                        reviewerID=session['userid'], summary=title, reviewText=comment)
 
+    also_bought = mongoService.Mg().get_related_books(asin, "also_bought")
+    also_viewed = mongoService.Mg().get_related_books(asin, "also_viewed")
+    buy_after_viewing = mongoService.Mg().get_related_books(asin, "buy_after_viewing")
     book_info = mongoService.Mg().get_all_info(asin)[0]
     results = SQLservice.SQL_db().get_review(asin)
     rating = round(np.mean([review[2] for review in results]), 2)
@@ -109,7 +112,7 @@ def info(asin):
         add_log(request.method, request.url, {"bookNumber": asin, "number_of_reviews": len(results), "rating": rating},
                 session['userid'], session['isadmin'], mg)
 
-    return render_template("info.html", book_info=book_info, reviews=results, rating=rating)
+    return render_template("info.html", book_info=book_info, reviews=results, rating=rating, also_bought = also_bought, also_viewed=also_viewed, buy_after_viewing=buy_after_viewing)
 
 
 @app.route("/dashboard")
