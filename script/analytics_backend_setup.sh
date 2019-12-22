@@ -18,7 +18,7 @@ flintrock launch good_shelf_grp7 \
     --install-hdfs \
     --install-spark
 
-python3 setup_masternode.py good_shelf_grp7
+python3 analytics_script/setup_masternode.py good_shelf_grp7
 
 #flintrock login databass_cluster
 # ami-06d51e91cea0dac8d 
