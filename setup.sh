@@ -47,11 +47,11 @@ read -p "Create new python virtual environment goodshelf to run command y or n?"
 echo -p "You can remove the virutal environment by rm -rf goodself"
 if [ "$create" == "y" ]; then
     python3 -m venv goodshelf
+    source goodshelf/bin/activate
 else 
     echo "Skipped creating new environment, terminating process..."
     # exit 
 fi
-source goodshelf/bin/activate
 
 echo -e "Installing necessary library: boto3 and paramiko"
 python3 -m pip install boto3 paramiko flintrock
