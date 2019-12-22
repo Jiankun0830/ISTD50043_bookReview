@@ -11,18 +11,19 @@ import paramiko
 
 
 # Take in argument of credentials and set up
-key = input("Please enter your AWS access key:")
-secret_key = input("Please enter your AWS secret access key:")
-region = input("AWS region:")
+# key = input("Please enter your AWS access key:")
+# secret_key = input("Please enter your AWS secret access key:")
+key = sys.argv[1]
+secret_key = sys.argv[2]
 
-if region == "":
-    region = "us-west-2"
+
+
+# region = "us-west-2"
+region = 'ap-southeast-1'
 
 os.system("echo '[default]\naws_access_key_id = %s\naws_secret_access_key = %s' > ~/.aws/credentials"%(str(key),str(secret_key)))
 os.system("echo '[default]\nregion = %s' > ~/.aws/config"%(str(region)))
 
-
-#TODO: change iam id
 
 #functions:
 
@@ -130,8 +131,8 @@ if len(addresses.get("Addresses"))> 5-3:
 # 1.3 Create 3 instances with above key and security group
 print_bold('\nStep 1.3 Create 3 instances with above key and security group')
 instances = ec2.create_instances(
-     ImageId='ami-06d51e91cea0dac8d',  #UBuntu 18.04LTS
-     InstanceType='t2.micro',
+    #  ImageId='ami-06d51e91cea0dac8d',  #UBuntu 18.04LTS  Oregon
+     ImageId='ami-061eb2b23f9f8839c',  #UBuntu 18.04LTS  Singapore
      MinCount=1,
      MaxCount=3, # create 3 instances
      KeyName=key_name,
