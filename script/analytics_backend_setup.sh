@@ -1,9 +1,6 @@
 python3 -m pip3 install flintrock
 
 read -p "Enter number of slaves: " NUM
-# read -p "Enter instance type: " TYPE
-# read -p "Enter key name: " KEY
-# read -p "Enter key path: " KEY_PATH
 
 flintrock launch good_shelf_grp7 \
     --num-slaves $NUM \
@@ -19,6 +16,3 @@ flintrock launch good_shelf_grp7 \
     --install-spark
 
 python3 analytics_script/setup_masternode.py good_shelf_grp7
-
-#flintrock login databass_cluster
-# ami-06d51e91cea0dac8d 
