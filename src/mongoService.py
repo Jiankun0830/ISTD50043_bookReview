@@ -113,6 +113,19 @@ class Mg:
 
     def insert_query(self, query):
         self.log.insert_one(query)
+    
+    def get_related_books(self, asin, feature):
+        a = self.con.find({"asin": asin})
+        try:
+            ls = [i["related"][feature] for i in a]
+        except KeyError:
+            ls = []
+            return ls
+        
+        z = self.con.find({ 'asin' : {'$in' : ls[0] } })
+        l = [i for i in z]
+        
+        return l
 
     def get_book_log(self):
         self.log.find({})
@@ -140,9 +153,4 @@ class Mg:
     
 
 if __name__ == "__main__":
-    print(Mg().get_highest_rank_books("Dictionaries & Thesauruses"))
-    print("hi")
-    #get two tsv file pre-loaded
-    #Mg().plot_heat(1)
-    #Mg().plot_heat(0)
-    #print(Mg().mongo_to_df())
+    pass
