@@ -3,6 +3,7 @@ from flask_session import Session
 import SQLservice
 import SQLservice_User
 import mongoService
+import mongoService_visualize
 from utils import *
 import numpy as np
 import pandas as pd
@@ -19,10 +20,32 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 mg = mongoService.Mg()
+mg_visualize = mongoService_visualize.Mg()
 
 with open('categories.json') as f:
     data = json.load(f)
 
+@app.route('/data/<path:path>')
+def send_data(path):
+    return send_from_directory('data', path)
+
+@app.route("/plot")
+def plot():
+    #mg.plot_test()
+    mg_visualize.plot_trend()
+    mg_visualize.plot_heat(choice=0)
+    mg_visualize.plot_heat(choice=1)
+
+    if 'user' in session: 
+        is_admin = session['isadmin']
+        if is_admin: 
+            cat_book_list = mg.get_highest_viewed_books()
+        else:
+            cat_book_list = mg.get_highest_viewed_books_by_user(userid=session['userid'])
+
+    if 'user' in session: is_admin = session['isadmin']
+    return render_template("heat_plot.html", cat_book_list=cat_book_list, isadmin=is_admin,
+                           in_session=('user' in session))
 
 @app.route("/home_page")
 def home_page():
@@ -37,8 +60,11 @@ def home_page():
         top_in_cat = mongoService.Mg().get_highest_rank_books(cat)
         cat_book_list.append(top_in_cat)
     is_admin = False
-    if 'user' in session: is_admin = session['isadmin']
-    return render_template("home_page.html", results=book_list[:-3], catbook_list=cat_book_list, isadmin=is_admin,
+    login = False
+    if 'user' in session: 
+        is_admin = session['isadmin']
+        login = True 
+    return render_template("home_page.html", results=book_list[:-3], catbook_list=cat_book_list, isadmin=is_admin, login=login,
                            in_session=('user' in session))
 
 
@@ -74,7 +100,6 @@ def searchpage():
     #     return redirect(url_for('login'))
     keyword = request.form.get("searchpage")
     keyword = ''.join([o for o in keyword if o not in string.punctuation])
-    print(keyword)
 
     return redirect(url_for("book_list_page", page_num=int(keyword), category="all"))
 
@@ -133,8 +158,6 @@ def login():
         passw = request.form.get("password")
         passw_hash = hashlib.md5(passw.encode('utf-8')).hexdigest()
         user_id, verify_passw_hash, isadmin = SQLservice_User.SQL_User_db().get_usr_info(usern)
-        print(type(verify_passw_hash), type(passw_hash))
-        print(verify_passw_hash, passw_hash)
         if passw_hash == verify_passw_hash:
             session['user'] = usern
             session['userid'] = user_id
@@ -170,7 +193,6 @@ def register():
         usern = request.form.get("username")
         passw = request.form.get("password")
         passw_hash = hashlib.md5(passw.encode('utf-8')).hexdigest()
-        print(usern, passw_hash)
         result = SQLservice_User.SQL_User_db().add_user(usern, passw_hash)
         user_id = SQLservice_User.SQL_User_db().get_usr_info(usern)[0]
         if result:

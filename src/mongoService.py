@@ -1,7 +1,14 @@
 from pymongo import MongoClient
 import time
-
+import pandas as pd
+import matplotlib.pyplot as plt # to plot analytics
+import datetime as DT
+import csv
 import os
+import matplotlib.dates as mdates # for date plot
+import numpy as np
+from collections import Counter
+
 MONGO_IP = os.environ['LC_MONGO_IP']
 
 class Mg:
@@ -15,6 +22,32 @@ class Mg:
         # self.con = MongoClient("mongodb://localhost:27017/")["book_metadata"]["metadata"]
         # self.log = MongoClient("mongodb://localhost:27017/")["book_log"]["log"]
     
+    def mongo_to_df(self,query={}):
+        a=self.log.find(query)
+        df=pd.DataFrame(list(a))
+        #print(df.columns)
+        df=df.drop(['userid', 'query_type', 'query', 'response','user_type'],axis=1)
+        df["date"]=df.apply(lambda row:time.strftime('%Y-%m-%d',
+            time.localtime(row.time_stamp)),axis=1)
+        re=pd.DataFrame({"cnt":df.groupby(['date']).size()}).reset_index().to_numpy()
+        return re[:,0],re[:,1]    
+    
+    def get_highest_viewed_books(self, k=5):
+        # For admin
+        all_query = list(self.log.find({}, {'query':1}))
+        asins = [d['query'].split('/')[-1] for d in all_query if d['query'].split('/')[-1].startswith('B')]
+        most_common_asins = [item for item, c in Counter(asins).most_common(k)]
+        books = [next(self.con.find({"asin": o})) for o in most_common_asins]
+        return books
+   
+    def get_highest_viewed_books_by_user(self, userid, k=5):
+        # For user
+        all_query = list(self.log.find({'user_id':userid}, {'query':1}))
+        asins = [d['query'].split('/')[-1] for d in all_query if d['query'].split('/')[-1].startswith('B')]
+        most_common_asins = [item for item, c in Counter(asins).most_common(k)]
+        books = [next(self.con.find({"asin": o})) for o in most_common_asins]
+        return books
+
     def get_bestsellers(self):
         a=self.con.find({"salesRank":{'$exists': 1}})
         #,{"asin":1,"salesRank":1}
@@ -78,9 +111,6 @@ class Mg:
         ls = [i for i in a]
         return ls
 
-    def get_sorted_title(self):
-        pass
-
     def insert_query(self, query):
         self.log.insert_one(query)
     
@@ -98,6 +128,9 @@ class Mg:
         l = [i for i in z]
         
         return l
+
+    def get_book_log(self):
+        self.log.find({})
 
     def get_highest_rank_books(self, category):
         categories = ["Mystery, Thriller & Suspense",
@@ -122,5 +155,4 @@ class Mg:
     
 
 if __name__ == "__main__":
-    # print(Mg().get_highest_rank_books("Dictionaries & Thesauruses"))
-    print(Mg().get_related_books("B000FA5S98", 'also_bought'))
+    pass
