@@ -162,7 +162,7 @@ for instance_id in instance_ids:
         ip_addr[instance_id] = allocation.get('PublicIp')
     except ClientError as e:
         print(e)
-time.sleep(20) #Wait for few seconds such that the instance is running
+time.sleep(120) #Wait for a while such that the instance is running
 
 
 
