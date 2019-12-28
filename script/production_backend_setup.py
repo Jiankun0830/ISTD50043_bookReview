@@ -163,7 +163,7 @@ for instance_id in instance_ids:
     except ClientError as e:
         print(e)
 print("Wait for the instances to run.")
-time.sleep(240) #Wait for a while such that the instance is running
+time.sleep(300) #Wait for a while such that the instance is running
 
 
 
