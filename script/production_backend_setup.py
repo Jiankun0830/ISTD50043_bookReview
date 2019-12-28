@@ -288,7 +288,7 @@ try:
     print_bold('Running App in the backend, may need to wait few minutes to download all the relevent packages...')
     print('\033[36m'+'\033[1m'+'You may need to wait for '+'\033[91m'+'4-5 minutes'+'\033[0m')                               
     
-    print_bold("\033[36m"+"\nYou can view the app though {} now".format(ip_addr.get(instance_ids[2])))
+    print_bold("\033[36m"+"\nYou can view the app though {} after 4-5 minutes".format(ip_addr.get(instance_ids[2])))
     # close the client connection once the job is done
     p_client.close()
 
