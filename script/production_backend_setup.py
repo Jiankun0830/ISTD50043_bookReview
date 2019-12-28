@@ -162,7 +162,8 @@ for instance_id in instance_ids:
         ip_addr[instance_id] = allocation.get('PublicIp')
     except ClientError as e:
         print(e)
-time.sleep(120) #Wait for a while such that the instance is running
+print("Wait for the instances to run.")
+time.sleep(240) #Wait for a while such that the instance is running
 
 
 
@@ -189,7 +190,10 @@ print('\nIP dictionary:',env_dic)
 def execute_commands(cmds):
     stdin , stdout, stderr = p_client.exec_command(cmds)
     lines = stdout.readlines()
+    lines_err = stderr.readlines()
     for line in lines:
+        print(line)
+    for line in lines_err:
         print(line)
     if len(stderr.readlines()) != 0:
         print(stderr.readlines())    
