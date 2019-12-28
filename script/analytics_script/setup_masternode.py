@@ -69,7 +69,8 @@ try:
 
     print_bold("Step1 download analytics setup script")
     execute_commands("wget https://raw.githubusercontent.com/Jiankun0830/ISTD50043_bookReview/master/script/analytics_script/analytics.sh")
-    print_bold("Step2 execute analytics script")    
+    print_bold("Step2 execute analytics script")
+    print_bold("\nYou may need to wait for 20 to 25 min.")
     execute_commands('chmod +x analytics.sh')
     execute_commands("yes | ./analytics.sh")
     execute_commands('rm analytics.sh;ls')
