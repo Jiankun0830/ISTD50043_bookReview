@@ -210,7 +210,7 @@ try:
     # Step2  download mongo setup script
     print_bold("Step2 download mongo setup script and run mongo setup script")
 
-    execute_commands('wget --output-document=set_up_mongo.sh https://raw.githubusercontent.com/Jiankun0830/ISTD50043_bookReview/master/script/mongo_script/set_up_mongo.sh;bash set_up_mongo.sh')
+    execute_commands('wget --output-document=set_up_mongo.sh https://raw.githubusercontent.com/Jiankun0830/ISTD50043_bookReview/master/script/mongo_script/set_up_mongo.sh;yes | bash set_up_mongo.sh')
 
            
     # Step3 run mongo setup script
