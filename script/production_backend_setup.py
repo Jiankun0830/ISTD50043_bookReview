@@ -208,16 +208,16 @@ try:
     p_client.exec_command('sudo apt-get update;sudo apt-get install wget')
         
     # Step2  download mongo setup script
-    print_bold("Step2 download mongo setup script")
+    print_bold("Step2 download mongo setup script and run mongo setup script")
 
-    execute_commands('wget --output-document=set_up_mongo.sh https://raw.githubusercontent.com/Jiankun0830/ISTD50043_bookReview/master/script/mongo_script/set_up_mongo.sh;ls')
+    execute_commands('wget --output-document=set_up_mongo.sh https://raw.githubusercontent.com/Jiankun0830/ISTD50043_bookReview/master/script/mongo_script/set_up_mongo.sh;bash set_up_mongo.sh')
 
            
     # Step3 run mongo setup script
-    print_bold("Step3 run mongo setup script")    
-    execute_commands('chmod +x set_up_mongo.sh')
-    execute_commands("yes | ./set_up_mongo.sh")
-    execute_commands('rm set_up_mongo.sh;ls')
+#     print_bold("Step3 run mongo setup script")    
+#     execute_commands('chmod +x set_up_mongo.sh')
+#     execute_commands("yes | ./set_up_mongo.sh")
+#     execute_commands('rm set_up_mongo.sh;ls')
 
 
     # close the client connection once the job is done
