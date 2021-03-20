@@ -5,7 +5,7 @@ Flask==1.1.1
 Flask-Bcrypt==0.7.1
 Flask-Session==0.3.1
 itsdangerous==1.1.0
-Jinja2==2.10.3
+Jinja2==2.11.3
 MarkupSafe==1.1.1
 mysql-connector==2.2.9
 numpy==1.17.2
